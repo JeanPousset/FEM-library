@@ -1,0 +1,14 @@
+Remarques concernant le TP1
+---------------------------
+
+Les fichiers carNxNt_M et carNxNq_M sont des fichiers de maillage
+du carre [0,N]x[0,N] par des triangles (t) ou des quadrangles (q).
+Les cotes du carre sont subdivises en M intervalles.
+
+                                            3
+Les numeros de reference                 -------
+utilises dans ces fichiers sont :       |       |
+                                      4 |   0   | 2
+                                        |       |
+                                         -------
+                                            1

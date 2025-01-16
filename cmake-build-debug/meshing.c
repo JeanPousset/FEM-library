@@ -9,6 +9,7 @@ float* linspace(float a, float b, int n)
     float* res = malloc(n*sizeof(float));
     for(i=0;i<n;i++) res[i] = (a-b)/n * i;
     return res;
+    // test
 }
 
 void write_mesh(float a, float b, float c, float d, int n1, int n2, int t, const int* ref, char* mesh_out_path)

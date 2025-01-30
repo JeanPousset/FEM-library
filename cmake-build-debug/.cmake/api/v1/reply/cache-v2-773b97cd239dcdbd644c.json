@@ -55,7 +55,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/Users/jeanpousset/Documents/FEM/FEM_project/cmake-build-debug"
+			"value" : "/Users/jeanpousset/Documents/2-FEM/FEM_project/cmake-build-debug"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -163,10 +163,10 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "No help, variable specified on the command line."
+					"value" : "C compiler"
 				}
 			],
-			"type" : "UNINITIALIZED",
+			"type" : "STRING",
 			"value" : "/usr/bin/clang"
 		},
 		{
@@ -395,7 +395,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/Users/jeanpousset/Documents/FEM/FEM_project/cmake-build-debug/CMakeFiles/pkgRedirects"
+			"value" : "/Users/jeanpousset/Documents/2-FEM/FEM_project/cmake-build-debug/CMakeFiles/pkgRedirects"
 		},
 		{
 			"name" : "CMAKE_GENERATOR",
@@ -455,7 +455,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/Users/jeanpousset/Documents/FEM/FEM_project"
+			"value" : "/Users/jeanpousset/Documents/2-FEM/FEM_project"
 		},
 		{
 			"name" : "CMAKE_INSTALL_NAME_TOOL",
@@ -1043,7 +1043,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/Users/jeanpousset/Documents/FEM/FEM_project/cmake-build-debug"
+			"value" : "/Users/jeanpousset/Documents/2-FEM/FEM_project/cmake-build-debug"
 		},
 		{
 			"name" : "FEM_project_IS_TOP_LEVEL",
@@ -1067,7 +1067,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/Users/jeanpousset/Documents/FEM/FEM_project"
+			"value" : "/Users/jeanpousset/Documents/2-FEM/FEM_project"
 		}
 	],
 	"kind" : "cache",

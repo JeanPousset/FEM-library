@@ -1,4 +1,4 @@
-# Install script for directory: /Users/jeanpousset/Documents/FEM/FEM_project
+# Install script for directory: /Users/jeanpousset/Documents/2-FEM/FEM_project
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Users/jeanpousset/Documents/FEM/FEM_project/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/Users/jeanpousset/Documents/2-FEM/FEM_project/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

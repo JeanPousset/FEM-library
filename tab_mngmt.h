@@ -1,4 +1,5 @@
-#include <stdlib.h>
+#ifndef FEM_PROJECT_TAB_MNGMT_H
+#define FEM_PROJECT_TAB_MNGMT_H
 
 /*
 --------------------------------------------------------------------------------
@@ -7,7 +8,7 @@
   dont chacun des dim1 elements pointe vers une zone de dim2 elements.
 
   La fonction renvoie NULL en cas d'erreur lors de l'allocation.
-  
+
   La liberation de la memoire allouee peut etre faite par appel a freetab.
   Remarque :
     Les elements utiles de la matrice sont ranges consecutivement en memoire,
@@ -31,23 +32,20 @@
     deux indices indiquee ci-dessus.
 --------------------------------------------------------------------------------
 */
-float **alloctab(int dim1, int dim2) {
-  float **ptr;
+float **alloctab(int dim1, int dim2);
 
-  ptr = malloc(dim1*sizeof(float *));
-  if (ptr != NULL) {
-    int i, taille_ligne = dim2*sizeof(float);
-    float *tmp = malloc(dim1*taille_ligne);
-    if (tmp != NULL) {
-      for (i=0; i<dim1; i++) {
-     	  ptr[i] = tmp;
-  	     tmp += dim2;
-      }
-    }
-    else {
-      free(ptr);
-      ptr = NULL;
-    }
-  }
-  return(ptr);
-}
+
+/*
+    Same but with a Integer tab
+*/
+int **alloctabI(int dim1, int dim2);
+
+
+/*
+--------------------------------------------------------------------------------
+  Cette fonction libere la memoire allouee par alloctab.
+--------------------------------------------------------------------------------
+*/
+void freetab(void *ptr);
+
+#endif //FEM_PROJECT_TAB_MNGMT_H

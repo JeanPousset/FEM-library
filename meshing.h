@@ -1,11 +1,6 @@
 #ifndef FEM_MESHING_H
 #define FEM_MESHING_H
 
-/*
-    Create a discretisation of [a,b] with n points
-    as a dynamic allocated array of size (n)
-*/
-float* linspace(float a, float b, int n);
 
 /*
     Fill the 2 dim tab refEdg with reference number for each edge of each element

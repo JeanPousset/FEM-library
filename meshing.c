@@ -1,17 +1,7 @@
 #include "meshing.h"
 #include "tab_mngmt.h"
 #include <stdio.h>
-#include <stdlib.h>
 
-// Create a discretization of [a,b] with n points
-float* linspace(float a, float b, int n)
-{
-    int i;
-    float* res = malloc(n*sizeof(float));
-    for(i=0;i<n;i++) res[i] = (a-b)/(n-1) * i;
-    return res;
-    // test
-}
 
 // Fill the 2 dim tab refEdg with reference number for each edge of each element
 void etiqAr(int typel, int n1, int n2, int nrefdom, const int *nrefcot, int nbtel, int nbaret, int **refEdg)
@@ -35,23 +25,22 @@ void etiqAr(int typel, int n1, int n2, int nrefdom, const int *nrefcot, int nbte
                 refEdg[(n1-1)*(n2-2)+i][1] = nrefcot[2];
             }
             // Right and left bound of the domain
-            for (i=0; i < (n1-1)*(n2-1) ; i+=n1-1){
-                refEdg[i][2] = nrefcot[3];
-                refEdg[i+n1-2][0] = nrefcot[1];
+            for (i=0; i < n2-1 ; i++){
+                refEdg[i*(n1-1)][2] = nrefcot[3];
+                refEdg[i*(n1-1)+n1-2][0] = nrefcot[1];
             }
             break;
 
         case 2 : // Triangle
-
             // Lower and upper bound of the domain
-            for (i=0; i<2*(n1-1); i+=2){
+            for (i=0; i < 2*(n1-1); i+=2){
                 refEdg[i][2] = nrefcot[0];
                 refEdg[2*(n1-1)*(n2-2)+i+1][2] = nrefcot[2];
             }
             // Right and left bound of the domain
-            for (i=0; i < 2*(n1-1)*(n2-1) ; i+=2*(n1-1)){
-                refEdg[i][1] = nrefcot[3];
-                refEdg[i+n1-2][1] = nrefcot[1];
+            for (i=0; i < 2*(n2-1)-1 ; i+=2){
+                refEdg[i*(n1-1)][1] = nrefcot[3];
+                refEdg[i*(n1-1)+2*(n1-1)-1][1] = nrefcot[1];
             }
             break;
 
@@ -77,11 +66,10 @@ void write_mesh(float a, float b, float c, float d, int n1, int n2, int t, int n
     // write nb of nodes
     fprintf(mesh_f,"%d\n",n1*n2);
     // Write nodes coordinates x_i y_i
-    for(j=0; j<n2; j++){
-        for (i=0; i<n1; i++){
-            fprintf(mesh_f,"%f %f\n",(b-a)/(n1-1)*i,(d-c)/(n2-1)*j);
-        }
-    }
+    for(j=0; j<n2; j++)
+        for (i=0; i<n1; i++)
+            fprintf(mesh_f,"%f %f\n", i*(b-a)/(n1-1), j*(d-c)/(n2-1));
+
 
     // Next we depend on geometry type :
     switch (t){
@@ -102,9 +90,9 @@ void write_mesh(float a, float b, float c, float d, int n1, int n2, int t, int n
                     fprintf(mesh_f, "\n%d ", j * n1 + i + 2);   // vertice 1
                     fprintf(mesh_f, "%d ", (j+1) * n1 + i + 2); // vertice 2
                     fprintf(mesh_f, "%d ", (j+1) * n1 + i + 1); // vertice 3
-                    fprintf(mesh_f, "%d", j * n1 + i + 1);      // vertice 4
+                    fprintf(mesh_f, "%d ", j * n1 + i + 1);      // vertice 4
                     // edges references number
-                    for (k=0; k<q; k++) fprintf(mesh_f, " %d", refEdg[i * j][k]);
+                    for (k=0; k<q; k++) fprintf(mesh_f, "%d ", refEdg[j*(n1-1)+i][k]);
                 }
             }
             freetab(refEdg);
@@ -126,15 +114,15 @@ void write_mesh(float a, float b, float c, float d, int n1, int n2, int t, int n
                     // 1st triangle
                     fprintf(mesh_f, "\n%d ", j * n1 + i + 2);   // vertice 1
                     fprintf(mesh_f, "%d ", (j+1) * n1 + i + 1); // vertice 2
-                    fprintf(mesh_f, "%d", j * n1 + i + 1);      // vertice 3
+                    fprintf(mesh_f, "%d ", j * n1 + i + 1);      // vertice 3
                     // edges references number for 1st triangle
-                    for (k=0; k<q; k++) fprintf(mesh_f, " %d", refEdg[2*i*j][k]);
+                    for (k=0; k<q; k++) fprintf(mesh_f, "%d ", refEdg[2*j*(n1-1)+2*i][k]);
                     // 2nd triangle
                     fprintf(mesh_f, "\n%d ", (j+1) * n1 + i + 1); // vertice 1
                     fprintf(mesh_f, "%d ", j * n1 + i + 2);       // vertice 2
-                    fprintf(mesh_f, "%d", (j+1) * n1 + i + 2);    // vertice 3
+                    fprintf(mesh_f, "%d ", (j+1) * n1 + i + 2);    // vertice 3
                     // edges references number for 2nd triangle
-                    for (k=0; k<q; k++) fprintf(mesh_f, " %d", refEdg[2*i*j + 1][k]);
+                    for (k=0; k<q; k++) fprintf(mesh_f, "%d ", refEdg[2*j*(n1-1)+2*i+1][k]);
                 }
             }
             freetab(refEdg);
@@ -143,6 +131,7 @@ void write_mesh(float a, float b, float c, float d, int n1, int n2, int t, int n
             printf("Unknown type t = %d for 'write_mesh' function",t);
             perror("Error : Unvalid parameter");
     }
+    fprintf(mesh_f, "\n"); // One list new line to have exactly the same shape as other mesh files
     fclose(mesh_f); // Close mesh output file
 }
 
@@ -177,5 +166,4 @@ int read_mesh(char* input_mesh, int *type, int* n_nodes, float*** p_coords, int*
     }
     fclose(mesh_f); // Close mesh output file
     return 0;
-};
-
+}

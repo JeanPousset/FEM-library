@@ -1,5 +1,5 @@
-#ifndef FEM_MESHING_H
-#define FEM_MESHING_H
+#ifndef FEM_PROJECT_MESHING_H
+#define FEM_PROJECT_MESHING_H
 
 
 /*
@@ -17,4 +17,4 @@ void write_mesh(float a, float b, float c, float d, int n1, int n2, int t, int n
     !!
 */
 int read_mesh(char* input_mesh, int *type, int* n_nodes, float*** p_coords, int* n_elem, int*** p_gNb_node, int *n_nod_elem, int* n_edges, int*** p_refEdg);
-#endif //FEM_MESHING_H
+#endif //FEM_PROJECT_MESHING_H

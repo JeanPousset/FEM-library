@@ -45,7 +45,7 @@ void etiqAr(int typel, int n1, int n2, int nrefdom, const int *nrefcot, int nbte
             break;
 
         default:
-            printf("Unknown type t = %d for 'write_mesh' function",typel);
+            printf("Unknown type t = %d for 'etiqAr' function",typel);
             perror("Error : Unvalid parameter");
     }
 }

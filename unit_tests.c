@@ -10,7 +10,7 @@
 void diff_file(const char* f1,const char* f2)
 {
     char diff_command[512];
-    // The file compare command is different in Windows OS systems
+    // The file compare command is different in Windows OS
 #ifdef _WIN32
     snprintf(diff_command, sizeof(diff_command), "FC %s %s", f1, f2);
 #else

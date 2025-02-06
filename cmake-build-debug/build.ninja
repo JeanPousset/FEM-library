@@ -77,6 +77,13 @@ build CMakeFiles/FEM_project.dir/unit_tests.c.o: C_COMPILER__FEM_project_unscann
   OBJECT_DIR = CMakeFiles/FEM_project.dir
   OBJECT_FILE_DIR = CMakeFiles/FEM_project.dir
 
+build CMakeFiles/FEM_project.dir/elem_eval.c.o: C_COMPILER__FEM_project_unscanned_Debug /Users/jeanpousset/Documents/2-FEM/FEM_project/elem_eval.c || cmake_object_order_depends_target_FEM_project
+  DEP_FILE = CMakeFiles/FEM_project.dir/elem_eval.c.o.d
+  FLAGS = -g -std=gnu11 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.0.sdk -fcolor-diagnostics
+  INCLUDES = -I/Users/jeanpousset/Documents/2-FEM/FEM_project/.
+  OBJECT_DIR = CMakeFiles/FEM_project.dir
+  OBJECT_FILE_DIR = CMakeFiles/FEM_project.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target FEM_project
@@ -85,7 +92,7 @@ build CMakeFiles/FEM_project.dir/unit_tests.c.o: C_COMPILER__FEM_project_unscann
 #############################################
 # Link the executable /Users/jeanpousset/Documents/2-FEM/FEM_project/FEM_project
 
-build /Users/jeanpousset/Documents/2-FEM/FEM_project/FEM_project: C_EXECUTABLE_LINKER__FEM_project_Debug CMakeFiles/FEM_project.dir/main.c.o CMakeFiles/FEM_project.dir/meshing.c.o CMakeFiles/FEM_project.dir/tab_mngmt.c.o CMakeFiles/FEM_project.dir/unit_tests.c.o
+build /Users/jeanpousset/Documents/2-FEM/FEM_project/FEM_project: C_EXECUTABLE_LINKER__FEM_project_Debug CMakeFiles/FEM_project.dir/main.c.o CMakeFiles/FEM_project.dir/meshing.c.o CMakeFiles/FEM_project.dir/tab_mngmt.c.o CMakeFiles/FEM_project.dir/unit_tests.c.o CMakeFiles/FEM_project.dir/elem_eval.c.o
   FLAGS = -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.0.sdk
   OBJECT_DIR = CMakeFiles/FEM_project.dir
   POST_BUILD = :

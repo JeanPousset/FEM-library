@@ -1,8 +1,15 @@
 # ninja log v6
 15	356	1738776913536837444	CMakeFiles/FEM_project.dir/main.c.o	86c5062a8d8c1210
 4	281	1738253940217791154	CMakeFiles/FEM_project.dir/tab_mngmt.c.o	88ddd18a4b79ebe8
-1	76	1738850631726746759	build.ninja	2dd4ac7034a8db27
+1	76	1738852377389511667	build.ninja	2dd4ac7034a8db27
 5	298	1738754919500579264	CMakeFiles/FEM_project.dir/meshing.c.o	14eff3355de140b1
 298	473	1738754919792994092	FEM_project	adca81bb8f3ebf6
 6	297	1738754919500771307	CMakeFiles/FEM_project.dir/unit_tests.c.o	fb152558651604ca
 357	543	1738776913878870380	/Users/jeanpousset/Documents/2-FEM/FEM_project/FEM_project	c9f84c397af1feab
+6	246	1738852504054011644	CMakeFiles/FEM_project.dir/main.c.o	86c5062a8d8c1210
+7	246	1738852504055859671	CMakeFiles/FEM_project.dir/elem_eval.c.o	be02c4ade234c2db
+7	246	1738852504055553507	CMakeFiles/FEM_project.dir/unit_tests.c.o	fb152558651604ca
+7	247	1738852504055313551	CMakeFiles/FEM_project.dir/meshing.c.o	14eff3355de140b1
+247	421	1738852504295422345	/Users/jeanpousset/Documents/2-FEM/FEM_project/FEM_project	35d2f8b33261456c
+3	55	1738852522631021356	CMakeFiles/FEM_project.dir/meshing.c.o	14eff3355de140b1
+55	103	1738852522683432707	/Users/jeanpousset/Documents/2-FEM/FEM_project/FEM_project	35d2f8b33261456c

@@ -10,8 +10,12 @@
 void diff_file(const char* f1,const char* f2)
 {
     char diff_command[512];
+    // The file compare command is different in Windows OS systems
+#ifdef _WIN32
+    snprintf(diff_command, sizeof(diff_command), "FC %s %s", f1, f2);
+#else
     snprintf(diff_command, sizeof(diff_command), "diff %s %s", f1, f2);
-
+#endif
     FILE *fp = popen(diff_command, "r");
     if (fp == NULL) perror("Error when opening a pipe");
 

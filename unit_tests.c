@@ -1,5 +1,6 @@
 #include "unit_tests.h"
 #include "meshing.h"
+#include "tab_mngmt.h"
 #include <stdio.h>
 
 /*
@@ -65,6 +66,11 @@ void test_read_mesh(char *input_mesh, char *out_check_mesh) {
     }
     fprintf(mesh_f, "\n"); // One list new line to have exactly the same shape as other mesh files
     fclose(mesh_f);
+
+    // clean tab memory
+    freetab(p_coords);
+    freetab(p_gNb_node);
+    freetab(p_refEdg);
 
     // Using diff command line to test if there is a difference between the original and the file
     diff_file(input_mesh,out_check_mesh);

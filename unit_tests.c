@@ -1,13 +1,44 @@
 #include "unit_tests.h"
 #include "meshing.h"
 #include "tab_mngmt.h"
+#include "elem_eval.h"
 #include <stdio.h>
 
-/*
-    Function that lunch a diff command on the terminal to compare 2 file contents.
-    If there isn't any difference, nothing is printed to the screen.
-    If you see something, file contents are different
-*/
+
+
+// Test the inv of a matrix
+int test_inv2x2(void)
+{
+    int i,j;
+    float** M = alloctab(2,2);
+    float** M_inv = alloctab(2,2);
+    float** M_cor = alloctab(2,2);
+    float det;
+    M[0][0] = 3; M[0][1] = 2;
+    M[1][0] = 2; M[1][1] = 2;
+    M_cor[0][0] = 1;  M_cor[0][1] = -1;
+    M_cor[1][0] = -1; M_cor[1][1] = 1.5;
+
+    det = inv_2x2(M,M_inv);
+
+    if (det != 2.0) return 0;
+    // Checking if the matrix is correctly inverted
+    for(i=0; i<2; i++) for(j=0; j<2; j++) if (M_cor[i][j] != M_inv[i][j]) return 0;
+    printf(" 'inv2x2' function passed test with success \n");
+    return 1;
+}
+
+
+
+
+
+
+
+
+
+
+
+// Function that lunch a diff command on the terminal to compare 2 file contents.
 void diff_file(const char* f1,const char* f2)
 {
     char diff_command[512];
@@ -26,10 +57,8 @@ void diff_file(const char* f1,const char* f2)
 }
 
 
-/*
-    Test the write_mesh function implemented in "meshing.c"
-    It compares the result of write_mesh (mesh_file_path) with a correct one (correct_mesh_file) of the same meshing
-*/
+
+//    Test the write_mesh function implemented in "meshing.c"
 void test_write_mesh(float a, float b, float c, float d, int n1, int n2, int t, int nrefdom, const int *nrefcot,char *mesh_file_path, char *correct_mesh_file) {
     write_mesh(a, b, c, d, n1, n2, t, nrefdom, nrefcot, mesh_file_path);
     diff_file(mesh_file_path,correct_mesh_file);

@@ -3,7 +3,7 @@ CFLAGS =-Wall -pedantic-errors -MMD # -MMD : automatic generation of dependance 
 LDFLAGS= #-lm -llapack
 
 EXEC := main
-SRCS := $(EXEC).c meshing.c tab_mngmt.c unit_tests.c  # list of source files
+SRCS := $(EXEC).c meshing.c tab_mngmt.c elem_eval.c unit_tests.c  # list of source files
 OBJ := $(SRCS:.c=.o) # convert source file name into object file name
 
 all : $(EXEC)

@@ -1,11 +1,11 @@
 #include "meshing.h"
 #include "unit_tests.h"
+#include "stdio.h"
 
 int main(int argc, char* argv[])
 {
     /*
     // Test write_mesh
-    */
     int nrefdom = 0;
     const int nrefcot[] = {1, 2, 3, 4};
 
@@ -20,11 +20,11 @@ int main(int argc, char* argv[])
 
     // car3x3t_3 re_write test
     test_write_mesh(0.0,3.0,0.0,3.0,4,4,2,nrefdom,nrefcot,"Mesh_files/check_write_car3x3t_3","Mesh_files/car3x3t_3");
-
+    */
 
     /*
     // Test write_mesh
-    */
+
     char* real_mesh_file1 = "Mesh_files/car1x1q_4";
     char* check_read_mesh_output1 = "Mesh_files/check_read_car1x1q_4";
     test_read_mesh(real_mesh_file1,check_read_mesh_output1);
@@ -42,5 +42,10 @@ int main(int argc, char* argv[])
     test_read_mesh(real_mesh_file4,check_read_mesh_output4);
 
     // If all test are passed, nothing is printed
+    */
+
+    int res1 = test_inv2x2();  // test inv2x2
+
+
     return 0;
 }

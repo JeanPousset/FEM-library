@@ -4,53 +4,53 @@
 
 
 // Fill the 2 dim tab refEdg with reference number for each edge of each element
-void etiqAr(int typel, int n1, int n2, int nrefdom, const int *nrefcot, int nbtel, int nbaret, int **refEdg)
+void etiqAr(int type_el, int n1, int n2, int ref_domain, const int *ref_sides,int n_elem, int n_edges, int **refEdg)
 {
     int i,j;
 
     // Fill everything at r0
-    for (i=0; i<nbtel; i++) {
-        for (j=0; j<nbaret; j++){
-            refEdg[i][j] = nrefdom;
+    for (i=0; i<n_elem; i++) {
+        for (j=0; j<n_edges; j++){
+            refEdg[i][j] = ref_domain;
         }
     }
 
-    switch (typel) {
+    switch (type_el) {
 
         case 1 : // Quadrangle
 
             // Lower and upper bound of the domain
             for (i=0; i<n1-1; i++){
-                refEdg[i][3] = nrefcot[0];
-                refEdg[(n1-1)*(n2-2)+i][1] = nrefcot[2];
+                refEdg[i][3] = ref_sides[0];
+                refEdg[(n1-1)*(n2-2)+i][1] = ref_sides[2];
             }
             // Right and left bound of the domain
             for (i=0; i < n2-1 ; i++){
-                refEdg[i*(n1-1)][2] = nrefcot[3];
-                refEdg[i*(n1-1)+n1-2][0] = nrefcot[1];
+                refEdg[i*(n1-1)][2] = ref_sides[3];
+                refEdg[i*(n1-1)+n1-2][0] = ref_sides[1];
             }
             break;
 
         case 2 : // Triangle
             // Lower and upper bound of the domain
             for (i=0; i < 2*(n1-1); i+=2){
-                refEdg[i][2] = nrefcot[0];
-                refEdg[2*(n1-1)*(n2-2)+i+1][2] = nrefcot[2];
+                refEdg[i][2] = ref_sides[0];
+                refEdg[2*(n1-1)*(n2-2)+i+1][2] = ref_sides[2];
             }
             // Right and left bound of the domain
             for (i=0; i < 2*(n2-1)-1 ; i+=2){
-                refEdg[i*(n1-1)][1] = nrefcot[3];
-                refEdg[i*(n1-1)+2*(n1-1)-1][1] = nrefcot[1];
+                refEdg[i*(n1-1)][1] = ref_sides[3];
+                refEdg[i*(n1-1)+2*(n1-1)-1][1] = ref_sides[1];
             }
             break;
 
         default:
-            printf("Unknown type t = %d for 'etiqAr' function",typel);
+            printf("Unknown type t = %d for 'etiqAr' function",type_el);
             perror("Error : Unvalid parameter");
     }
 }
 
-void write_mesh(float a, float b, float c, float d, int n1, int n2, int t, int nrefdom, const int* nrefcot, char* mesh_out_path)
+void write_mesh(float a, float b, float c, float d, int n1, int n2, int t, int ref_domain, const int* ref_sides, char* mesh_out_path)
 {
     int i,j,k;
     int m,p,q;
@@ -82,7 +82,7 @@ void write_mesh(float a, float b, float c, float d, int n1, int n2, int t, int n
 
             // fill table of reference number for each edge of each element
             refEdg = alloctabI(m,q);
-            etiqAr(t,n1,n2,nrefdom,nrefcot,m,q,refEdg);
+            etiqAr(t,n1,n2,ref_domain,ref_sides,m,q,refEdg);
 
             // Write vertices
             for(j=0; j<n2-1; j++){
@@ -106,7 +106,7 @@ void write_mesh(float a, float b, float c, float d, int n1, int n2, int t, int n
 
             // fill table of reference number for each edge of each element
             refEdg = alloctabI(m,q);
-            etiqAr(t,n1,n2,nrefdom,nrefcot,m,q,refEdg);
+            etiqAr(t,n1,n2,ref_domain,ref_sides,m,q,refEdg);
 
             // Write vertices
             for(j=0; j<n2-1; j++){

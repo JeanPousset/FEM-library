@@ -25,27 +25,33 @@
     et la fonction C :
       void trucC(float **ptr)
     l'allocation de memoire et les appels se feront de la maniere suivante :
-      ptr = alloctab(nbco, nbli);
+      ptr = matF_alloc(nbco, nbli);
       FORTRANNAME(trucF) (ptr[0], nbli, nbco);
       trucC (ptr);
     La reference aux elements de la matrice se font alors par la notation a
     deux indices indiquee ci-dessus.
 --------------------------------------------------------------------------------
 */
-float **alloctab(int dim1, int dim2);
+float **matF_alloc(int dim1, int dim2);
 
 
 /*
     Same but with a Integer tab
 */
-int **alloctabI(int dim1, int dim2);
+int **matI_alloc(int dim1, int dim2);
+
+/*
+    Once again float but every element is set to 0.0 (calloc)
+*/
+float **matF_alloc0(int dim1, int dim2);
+
 
 
 /*
 --------------------------------------------------------------------------------
-  Cette fonction libere la memoire allouee par alloctab.
+  Cette fonction libere la memoire allouee par matF_alloc or matI_alloc.
 --------------------------------------------------------------------------------
 */
-void freetab(void *ptr);
+void free_mat(void *ptr);
 
 #endif //FEM_PROJECT_TAB_MNGMT_H

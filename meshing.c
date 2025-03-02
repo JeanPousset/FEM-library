@@ -50,7 +50,7 @@ void etiqAr(int type_el, int n1, int n2, int ref_domain, const int *ref_sides,in
     }
 }
 
-void write_mesh(float a, float b, float c, float d, int n1, int n2, int t, int ref_domain, const int* ref_sides, char* mesh_out_path)
+void write_mesh(float a, float b, float c, float d, int n1, int n2, int t, int ref_interior, const int* ref_sides, char* mesh_out_path)
 {
     int i,j,k;
     int m,p,q;
@@ -81,8 +81,8 @@ void write_mesh(float a, float b, float c, float d, int n1, int n2, int t, int r
             fprintf(mesh_f, "%d %d %d %d",m,t,p,q);
 
             // fill table of reference number for each edge of each element
-            refEdg = alloctabI(m,q);
-            etiqAr(t,n1,n2,ref_domain,ref_sides,m,q,refEdg);
+            refEdg = matI_alloc(m,q);
+            etiqAr(t,n1,n2,ref_interior,ref_sides,m,q,refEdg);
 
             // Write vertices
             for(j=0; j<n2-1; j++){
@@ -95,7 +95,7 @@ void write_mesh(float a, float b, float c, float d, int n1, int n2, int t, int r
                     for (k=0; k<q; k++) fprintf(mesh_f, "%d ", refEdg[j*(n1-1)+i][k]);
                 }
             }
-            freetab(refEdg);
+            free_mat(refEdg);
             break;
 
         case 2 : // Triangle
@@ -105,8 +105,8 @@ void write_mesh(float a, float b, float c, float d, int n1, int n2, int t, int r
             fprintf(mesh_f, "%d %d %d %d",m,t,p,q);
 
             // fill table of reference number for each edge of each element
-            refEdg = alloctabI(m,q);
-            etiqAr(t,n1,n2,ref_domain,ref_sides,m,q,refEdg);
+            refEdg = matI_alloc(m,q);
+            etiqAr(t,n1,n2,ref_interior,ref_sides,m,q,refEdg);
 
             // Write vertices
             for(j=0; j<n2-1; j++){
@@ -125,7 +125,7 @@ void write_mesh(float a, float b, float c, float d, int n1, int n2, int t, int r
                     for (k=0; k<q; k++) fprintf(mesh_f, "%d ", refEdg[2*j*(n1-1)+2*i+1][k]);
                 }
             }
-            freetab(refEdg);
+            free_mat(refEdg);
             break;
         default:
             printf("Unknown type t = %d for 'write_mesh' function",t);
@@ -136,7 +136,7 @@ void write_mesh(float a, float b, float c, float d, int n1, int n2, int t, int r
 }
 
 // Read a mesh file and assign parameters values, coordinates, node global numbers, and edges references numbers
-int read_mesh(char* input_mesh, int *type, int* n_nodes, float*** p_coords, int* n_elem, int*** p_gNb_node, int *n_nod_elem, int* n_edges, int*** p_refEdg)
+int read_mesh(char* input_mesh, int *type, int* n_nodes, float*** p_coords, int* n_elem, int*** p_nod_gNb, int *n_nod_elem, int* n_edges, int*** p_refEdg)
 {
     int i,j;
 
@@ -149,7 +149,7 @@ int read_mesh(char* input_mesh, int *type, int* n_nodes, float*** p_coords, int*
     }
 
     fscanf(mesh_f,"%d",n_nodes);      // number of nodes (n)
-    *p_coords = alloctab(*n_nodes,2);   // allocate a n x 2 tab for coordinates
+    *p_coords = matF_alloc(*n_nodes,2);   // allocate a n x 2 tab for coordinates
 
     // fill coordinates x_i y_i
     for (i=0; i<*n_nodes; i++) fscanf(mesh_f,"%f %f",&(*p_coords)[i][0], &(*p_coords)[i][1]);
@@ -158,10 +158,10 @@ int read_mesh(char* input_mesh, int *type, int* n_nodes, float*** p_coords, int*
     fscanf(mesh_f,"%d %d %d %d",n_elem,type,n_nod_elem,n_edges);
 
     // fill global node number reference for each element and edges reference number
-    *p_gNb_node = alloctabI(*n_elem,*n_nod_elem);
-    *p_refEdg = alloctabI(*n_elem,*n_edges);
+    *p_nod_gNb = matI_alloc(*n_elem,*n_nod_elem);
+    *p_refEdg = matI_alloc(*n_elem,*n_edges);
     for (i=0; i<*n_elem; i++){
-        for (j=0; j<*n_nod_elem; j++) fscanf(mesh_f,"%d ",&(*p_gNb_node)[i][j]);
+        for (j=0; j<*n_nod_elem; j++) fscanf(mesh_f,"%d ",&(*p_nod_gNb)[i][j]);
         for (j=0; j<*n_edges; j++) fscanf(mesh_f,"%d ",&(*p_refEdg)[i][j]);
     }
     fclose(mesh_f); // Close mesh output file

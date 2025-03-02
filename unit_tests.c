@@ -6,13 +6,13 @@
 
 
 
-// Test the inv of a matrix
+// Test the inv of a matrix !! Not completed -> memory leaks
 int test_inv2x2(void)
 {
     int i,j;
-    float** M = alloctab(2,2);
-    float** M_inv = alloctab(2,2);
-    float** M_cor = alloctab(2,2);
+    float** M = matF_alloc(2,2);
+    float** M_inv = matF_alloc(2,2);
+    float** M_cor = matF_alloc(2,2);
     float det;
     M[0][0] = 3; M[0][1] = 2;
     M[1][0] = 2; M[1][1] = 2;

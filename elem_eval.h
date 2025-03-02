@@ -5,15 +5,15 @@
 
 
 
-void evalFbase(int t, const float *x_hat, float *w_hat);
+void evalFbase(int t, const float *x_hat, float *w_hat_x_hat);
 /*
-    evalute every base function w_i i in [1,q] for a given point x_hat in the coordinates of the reference element
+    evaluate every base function w_i i in [1,q] for a given point x_hat in the coordinates of the reference element
 */
 
 
 void evalDFbase(int t, const float *x_hat, float **Dw_hat);
 /*
-    evalute every gradient of base functions:  Dw_i (i in [1,q]) for a given point x_hat in the coordinates of the reference element
+    evaluate every gradient of base functions:  Dw_i (i in [1,q]) for a given point x_hat in the coordinates of the reference element
     The dimension of the result (Dw_hat) is q x dim (q is the number of nodes here element degree is 1 so q = p = number of vertices)
     Here dim = 2 (2D) except for the segment where dim = 1
 */
@@ -21,7 +21,7 @@ void evalDFbase(int t, const float *x_hat, float **Dw_hat);
 
 float inv_2x2(float **M, float **M_inv);
 /*
-    Inverse a 2 by 2 matrix, store the result into an other matrix and return the determinant
+    Inverse a 2 by 2 matrix, store the result into another matrix and return the determinant
 */
 
 
@@ -31,29 +31,30 @@ int quad_order(int t);
     Needed before calling wp_quad to allocate coordinates x_hat and weight tabs
 */
 
-void wp_quad(int t, float **x_quad, float *weight);
+void wp_quad(int t, float **x_quad_hat, float *weight);
 /*
     Compute quadrature points and weights corresponding to the element type
 */
 
 
-void transFk(int q, float **a_K, const float *w_hat_x_hat, float *Fk_x_hat);
+void transFK(int q, float **a_K, const float *w_hat_x_hat, float *Fk_x_hat);
 /*
     evaluate transformation Fk of a point of the reference element x_hat
-    - p : number of nodes (=p because we take element to 1st degree)
+    - q : number of nodes (=p because we take element to 1st degree)
     - a_K contains the coordinates of  element K 's nodes
     - w_hat_x_hat is the vector that contains pre-compute base function value of the point x_hat
     - Fk_x_hat is the result
 */
 
 
-void jacobFk(int p, int d, float **a_K, float **Dw_x_hat, float **jacob_Fk_x_hat);
+void jacobFK(int p, int d, const float **a_K, const float **Dw_hat_x_hat, float **jacob_Fk_x_hat);
 /*
     evaluate the jacobian matrix of the transformation Fk of a point of the reference element x_hat
-    - p              : number of nodes (=p because we take element to 1st degree)
-    - a_K            : contains the coordinates of  element K 's nodes
-    - w_hat_x_hat    : the vector that contains pre-compute base function value of the point x_hat
-    - jacob_Fk_x_hat : result
+    - p               : number of nodes (=p because we take element to 1st degree)
+    - d               : dimension 2 (quadrangle/triangle) or 1 (edge)
+    - a_K             : contains the coordinates of  element K 's nodes
+    - Dw_hat_x_hat    : the vector that contains pre-compute base function value of the point x_hat
+    - jacob_Fk_x_hat  : result
 */
 
 
@@ -68,7 +69,7 @@ void vertices_Edge(int edge_nb, int t, int* local_nodes);
 
 void selectPts(int n_pts, const int pts_nb[], float *coordSet[], float *select_coord[]);
 /*
-    Select n_pts in the coordSet and copy them into sel_coord.
+    Select n_pts in the coordSet and copy them into select_coord.
         coordSet and sel_coord are arrays of pointers to array that contains coordinates of a point
         ! Warning, it's only a copy of the pointers to the coordinates, not a deep copy !
     - n_pts        : nb of pts to copy

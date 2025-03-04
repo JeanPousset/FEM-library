@@ -7,7 +7,7 @@
 
 // !! In these functions, tab allocation is supposed to be done outside the function with correct dimension
 
-// Problem functions :
+// Problem functions : // (8) -> put the declaration into a header problem_function.h (with def on an associated c file) and just include it
 float a00(const float* x) { return 1;}
 
 float a11(const float* x) { return 1;}
@@ -163,7 +163,7 @@ void wp_quad(int t, float **x_quad_hat, float *weight)
 }
 
 // evaluate transformation Fk of a point of the reference element x_hat
-void transFK(int q, float **a_K, const float *w_hat_x_hat, float *Fk_x_hat)
+void transFK(int q,const float **a_K, const float *w_hat_x_hat, float *Fk_x_hat)
 {
     Fk_x_hat[0] = 0;
     Fk_x_hat[1] = 0;
@@ -222,7 +222,7 @@ void selectPts(int n_pts, const int pts_nb[], float *coordSet[], float *select_c
     for(int i=0; i<n_pts; i++) select_coord[i] = coordSet[pts_nb[i]-1]; // -1 because numbers begins at 1 in pts_nb
 }
 
-// Compute quadrature contribution of the quadrature point x for each base function w_i for the integral of the shape w_i*g on an edge
+// Compute the contribution of the quadrature points x_k for the integral's quadrature of the shape g(x_k)w_i(x_k)
 void q_contrib_gW(int n_nod_elem, const float *w_x, float diff, float g_x, float *sum_contrib)
 {
     for(int i=0; i<n_nod_elem; i++) sum_contrib[i] += diff * g_x * w_x[i];
@@ -255,7 +255,7 @@ void q_contrib_gdWdW(int n_nod_elem, const float **Dw_x, float diff, const float
             for(i=0; i<n_nod_elem; i++){
                 contrib = base * Dw_x[i][alpha];
                 for(j=0; j<n_nod_elem; j++){
-                    sum_contrib[i][j] = contrib * Dw_x[j][beta];
+                    sum_contrib[i][j] += contrib * Dw_x[j][beta];
                 }
             }
         }
@@ -270,14 +270,9 @@ void intElem(
         const float **a_K,
         const float** x_hat_quad,
         const float *weights,
-        float (*a00)(const float*),
-        float (*a11)(const float*),
-        float (*a12)(const float*),
-        float (*a22)(const float*),
-        float (*f_OMEGA)(const float*),
         float** A_K_elem,
         float* l_K_elem
-        ) // I didn't put const before name of the function to not overload function signature
+        )
 {
     int k,i,j;
     float detJF,diff;
@@ -310,7 +305,6 @@ void intElem(
                 Dw_x_quad[i][j] = Dw_hat_x_hat[i][0]*inv_JFk_x_hat[0][j] + Dw_hat_x_hat[i][1]*inv_JFk_x_hat[1][j];
             }
         }
-
         // pre-compute a_{alpha,beta}(x_quad)
         a_alpha_beta[0][0] = a11(x_quad); a_alpha_beta[0][1] = a12(x_quad);
         a_alpha_beta[1][0] = a12(x_quad); a_alpha_beta[1][1] = a22(x_quad);
@@ -319,7 +313,6 @@ void intElem(
         q_contrib_gW(n_nod_elem,w_hat_x_hat,diff,f_OMEGA(x_quad),l_K_elem);
         q_contrib_gWW(n_nod_elem,(const float*)w_hat_x_hat,diff,a00(x_quad),A_K_elem);
         q_contrib_gdWdW(n_nod_elem,(const float**)Dw_hat_x_hat,diff,(const float**)a_alpha_beta,A_K_elem);
-
     }
     // free memory
     free(x_quad);
@@ -339,8 +332,6 @@ void intSegment(
         const float **nodes_coords,
         const float **x_hat_quad, // (2) -> dim = 1 ?
         const float *weights,
-        float (*bN)(const float*),
-        float (*fN)(const float*),
         float** A_K_edg,
         float* l_K_edg
         )
@@ -366,11 +357,7 @@ void eval_K(
         float *uD_aK
         )
 {
-
     int i,j,n_quad_pts_elem,n_quad_pts_edg;
-
-
-
 
     // ----------- Integral on the element K -----------
 
@@ -389,9 +376,9 @@ void eval_K(
         l_K[i] += l_K_elem[i];
         for(j=0; j<n_nod_elem; j++) A_K[i][j] += A_K_elem[i][j];
     }
-
     // free Memory (weights_elem will be reallocated)
     free_mat(x_quad_hat_elem);
+    free(weights_elem);
     free_mat(A_K_elem);
     free(l_K_elem);
 
@@ -399,7 +386,6 @@ void eval_K(
     // ----------- Integral on a potential edge element K
 
     // Memory update (clean and new) // (5) Should I define n_nod_edg = 2 and replace everywhere ?
-
     float **x_quad_hat_edg = matF_alloc(n_quad_pts_edg,2);
     float *weights_edg = realloc(weights_edg,n_quad_pts_edg*sizeof(float));
     int *edg_nodes = malloc(2*sizeof(int));     // 2 because we take order 1 for approximation of edges
@@ -408,9 +394,11 @@ void eval_K(
     float *l_K_edg = calloc(2,sizeof(float));   // Every value set to 0
 
     for(i=0; i<n_edg_elem; i++){
+        //
+        // (6) - TO DO : place break and a bool variable to know if a special edge is detected and we have to stop looking for
         // Check if the edge is on the edge of the domain (i.e. is particular)
         for(j=0; j<n_Dh; j++) if(ref_edg_K[i]==ref_Dh[j]) {nodes_D[i]=0;}                          // Dirichlet homogeneous
-        for(j=0; j<n_Dh; j++) if(ref_edg_K[i]==ref_Dnh[j]) {nodes_D[i]=-1; uD_aK[i] = uD(a_K[i]);} // Dirichlet non-homogeneous
+        for(j=0; j<n_Dnh; j++)if(ref_edg_K[i]==ref_Dnh[j]) {nodes_D[i]=-1; uD_aK[i] = uD(a_K[i]);} // Dirichlet non-homogeneous
         for(j=0; j<n_NF; j++) if(ref_edg_K[i]==ref_NF[j]) {                                        // Neumann or Fourier
             vertices_Edge(i+1,t,edg_nodes);
             selectPts(2,edg_nodes,(float**)a_K,edg_nodes_coords);       // Careful we lost the const on a_K here (2 because we take order 1 for approximation of edges)

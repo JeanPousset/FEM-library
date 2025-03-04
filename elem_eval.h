@@ -37,7 +37,7 @@ void wp_quad(int t, float **x_quad_hat, float *weight);
 */
 
 
-void transFK(int q, float **a_K, const float *w_hat_x_hat, float *Fk_x_hat);
+void transFK(int q, const float **a_K, const float *w_hat_x_hat, float *Fk_x_hat);
 /*
     evaluate transformation Fk of a point of the reference element x_hat
     - q : number of nodes (=p because we take element to 1st degree)
@@ -78,5 +78,43 @@ void selectPts(int n_pts, const int pts_nb[], float *coordSet[], float *select_c
     - select_coord : results
 */
 
+void q_contrib_gW(int n_nod_elem, const float *w_x, float diff, float g_x, float *sum_contrib);
+/*
+    Compute the contribution of the quadrature points x_k for the integral's quadrature of the shape g(x_k)w_i(x_k) for
+    i in [1,n_node_elem]
+[IN]
+    - n_node_elem  : number of nodes per element
+    - *w_x         : w_i(x_k) values of bases function in the quadrature point (length: n_node_elem)
+    - diff         : (dx)*|det_JF|  differential element (dx) multiplied by weight for the quadrature formula
+    - g_x          : g(x_k) value of g function (of the shape) in the quadrature point x_k
+[OUT]
+    - sum_contrib  : vector (length nb quad pts) of sum of the other contribution that have already been computed
+*/
+
+void q_contrib_gWW(int n_nod_elem, const float *w_x, float diff, float g_x, float **sum_contrib);
+/*
+    Compute the contribution of the quadrature points x_k for the integral's quadrature of the shape g(x_k)w_i(x_k)w_j(x_k)
+    for (i,j) in [1,node_elem]*[1,node_elem];
+[IN]
+    - n_node_elem  : number of nodes per element
+    - *w_x         : w_i/j(x_k) values of bases function in the quadrature point (length: n_node_elem)
+    - diff         : (dx)*|det_JF| -> differential element (dx) multiplied by weight for the quadrature formula
+    - g_x          : g(x_k) value of g function (of the shape) in the quadrature point x_k
+[OUT]
+    - sum_contrib  : matrix (size: n_node_elem * n_node_elem) of sum of the other contribution that have already been computed
+*/
+
+void q_contrib_gdWdW(int n_nod_elem, const float **Dw_x, float diff, const float **g_x, float **sum_contrib);
+/*
+    Compute the contribution of the quadrature points x_k for the integral's quadrature of the shape g(x_k)Dw_i(x_k)Dw_j(x_k)
+    for (i,j) in [1,node_elem]*[1,node_elem];
+[IN]
+    - n_node_elem  : number of nodes per element
+    - *Dw_x        : Dw_i/j(x_k) -> values of bases function gradient in the quadrature point (size: n_node_elem*n_node_elem)
+    - diff         : (dx)*|det_JF| -> differential element (dx) multiplied by weight for the quadrature formula
+    - g_x          : g(x_k) value of g function (of the shape) in the quadrature point x_k
+[OUT]
+    - sum_contrib  : matrix (size: n_node_elem * n_node_elem) of sum of the other contribution that have already been computed
+*/
 
 #endif //FEM_PROJECT_ELEM_EVAL_H

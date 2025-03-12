@@ -22,7 +22,7 @@ float fN(const float* x) { return 1;}
 
 float f_OMEGA(const float* x) { return 0;}
 
-float uD(const float* x) { return 100*x[0] + x[2];}
+float uD(const float* x) { return 100*x[0] + x[1];}
 
 
 // evaluate every base function w_i (i in [1,q]) for a given point x_hat in the coordinates of the reference element
@@ -62,8 +62,8 @@ void evalDFbase(int t, const float *x_hat, float **Dw_hat_x_hat)
             break;
         case 2: // Triangle
             Dw_hat_x_hat[0][0] = 1;             Dw_hat_x_hat[0][1] = 0;
-            Dw_hat_x_hat[1][0] = 0;             Dw_hat_x_hat[0][1] = 1;
-            Dw_hat_x_hat[2][0] = -1;            Dw_hat_x_hat[0][1] = -1;
+            Dw_hat_x_hat[1][0] = 0;             Dw_hat_x_hat[1][1] = 1;
+            Dw_hat_x_hat[2][0] = -1;            Dw_hat_x_hat[2][1] = -1;
             break;
         case 3: // Segment (! Matrix of size 2*1)
             Dw_hat_x_hat[0][0] = -1;
@@ -79,8 +79,11 @@ void evalDFbase(int t, const float *x_hat, float **Dw_hat_x_hat)
 float inv_2x2(float **M, float **M_inv)
 {
     float det = M[0][0]*M[1][1]-M[0][1]*M[1][0]; // compute determinant
+
+    //for(int i=0; i<2; i++)for(int j=0; j<2; j++)printf("M_%d_%d = %f \n",i,j,M[i][j]);
     // Throw an error if the matrix isn't invertible
-    if (det < 10e-7){
+    if (det < 10e-9){
+        printf("determinant value that pose a problem : %f\n",det);
         perror("Matrix is almost singular or not invertible (inv_2x2) call");
         return(1);
     }else{
@@ -197,7 +200,7 @@ void jacobFK(int p, int d, const float **a_K, const float **Dw_hat_x_hat, float 
     }
 }
 
-// give the local number of the nodes at each side of the edge
+// give the local number of the nodes at each side of the edge (we suppose we approximate the element geometry at the order 1)
 void vertices_Edge(int edge_nb, int t, int* local_nodes)
 {
     switch(t){
@@ -270,8 +273,8 @@ void intElem(
         const float **a_K,
         const float** x_hat_quad,
         const float *weights,
-        float** A_K_elem,
-        float* l_K_elem
+        float **A_K_elem,
+        float *l_K_elem
         )
 {
     int k,i,j;
@@ -280,11 +283,11 @@ void intElem(
     // Memory allocation for object reset in each quadrature point
     float *x_quad = malloc(2*sizeof(float));
     float *w_hat_x_hat = malloc(n_nod_elem*sizeof(float));
-    float **Dw_hat_x_hat = matF_alloc(n_nod_elem,2);
-    float **Dw_x_quad = matF_alloc(n_nod_elem,2);
-    float **JFk_x_hat = matF_alloc(2,2);
-    float **inv_JFk_x_hat = matF_alloc(2,2);
-    float **a_alpha_beta = matF_alloc(2,2);
+    float **Dw_hat_x_hat = matF_alloc(n_nod_elem,DIM);
+    float **Dw_x_quad = matF_alloc(n_nod_elem,DIM);
+    float **JFk_x_hat = matF_alloc(DIM,DIM);
+    float **inv_JFk_x_hat = matF_alloc(DIM,DIM);
+    float **a_alpha_beta = matF_alloc(DIM,DIM);
 
     // Get node coordinates of the element (a_K) -> (1) maybe get them before ??
     // -> yes because when a_K is freed, the coordinates are deleted because it's only a pointers copy
@@ -297,7 +300,7 @@ void intElem(
         evalDFbase(t,x_hat_quad[k],Dw_hat_x_hat);
 
         // Evaluation Dw(x_quad)/Dx_alpha, alpha in {1,2};
-        jacobFK(n_nod_elem, 2, (const float **) a_K, (const float **) Dw_hat_x_hat, JFk_x_hat);
+        jacobFK(n_nod_elem, DIM, (const float **) a_K, (const float **) Dw_hat_x_hat, JFk_x_hat);
         detJF = inv_2x2(JFk_x_hat,inv_JFk_x_hat);
         diff = fabsf(detJF)*weights[k]; // differential elem * weight for the quadrature formula
         for(j=0; j<2; j++){
@@ -326,9 +329,8 @@ void intElem(
 
 
 // Evaluate the integrals on the edges of element K (K prime) with quadrature formula
-void intSegment(
+void intEdge(
         int n_quad_pts,
-        int n_nod_seg,
         const float **nodes_coords,
         const float **x_hat_quad, // (2) -> dim = 1 ?
         const float *weights,
@@ -357,7 +359,9 @@ void eval_K(
         float *uD_aK
         )
 {
-    int i,j,n_quad_pts_elem,n_quad_pts_edg;
+    int i,j,k,l;
+    int flag_categorized;     // boolean to know if the edge has already been categorized
+    int n_quad_pts_elem,n_quad_pts_edg;
 
     // ----------- Integral on the element K -----------
 
@@ -369,14 +373,14 @@ void eval_K(
     float *l_K_elem = calloc(n_nod_elem,sizeof(float));     // Every value set to 0
 
     wp_quad(t,x_quad_hat_elem,weights_elem); // evaluate weights and quadrature pts for the quadrature on the element
-    intElem(t,n_quad_pts_elem, n_nod_elem,(const float **)a_K,(const float**)x_quad_hat_elem, weights_elem, a00, a11, a12, a22, f_OMEGA, A_K_elem, l_K_elem);
+    intElem(t,n_quad_pts_elem, n_nod_elem,(const float **)a_K,(const float**)x_quad_hat_elem, weights_elem, A_K_elem, l_K_elem);
 
     // Update results :
     for(i=0; i<n_nod_elem; i++) {
         l_K[i] += l_K_elem[i];
         for(j=0; j<n_nod_elem; j++) A_K[i][j] += A_K_elem[i][j];
     }
-    // free Memory (weights_elem will be reallocated)
+    // free Memory
     free_mat(x_quad_hat_elem);
     free(weights_elem);
     free_mat(A_K_elem);
@@ -385,30 +389,55 @@ void eval_K(
 
     // ----------- Integral on a potential edge element K
 
-    // Memory update (clean and new) // (5) Should I define n_nod_edg = 2 and replace everywhere ?
-    float **x_quad_hat_edg = matF_alloc(n_quad_pts_edg,2);
-    float *weights_edg = realloc(weights_edg,n_quad_pts_edg*sizeof(float));
-    int *edg_nodes = malloc(2*sizeof(int));     // 2 because we take order 1 for approximation of edges
-    float **edg_nodes_coords = matF_alloc(2,2); // same (and we're in dim 2)
-    float **A_K_edg = matF_alloc0(2,2);         // Every value set to 0 // (3) --> what is the correct size : n_nod_elem or n_nod_edg ?? Seems to me to be n_nod_edg because in intSegment we evaluate base fonction with type 3 (segment) ==> nb base fonction = 2 = n_nod_edg
-    float *l_K_edg = calloc(2,sizeof(float));   // Every value set to 0
+    // Memory update (clean and new)
+    n_quad_pts_edg = quad_order(3);
+    float **x_quad_hat_edg = matF_alloc(n_quad_pts_edg,DIM);
+    float *weights_edg = malloc(n_quad_pts_edg*sizeof(float));
+    int *edg_nodes = malloc(N_NOD_EDG*sizeof(int));
+    float **A_K_edg = matF_alloc0(N_NOD_EDG,N_NOD_EDG);         // Every value set to 0 //
+    float *l_K_edg = calloc(N_NOD_EDG,sizeof(float));           // Every value set to 0
+
+
+    // Special case for this one : it's a dynamic tab of float pointers
+    float **edg_nodes_coords = malloc(n_quad_pts_edg*sizeof(float*));
+    // (5) -> Is it a good way to handle it ? Because if I don't do this they will be a pb when memory clean because on the simple copy of selectPts
+
 
     for(i=0; i<n_edg_elem; i++){
-        //
-        // (6) - TO DO : place break and a bool variable to know if a special edge is detected and we have to stop looking for
-        // Check if the edge is on the edge of the domain (i.e. is particular)
-        for(j=0; j<n_Dh; j++) if(ref_edg_K[i]==ref_Dh[j]) {nodes_D[i]=0;}                          // Dirichlet homogeneous
-        for(j=0; j<n_Dnh; j++)if(ref_edg_K[i]==ref_Dnh[j]) {nodes_D[i]=-1; uD_aK[i] = uD(a_K[i]);} // Dirichlet non-homogeneous
-        for(j=0; j<n_NF; j++) if(ref_edg_K[i]==ref_NF[j]) {                                        // Neumann or Fourier
-            vertices_Edge(i+1,t,edg_nodes);
-            selectPts(2,edg_nodes,(float**)a_K,edg_nodes_coords);       // Careful we lost the const on a_K here (2 because we take order 1 for approximation of edges)
-            wp_quad(3,x_quad_hat_edg,weights_edg);
-            intSegment(n_quad_pts_edg,2,(const float**)edg_nodes_coords,(const float**)x_quad_hat_edg, weights_edg, bN, fN, A_K_edg, l_K_edg);
 
-            // Update results (we had the contribution for each node at the end of the edge (2 nodes)
-            for(i=0; i<2; i++) {
-                l_K[edg_nodes[i]] += l_K_edg[i];
-                for(j=0; j<2; j++) A_K[i][j] += A_K_edg[edg_nodes[i]][edg_nodes[j]];
+        if (ref_edg_K[i] == ref_interior) {flag_categorized = 1;} // Most current case : edge is inside the domain
+        else {
+            flag_categorized = 0;                   // edge isn't categorized yet
+            vertices_Edge(i+1,t,edg_nodes);
+            for(k=0; k<N_NOD_EDG;k++) edg_nodes[k]--;// We retrieve indices (2) ? Shouldn't do it directly in vertices edges and change the function's name
+        }
+        for(j=0; j<n_Dh & flag_categorized==0; j++){      // Dirichlet homogeneous edge
+            if(ref_edg_K[i]==ref_Dh[j]) {
+                for(k=0; k<N_NOD_EDG;k++) nodes_D[edg_nodes[k]] = 0;
+                flag_categorized = 1;
+            }
+        }
+        for(j=0; j<n_Dnh & flag_categorized==0; j++){     // Dirichlet non-homogeneous edge
+            if(ref_edg_K[i]==ref_Dnh[j]) {
+                for(k=0; k<N_NOD_EDG;k++){
+                    nodes_D[edg_nodes[k]] = -1;
+                    uD_aK[edg_nodes[k]] = uD(a_K[edg_nodes[k]]);
+                }
+                flag_categorized = 1;
+            }
+        }
+        for(j=0; j<n_NF & flag_categorized == 0; j++) {
+            if(ref_edg_K[i]==ref_NF[j]) {                  // Neumann or Fourier edge
+                selectPts(N_NOD_EDG,edg_nodes,(float**)a_K,edg_nodes_coords);       // Careful we lost the const on a_K here
+                wp_quad(3,x_quad_hat_edg,weights_edg);
+                intEdge(n_quad_pts_edg,(const float**)edg_nodes_coords,(const float**)x_quad_hat_edg, weights_edg, A_K_edg, l_K_edg);
+
+                // Update results (we had the contribution for each node at the end of the edge (2 nodes)
+                for(k=0; k<N_NOD_EDG; k++) {
+                    l_K[edg_nodes[k]] += l_K_edg[edg_nodes[k]];
+                    for(l=0; l<N_NOD_EDG; l++) A_K[edg_nodes[k]][edg_nodes[l]] += A_K_edg[k][l];
+                }
+                flag_categorized = 1;
             }
         }
     }
@@ -417,7 +446,7 @@ void eval_K(
     free_mat(x_quad_hat_edg);
     free(l_K_edg);
     free(edg_nodes);
-    free_mat(edg_nodes_coords);
+    free(edg_nodes_coords); // We don't free it because it's only a simple copy -> it will be free with free_mat(a_K)
     free_mat(A_K_edg);
     free(weights_edg);
 }

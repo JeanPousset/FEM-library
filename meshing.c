@@ -136,7 +136,7 @@ void write_mesh(float a, float b, float c, float d, int n1, int n2, int t, int r
 }
 
 // Read a mesh file and assign parameters values, coordinates, node global numbers, and edges references numbers
-int read_mesh(char* input_mesh, int *type, int* n_nodes, float*** p_coords, int* n_elem, int*** p_nod_gNb, int *n_nod_elem, int* n_edges, int*** p_refEdg)
+int read_mesh(char* input_mesh, int *type, int* n_nod, float*** p_coords, int* n_elem, int*** p_nod_gNb, int *n_nod_elem, int* n_edg_elem, int*** p_refEdg)
 {
     int i,j;
 
@@ -148,21 +148,21 @@ int read_mesh(char* input_mesh, int *type, int* n_nodes, float*** p_coords, int*
         return -1;
     }
 
-    fscanf(mesh_f,"%d",n_nodes);      // number of nodes (n)
-    *p_coords = matF_alloc(*n_nodes,2);   // allocate a n x 2 tab for coordinates
+    fscanf(mesh_f,"%d",n_nod);      // number of nodes (n)
+    *p_coords = matF_alloc(*n_nod,2);   // allocate a n x 2 tab for coordinates
 
     // fill coordinates x_i y_i
-    for (i=0; i<*n_nodes; i++) fscanf(mesh_f,"%f %f",&(*p_coords)[i][0], &(*p_coords)[i][1]);
+    for (i=0; i<*n_nod; i++) fscanf(mesh_f,"%f %f",&(*p_coords)[i][0], &(*p_coords)[i][1]);
 
     // assign nb element (m), type (t), nb of geometrical node per element (p), nb of egdes per element (q);
-    fscanf(mesh_f,"%d %d %d %d",n_elem,type,n_nod_elem,n_edges);
+    fscanf(mesh_f,"%d %d %d %d",n_elem,type,n_nod_elem,n_edg_elem);
 
     // fill global node number reference for each element and edges reference number
     *p_nod_gNb = matI_alloc(*n_elem,*n_nod_elem);
-    *p_refEdg = matI_alloc(*n_elem,*n_edges);
+    *p_refEdg = matI_alloc(*n_elem,*n_edg_elem);
     for (i=0; i<*n_elem; i++){
         for (j=0; j<*n_nod_elem; j++) fscanf(mesh_f,"%d ",&(*p_nod_gNb)[i][j]);
-        for (j=0; j<*n_edges; j++) fscanf(mesh_f,"%d ",&(*p_refEdg)[i][j]);
+        for (j=0; j<*n_edg_elem; j++) fscanf(mesh_f,"%d ",&(*p_refEdg)[i][j]);
     }
     fclose(mesh_f); // Close mesh output file
     return 0;

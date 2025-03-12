@@ -16,5 +16,5 @@ void write_mesh(float a, float b, float c, float d, int n1, int n2, int t, int r
     pcoords, p_refEdg and p_nod_gNb are supposed to be empty pointers that aren't allocated yet
     !!
 */
-int read_mesh(char* input_mesh, int *type, int* n_nodes, float*** p_coords, int* n_elem, int*** p_nod_gNb, int *n_nod_elem, int* n_edges, int*** p_refEdg);
+int read_mesh(char* input_mesh, int *type, int* nodes_gN, float*** p_coords, int* n_elem, int*** p_nod_gNb, int *n_nod_elem, int* n_edg_elem, int*** p_refEdg);
 #endif //FEM_PROJECT_MESHING_H

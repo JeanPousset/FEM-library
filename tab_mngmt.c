@@ -66,8 +66,6 @@ int **matI_alloc(int dim1, int dim2) {
     return(ptr);
 }
 
-#include <stdlib.h>
-
 
 // Free memory that has been allocated by matF_alloc / matI_alloc
 void free_mat(void *ptr) {

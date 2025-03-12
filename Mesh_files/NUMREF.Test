@@ -1,0 +1,19 @@
+0
+1 1
+1 4
+2 2 3
+* Numeros de references a donner dans l'ordre :
+* 
+* nrefdm
+* nbred0, (nured0(i),i=1,nbred0)
+* nbred1, (nured1(i),i=1,nbred1)
+* nbref1, (nuref1(i),i=1,nbref1)
+* 
+* avec
+* nrefdm : numero de reference du domaine
+* nbred0 : nombre de numeros de reference Dirichlet homogene
+* nured0 : tableau des numeros de reference Dirichlet homogene
+* nbred1 : nombre de numeros de reference Dirichlet non homogene
+* nured1 : tableau des numeros de reference Dirichlet non homogene
+* nbref1 : nombre de numeros de reference Neumann
+* nuref1 : tableau des numeros de reference Neumann

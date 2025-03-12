@@ -30,14 +30,6 @@ int test_inv2x2(void)
 
 
 
-
-
-
-
-
-
-
-
 // Function that lunch a diff command on the terminal to compare 2 file contents.
 void diff_file(const char* f1,const char* f2)
 {
@@ -97,11 +89,29 @@ void test_read_mesh(char *input_mesh, char *out_check_mesh) {
     fclose(mesh_f);
 
     // clean tab memory
-    freetab(p_coords);
-    freetab(p_gNb_node);
-    freetab(p_refEdg);
+    free_mat(p_coords);
+    free_mat(p_gNb_node);
+    free_mat(p_refEdg);
 
     // Using diff command line to test if there is a difference between the original and the file
     diff_file(input_mesh,out_check_mesh);
 }
 
+
+void imp_eval_K(int K, int type, int n_nod_elem, float **A_K, float *l_K,
+                int *nodes_D, float *uD_aK) {
+/************************************************************************
+  Imprime les resultats de la matrice et du second membre elementaires
+  ainsi que les conditions Dirichlet en chaque noeud
+  et les valeurs des conditions Dirichlet non homogene
+************************************************************************/
+    int i, j;
+    printf("\n");
+    printf(" ELEMENT=%3d    DE TYPE=%5d    NB NOEUDS=%2d\n", K,type,n_nod_elem);
+    printf(" NuDElem   uDElem    SMbrElem    MatElem\n");
+    for (i=0; i < n_nod_elem; i++) {
+        printf(" %6d %10.4e %10.4e", nodes_D[i],uD_aK[i],l_K[i]);
+        for (j=0; j <= i; j++) { printf(" %10.4e", A_K[i][j]); }
+        printf("\n");
+    }
+}

@@ -3,6 +3,11 @@
 
 // !! In these functions, tab allocation is supposed to be done outside the function with correct dimension
 
+/// Hypothesis
+#define DIM 2       // We work in a 2-dimensional space
+#define N_NOD_EDG 2 // (we suppose we approximate the element geometry at the order 1)
+
+
 
 
 void evalFbase(int t, const float *x_hat, float *w_hat_x_hat);
@@ -61,6 +66,7 @@ void jacobFK(int p, int d, const float **a_K, const float **Dw_hat_x_hat, float 
 void vertices_Edge(int edge_nb, int t, int* local_nodes);
 /*
     Give the local number of the nodes at each side of the edge
+    (we suppose we approximate the element geometry at the order 1)
     - edge_nb     : local number of the edge for which we want the end nodes
     - t           : type of the element
     - local_nodes : result (array of size 2)
@@ -116,5 +122,25 @@ void q_contrib_gdWdW(int n_nod_elem, const float **Dw_x, float diff, const float
 [OUT]
     - sum_contrib  : matrix (size: n_node_elem * n_node_elem) of sum of the other contribution that have already been computed
 */
+
+
+void eval_K(
+        int ref_interior,
+        const int *ref_Dh,
+        const int *ref_Dnh,
+        const int *ref_NF,
+        int n_Dh,
+        int n_Dnh,
+        int n_NF,
+        int t,
+        int n_nod_elem,
+        const float **a_K,
+        int n_edg_elem,
+        const int *ref_edg_K,
+        float **A_K,
+        float *l_K,
+        int *nodes_D,
+        float *uD_aK
+);
 
 #endif //FEM_PROJECT_ELEM_EVAL_H

@@ -25,4 +25,22 @@ void diff_file(const char* f1,const char* f2);
     If there isn't any difference, nothing is printed to the screen.
     If you see something, file contents are different
 */
+
+void imp_eval_K(int K, int type, int n_nod_elem, float **A_K, float *l_K,
+              int *nodes_D, float *uD_aK);
+/************************************************************************
+  Imprime les resultats de la matrice et du second membre elementaires
+  ainsi que les conditions Dirichlet en chaque noeud
+  et les valeurs des conditions Dirichlet non homogene
+
+*** Arguments ***
+   K        : Numero de l'element
+   typEl    : Numero de type de l'element
+   nbneel   : Nombre de noeuds de l'element
+   MatElem  : Matrice elementaire de dimensions (nbneel,nbneel)
+   SMbrElem : Second membre elementaire de dimension nbneel
+   NuDElem  : Tableau de reperage des noeuds porteurs de conditions de Dirichlet
+   uDElem   : Tableau des valeurs de blocage
+              pour les noeuds Dirichlet non homogene
+************************************************************************/
 #endif //FEM_PROJECT_UNIT_TEST_H

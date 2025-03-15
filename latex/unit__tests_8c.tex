@@ -1,0 +1,62 @@
+\doxysection{unit\+\_\+tests.\+c File Reference}
+\hypertarget{unit__tests_8c}{}\label{unit__tests_8c}\index{unit\_tests.c@{unit\_tests.c}}
+{\ttfamily \#include "{}unit\+\_\+tests.\+h"{}}\newline
+{\ttfamily \#include "{}meshing.\+h"{}}\newline
+{\ttfamily \#include "{}tab\+\_\+mngmt.\+h"{}}\newline
+{\ttfamily \#include "{}elem\+\_\+eval.\+h"{}}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{unit__tests_8c_a5de9685adea17a3997d203734de0b3e7}{test\+\_\+inv2x2}} (void)
+\item 
+void \mbox{\hyperlink{unit__tests_8c_a775a153e4c61bbb44f4b2797e6eb410f}{diff\+\_\+file}} (const char \texorpdfstring{$\ast$}{*}f1, const char \texorpdfstring{$\ast$}{*}f2)
+\item 
+void \mbox{\hyperlink{unit__tests_8c_ae39a46f46008a61d86967d3f5b645075}{test\+\_\+write\+\_\+mesh}} (float a, float b, float c, float d, int n1, int n2, int t, int nrefdom, const int \texorpdfstring{$\ast$}{*}nrefcot, char \texorpdfstring{$\ast$}{*}mesh\+\_\+file\+\_\+path, char \texorpdfstring{$\ast$}{*}correct\+\_\+mesh\+\_\+file)
+\item 
+void \mbox{\hyperlink{unit__tests_8c_abd23dd2dfe7c564f5a5e145940d33c38}{test\+\_\+read\+\_\+mesh}} (char \texorpdfstring{$\ast$}{*}input\+\_\+mesh, char \texorpdfstring{$\ast$}{*}out\+\_\+check\+\_\+mesh)
+\item 
+void \mbox{\hyperlink{unit__tests_8c_ac8ca575a53014fea8a09a09e0eb5aa79}{print\+\_\+eval\+\_\+K}} (int K, int type, int n\+\_\+nod\+\_\+elem, float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}A\+\_\+K, float \texorpdfstring{$\ast$}{*}l\+\_\+K, int \texorpdfstring{$\ast$}{*}nodes\+\_\+D, float \texorpdfstring{$\ast$}{*}u\+D\+\_\+aK)
+\item 
+void \mbox{\hyperlink{unit__tests_8c_a45ecb24a34e00c489f387bfe3586c2ea}{test\+\_\+eval\+\_\+K}} (const char \texorpdfstring{$\ast$}{*}mesh\+\_\+file)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{unit__tests_8c_a775a153e4c61bbb44f4b2797e6eb410f}\index{unit\_tests.c@{unit\_tests.c}!diff\_file@{diff\_file}}
+\index{diff\_file@{diff\_file}!unit\_tests.c@{unit\_tests.c}}
+\doxysubsubsection{\texorpdfstring{diff\_file()}{diff\_file()}}
+{\footnotesize\ttfamily \label{unit__tests_8c_a775a153e4c61bbb44f4b2797e6eb410f} 
+void diff\+\_\+file (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{f1}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{f2}{}\end{DoxyParamCaption})}
+
+\Hypertarget{unit__tests_8c_ac8ca575a53014fea8a09a09e0eb5aa79}\index{unit\_tests.c@{unit\_tests.c}!print\_eval\_K@{print\_eval\_K}}
+\index{print\_eval\_K@{print\_eval\_K}!unit\_tests.c@{unit\_tests.c}}
+\doxysubsubsection{\texorpdfstring{print\_eval\_K()}{print\_eval\_K()}}
+{\footnotesize\ttfamily \label{unit__tests_8c_ac8ca575a53014fea8a09a09e0eb5aa79} 
+void print\+\_\+eval\+\_\+K (\begin{DoxyParamCaption}\item[{int}]{K}{, }\item[{int}]{type}{, }\item[{int}]{n\+\_\+nod\+\_\+elem}{, }\item[{float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{A\+\_\+K}{, }\item[{float \texorpdfstring{$\ast$}{*}}]{l\+\_\+K}{, }\item[{int \texorpdfstring{$\ast$}{*}}]{nodes\+\_\+D}{, }\item[{float \texorpdfstring{$\ast$}{*}}]{u\+D\+\_\+aK}{}\end{DoxyParamCaption})}
+
+\Hypertarget{unit__tests_8c_a45ecb24a34e00c489f387bfe3586c2ea}\index{unit\_tests.c@{unit\_tests.c}!test\_eval\_K@{test\_eval\_K}}
+\index{test\_eval\_K@{test\_eval\_K}!unit\_tests.c@{unit\_tests.c}}
+\doxysubsubsection{\texorpdfstring{test\_eval\_K()}{test\_eval\_K()}}
+{\footnotesize\ttfamily \label{unit__tests_8c_a45ecb24a34e00c489f387bfe3586c2ea} 
+void test\+\_\+eval\+\_\+K (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{mesh\+\_\+file}{}\end{DoxyParamCaption})}
+
+\Hypertarget{unit__tests_8c_a5de9685adea17a3997d203734de0b3e7}\index{unit\_tests.c@{unit\_tests.c}!test\_inv2x2@{test\_inv2x2}}
+\index{test\_inv2x2@{test\_inv2x2}!unit\_tests.c@{unit\_tests.c}}
+\doxysubsubsection{\texorpdfstring{test\_inv2x2()}{test\_inv2x2()}}
+{\footnotesize\ttfamily \label{unit__tests_8c_a5de9685adea17a3997d203734de0b3e7} 
+int test\+\_\+inv2x2 (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+\Hypertarget{unit__tests_8c_abd23dd2dfe7c564f5a5e145940d33c38}\index{unit\_tests.c@{unit\_tests.c}!test\_read\_mesh@{test\_read\_mesh}}
+\index{test\_read\_mesh@{test\_read\_mesh}!unit\_tests.c@{unit\_tests.c}}
+\doxysubsubsection{\texorpdfstring{test\_read\_mesh()}{test\_read\_mesh()}}
+{\footnotesize\ttfamily \label{unit__tests_8c_abd23dd2dfe7c564f5a5e145940d33c38} 
+void test\+\_\+read\+\_\+mesh (\begin{DoxyParamCaption}\item[{char \texorpdfstring{$\ast$}{*}}]{input\+\_\+mesh}{, }\item[{char \texorpdfstring{$\ast$}{*}}]{out\+\_\+check\+\_\+mesh}{}\end{DoxyParamCaption})}
+
+\Hypertarget{unit__tests_8c_ae39a46f46008a61d86967d3f5b645075}\index{unit\_tests.c@{unit\_tests.c}!test\_write\_mesh@{test\_write\_mesh}}
+\index{test\_write\_mesh@{test\_write\_mesh}!unit\_tests.c@{unit\_tests.c}}
+\doxysubsubsection{\texorpdfstring{test\_write\_mesh()}{test\_write\_mesh()}}
+{\footnotesize\ttfamily \label{unit__tests_8c_ae39a46f46008a61d86967d3f5b645075} 
+void test\+\_\+write\+\_\+mesh (\begin{DoxyParamCaption}\item[{float}]{a}{, }\item[{float}]{b}{, }\item[{float}]{c}{, }\item[{float}]{d}{, }\item[{int}]{n1}{, }\item[{int}]{n2}{, }\item[{int}]{t}{, }\item[{int}]{nrefdom}{, }\item[{const int \texorpdfstring{$\ast$}{*}}]{nrefcot}{, }\item[{char \texorpdfstring{$\ast$}{*}}]{mesh\+\_\+file\+\_\+path}{, }\item[{char \texorpdfstring{$\ast$}{*}}]{correct\+\_\+mesh\+\_\+file}{}\end{DoxyParamCaption})}
+

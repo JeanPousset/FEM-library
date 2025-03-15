@@ -26,21 +26,21 @@ void diff_file(const char* f1,const char* f2);
     If you see something, file contents are different
 */
 
-void imp_eval_K(int K, int type, int n_nod_elem, float **A_K, float *l_K,
+void print_eval_K(int K, int type, int n_nod_elem, float **A_K, float *l_K,
               int *nodes_D, float *uD_aK);
-/************************************************************************
-  Imprime les resultats de la matrice et du second membre elementaires
-  ainsi que les conditions Dirichlet en chaque noeud
-  et les valeurs des conditions Dirichlet non homogene
+/*
+    Print results of A_K, l_K (2nd member), Dirichlet conditions in each node and values of non-homogeneous Dirichlet nodes
+[IN]
+    - K     : element number
+    - type  : type of element (e.g. 2 for triangle)
+    - n_nod_elem : number of nodes per element
+    - **A_K      : Matrix of the elementary values of A_ij_K for each couple of nodes (i,j)  [n_nod_elem * n_nod_elem]
+    - **l_K      : vector of elementary values of l_K_i for each node i [n_nod_elem]
+    - *nodes_D   : array where element i is equal to -1 if node i of K is Dirichlet, 0 if Dirichlet homogeneous and -1 otherwise
+    - *uD_aK     : array that contains values of the non-homogeneous Dirichlet nodes
+*/
 
-*** Arguments ***
-   K        : Numero de l'element
-   typEl    : Numero de type de l'element
-   nbneel   : Nombre de noeuds de l'element
-   MatElem  : Matrice elementaire de dimensions (nbneel,nbneel)
-   SMbrElem : Second membre elementaire de dimension nbneel
-   NuDElem  : Tableau de reperage des noeuds porteurs de conditions de Dirichlet
-   uDElem   : Tableau des valeurs de blocage
-              pour les noeuds Dirichlet non homogene
-************************************************************************/
+// Test the eval_K function on every mesh element and call print_eval_K so we can compare to the exact solution
+void test_eval_K(const char* mesh_file);
+
 #endif //FEM_PROJECT_UNIT_TEST_H

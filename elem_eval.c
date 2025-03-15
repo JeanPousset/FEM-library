@@ -1,28 +1,13 @@
 #include "elem_eval.h"
 #include "tab_mngmt.h"
+#include "problem_functions.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 
 
+
 // !! In these functions, tab allocation is supposed to be done outside the function with correct dimension
-
-// Problem functions : // (8) -> put the declaration into a header problem_function.h (with def on an associated c file) and just include it
-float a00(const float* x) { return 1;}
-
-float a11(const float* x) { return 1;}
-
-float a12(const float* x) { return 0;}
-
-float a22(const float* x) { return 1;}
-
-float bN(const float* x) { return 0;}
-
-float fN(const float* x) { return 1;}
-
-float f_OMEGA(const float* x) { return 0;}
-
-float uD(const float* x) { return 100*x[0] + x[1];}
 
 
 // evaluate every base function w_i (i in [1,q]) for a given point x_hat in the coordinates of the reference element
@@ -111,7 +96,7 @@ int quad_order(int t)
 }
 
 // Compute quadrature points and weights corresponding to the element type
-void wp_quad(int t, float **x_quad_hat, float *weight)
+void wp_quad(int t, float **x_quad_hat, float *weights)
 {
     int i;
     switch (t) {
@@ -122,9 +107,9 @@ void wp_quad(int t, float **x_quad_hat, float *weight)
             // weights (pre-compute to avoid useless identical division)
             weight_1 = 1.0 / 36;
             weight_2 = 1.0/9;
-            for (i=0; i<4; i++) weight[i] = weight_1;
-            for (i=4; i<8; i++) weight[i] = weight_2;
-            weight[8] = 4*weight_1;
+            for (i=0; i<4; i++) weights[i] = weight_1;
+            for (i=4; i<8; i++) weights[i] = weight_2;
+            weights[8] = 4*weight_1;
             // quadrature points (x_i_hat)
             x_quad_hat[0][0] = 1;     x_quad_hat[0][1] = 0;   // x1
             x_quad_hat[1][0] = 1;     x_quad_hat[1][1] = 1;   // x2
@@ -140,7 +125,7 @@ void wp_quad(int t, float **x_quad_hat, float *weight)
         case 2: // Triangle
             // weights
             weight_1 = 1.0/6;
-            for (i=0; i<3; i++) weight[i] = weight_1;
+            for (i=0; i<3; i++) weights[i] = weight_1;
             // quadrature points (x_i_hat)
             x_quad_hat[0][0] = 0.5;   x_quad_hat[0][1] = 0.5;  // x1
             x_quad_hat[1][0] = 0;     x_quad_hat[1][1] = 0.5;  // x2
@@ -150,9 +135,9 @@ void wp_quad(int t, float **x_quad_hat, float *weight)
         case 3: // Segment
             // weights
             weight_1 = 1.0/6;
-            weight[0] = weight_1;
-            weight[0] = weight_1;
-            weight[0] = 4*weight_1;
+            weights[0] = weight_1;
+            weights[0] = weight_1;
+            weights[0] = 4*weight_1;
             // quadrature points (x_i_hat)
             x_quad_hat[0][0] = 1;    // x1
             x_quad_hat[1][0] = 0;    // x2
@@ -446,7 +431,7 @@ void eval_K(
     free_mat(x_quad_hat_edg);
     free(l_K_edg);
     free(edg_nodes);
-    free(edg_nodes_coords); // We don't free it because it's only a simple copy -> it will be free with free_mat(a_K)
+    free(edg_nodes_coords); // (5) Here we only free an dynamic array of float pointers -> different from a matrix
     free_mat(A_K_edg);
     free(weights_edg);
 }

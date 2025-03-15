@@ -1,0 +1,25 @@
+\doxysection{meshing.\+h}
+\hypertarget{meshing_8h_source}{}\label{meshing_8h_source}\mbox{\hyperlink{meshing_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ FEM\_PROJECT\_MESHING\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ FEM\_PROJECT\_MESHING\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ \ \ \ Fill\ the\ 2\ dim\ tab\ refEdg\ with\ reference\ number\ for\ each\ edge\ of\ each\ element}}
+\DoxyCodeLine{00007\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00008\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{meshing_8h_aeb9f0afb0315c83b04df25d1181f697b}{etiqAr}}(\textcolor{keywordtype}{int}\ typel,\ \textcolor{keywordtype}{int}\ n1,\ \textcolor{keywordtype}{int}\ n2,\ \textcolor{keywordtype}{int}\ nrefdom,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ *nrefcot,\ \textcolor{keywordtype}{int}\ nbtel,\ \textcolor{keywordtype}{int}\ nbaret,\ \textcolor{keywordtype}{int}\ **refEdg);}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{meshing_8h_a8b9f6bb116959edc6b0f43b8eaff17bd}{write\_mesh}}(\textcolor{keywordtype}{float}\ a,\ \textcolor{keywordtype}{float}\ b,\ \textcolor{keywordtype}{float}\ c,\ \textcolor{keywordtype}{float}\ d,\ \textcolor{keywordtype}{int}\ n1,\ \textcolor{keywordtype}{int}\ n2,\ \textcolor{keywordtype}{int}\ t,\ \textcolor{keywordtype}{int}\ ref\_interior,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}*\ ref\_sides,\ \textcolor{keywordtype}{char}*\ mesh\_out\_path);}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00013\ \textcolor{comment}{\ \ \ \ Read\ a\ mesh\ file\ and\ assign\ parameters\ values,\ coordinates,\ and\ edges\ references\ numbers\ :}}
+\DoxyCodeLine{00014\ \textcolor{comment}{\ \ \ \ Every\ parameter\ to\ be\ assigned\ and\ the\ two\ 2\ dimensionnal\ tabs\ (coords,\ gNb\_node,\ refEdg)\ are\ passed\ as\ pointers\ .}}
+\DoxyCodeLine{00015\ \textcolor{comment}{\ \ \ \ !!}}
+\DoxyCodeLine{00016\ \textcolor{comment}{\ \ \ \ pcoords,\ p\_refEdg\ and\ p\_nod\_gNb\ are\ supposed\ to\ be\ empty\ pointers\ that\ aren't\ allocated\ yet}}
+\DoxyCodeLine{00017\ \textcolor{comment}{\ \ \ \ !!}}
+\DoxyCodeLine{00018\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00019\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{meshing_8h_a44127f1ad233ccca9a208ed049b516b0}{read\_mesh}}(\textcolor{keywordtype}{char}*\ input\_mesh,\ \textcolor{keywordtype}{int}\ *type,\ \textcolor{keywordtype}{int}*\ nodes\_gN,\ \textcolor{keywordtype}{float}***\ p\_coords,\ \textcolor{keywordtype}{int}*\ n\_elem,\ \textcolor{keywordtype}{int}***\ p\_nod\_gNb,\ \textcolor{keywordtype}{int}\ *n\_nod\_elem,\ \textcolor{keywordtype}{int}*\ n\_edg\_elem,\ \textcolor{keywordtype}{int}***\ p\_refEdg);}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//FEM\_PROJECT\_MESHING\_H}}
+
+\end{DoxyCode}

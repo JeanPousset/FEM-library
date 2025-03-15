@@ -11,4 +11,5 @@ add_executable(FEM_project
         meshing.c
         tab_mngmt.c
         unit_tests.c
-        elem_eval.c)
+        elem_eval.c
+)

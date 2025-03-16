@@ -1,5 +1,5 @@
 /.idea/
 /cmake-build-debug/
-CMakeList.txt
+CMakeLists.txt
 .DS_Store
 FEM_project

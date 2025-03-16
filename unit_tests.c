@@ -1,3 +1,9 @@
+/**
+ * @file unit_tests.c
+ * @brief test-functions for unit tests
+ * @details Contains test-functions that check if functions are correctly working
+ */
+
 #include "unit_tests.h"
 #include "meshing.h"
 #include "tab_mngmt.h"
@@ -6,9 +12,9 @@
 #include <stdlib.h>
 
 
-// Test the inv of a matrix !! Not completed -> memory leaks
+/// Check if a 2x2 matrix is correctly inverted
 int test_inv2x2(void) {
-    int i, j;
+    int i, j, res = 1;
     float **M = matF_alloc(2, 2);
     float **M_inv = matF_alloc(2, 2);
     float **M_cor = matF_alloc(2, 2);
@@ -23,16 +29,19 @@ int test_inv2x2(void) {
     M_cor[1][1] = 1.5;
 
     det = inv_2x2(M, M_inv);
+    if (det != 2.0) res = 0;     // Checking if the matrix is correctly inverted
+    for (i = 0; i < 2; i++) for (j = 0; j < 2; j++) if (M_cor[i][j] != M_inv[i][j]) res = 0;
+    if (res == 1) {printf(" 'inv2x2' function passed test with success \n");}
 
-    if (det != 2.0) return 0;
-    // Checking if the matrix is correctly inverted
-    for (i = 0; i < 2; i++) for (j = 0; j < 2; j++) if (M_cor[i][j] != M_inv[i][j]) return 0;
-    printf(" 'inv2x2' function passed test with success \n");
-    return 1;
+    // memory clean
+    free_mat(M);
+    free_mat(M_inv);
+    free_mat(M_cor);
+    return res;
 }
 
 
-// Function that lunch a diff command on the terminal to compare 2 file contents.
+/// Function that lunch a diff command on the terminal to compare 2 file contents.
 void diff_file(const char *f1, const char *f2) {
     char diff_command[512];
     // The file compare command is different in Windows OS
@@ -50,14 +59,14 @@ void diff_file(const char *f1, const char *f2) {
 }
 
 
-//    Test the write_mesh function implemented in "meshing.c"
+///    Test the write_mesh function implemented in "meshing.c"
 void test_write_mesh(float a, float b, float c, float d, int n1, int n2, int t, int nrefdom, const int *nrefcot,
                      char *mesh_file_path, char *correct_mesh_file) {
     write_mesh(a, b, c, d, n1, n2, t, nrefdom, nrefcot, mesh_file_path);
     diff_file(mesh_file_path, correct_mesh_file);
 }
 
-// Test the read_mesh form "meshing.c/h", read an ouput mesh file and rewrite its content into the output mesh file
+/// Test the read_mesh form "meshing.c/h", read an ouput mesh file and rewrite its content into the output mesh file
 void test_read_mesh(char *input_mesh, char *out_check_mesh) {
     int type, n_nodes, n_elem, n_nod_elem, n_edges;
     float **p_coords;
@@ -99,7 +108,7 @@ void test_read_mesh(char *input_mesh, char *out_check_mesh) {
 }
 
 
-// Print results of A_K, l_K (2nd member), Dirichlet conditions in each node and values of non-homogeneous Dirichlet nodes
+/// Print results of A_K, l_K (2nd member), Dirichlet conditions in each node and values of non-homogeneous Dirichlet nodes
 void print_eval_K(int K, int type, int n_nod_elem, float **A_K, float *l_K, int *nodes_D, float *uD_aK) {
     int i, j;
     printf("\n");
@@ -112,7 +121,7 @@ void print_eval_K(int K, int type, int n_nod_elem, float **A_K, float *l_K, int 
     }
 }
 
-// Test the eval_K function on every mesh element and call print_eval_K so we can compare to the exact solution
+/// Test the eval_K function on every mesh element and call print_eval_K so we can compare to the exact solution
 void test_eval_K(const char *mesh_file) {
     int i, j, k;
 

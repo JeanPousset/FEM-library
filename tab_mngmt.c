@@ -1,6 +1,11 @@
+/**
+ * @file tab_mngmt.c
+ * @brief Functions that handle memory for dynamically allocated matrices
+ */
+
 #include <stdlib.h>
 
-// Allocate a 2-dimensional tab (matrix) of float dynamically with value 0.0 for each element
+/// Allocate a 2-dimensional tab (matrix) of float dynamically with value 0.0 for each element
 float **matF_alloc0(int dim1, int dim2) {
     float **ptr;
 
@@ -22,7 +27,7 @@ float **matF_alloc0(int dim1, int dim2) {
     return(ptr);
 }
 
-// Allocate a 2-dimensional tab (matrix) of float dynamically
+/// Allocate a 2-dimensional tab (matrix) of float dynamically
 float **matF_alloc(int dim1, int dim2) {
     float **ptr;
 
@@ -44,7 +49,7 @@ float **matF_alloc(int dim1, int dim2) {
     return(ptr);
 }
 
-// Allocate a 2-dimensional tab (matrix) of integer dynamically
+/// Allocate a 2-dimensional tab (matrix) of integer dynamically
 int **matI_alloc(int dim1, int dim2) {
     int **ptr;
 
@@ -67,7 +72,7 @@ int **matI_alloc(int dim1, int dim2) {
 }
 
 
-// Free memory that has been allocated by matF_alloc / matI_alloc
+/// Free memory that has been allocated by matF_alloc / matI_alloc
 void free_mat(void *ptr) {
     void **ptrT=ptr;
     free(ptrT[0]);

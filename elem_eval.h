@@ -1,5 +1,6 @@
 /**
  * @file elem_eval.h
+ * @brief Header for functions that evaluate discretization of variational formulation : A_K_ij and l_K_i for the element K
  *
  * @warning In these functions, tab allocation is supposed to be done outside the function with correct dimension.
  * @warning We work in a 2-dimensional space.
@@ -13,7 +14,7 @@
 
 
 /**
- *    @brief    evaluate every base function w_i i in [1,q] for a given point x_hat in the coordinates of the reference element
+ *    @brief Evaluates every base function w_i i in [1,q] for a given point x_hat in the coordinates of the reference element
  *
  *    @param t type of the element (1: quadrangle, 2:triangle, 3:segment)
  *    @param x_hat coordinates in the reference element K_hat of the point to evaluate
@@ -23,7 +24,7 @@ void evalFbase(int t, const float *x_hat, float *w_hat_x_hat);
 
 
 /**
- *    @brief evaluate every gradient of base functions:  Dw_i (i in [1,q]) for a given point x_hat in the coordinates of the reference element
+ *    @brief Evaluates every gradient of base functions:  Dw_i (i in [1,q]) for a given point x_hat in the coordinates of the reference element
  *
  *    @details The dimension of the result (Dw_hat) is q x dim (q is the number of nodes here element degree is 1 so q = p = number of vertices). Here dim = 2 (2D) except for the segment where dim = 1
  *
@@ -44,7 +45,7 @@ float inv_2x2(float **M, float **M_inv);
 
 
 /**
- *    @brief returns the quadrature order corresponding to the element type.
+ *    @brief Returns the quadrature order corresponding to the element type.
  *
  *    @details Needed before calling wp_quad to allocate coordinates x_hat and weight tabs
  *
@@ -65,7 +66,7 @@ void wp_quad(int t, float **x_quad_hat, float *weights);
 
 
 /**
- *   @brief evaluate transformation Fk of a point of the reference element x_hat
+ *   @brief Evaluates transformation Fk of a point of the reference element x_hat
  *
  *   @param q           number of nodes (=p because we take element to 1st degree)
  *   @param a_K         contains the coordinates of  element K 's nodes
@@ -76,7 +77,7 @@ void transFK(int q, const float **a_K, const float *w_hat_x_hat, float *Fk_x_hat
 
 
 /**
- *    @brief evaluate the jacobian matrix of the transformation Fk of a point of the reference element x_hat
+ *    @brief Evaluates the jacobian matrix of the transformation Fk of a point of the reference element x_hat
  *
  *    @param p              number of nodes (=p because we take element to 1st degree)
  *    @param d              dimension 2 (quadrangle/triangle) or 1 (edge)
@@ -112,13 +113,12 @@ void selectPts(int n_pts, const int pts_nb[], float *coordSet[], float *select_c
 
 
 /**
- *   @brief Compute the contribution of the quadrature points x_k for the integral's quadrature of the shape g(x_k)w_i(x_k) for i in [1,n_node_elem]
- *[IN]
- *    @param n_node_elem number of nodes per element
+ *    @brief Compute the contribution of the quadrature points x_k for the integral's quadrature of the shape g(x_k)w_i(x_k) for i in [1,n_node_elem]
+ *
+ *    @param n_nod_elem  number of nodes per element
  *    @param w_x         w_i(x_k) values of bases function in the quadrature point (length: n_node_elem)
  *    @param diff        (dx)*|det_JF|  differential element (dx) multiplied by weight for the quadrature formula
  *    @param g_x         g(x_k) value of g function (of the shape) in the quadrature point x_k
- *[OUT]
  *    @param sum_contrib vector (length nb quad pts) of sum of the other contribution that have already been computed
  */
 void q_contrib_gW(int n_nod_elem, const float *w_x, float diff, float g_x, float *sum_contrib);
@@ -126,12 +126,11 @@ void q_contrib_gW(int n_nod_elem, const float *w_x, float diff, float g_x, float
 
 /**
  *   @brief Compute the contribution of the quadrature points x_k for the integral's quadrature of the shape g(x_k)w_i(x_k)w_j(x_k) for (i,j) in [1,node_elem]*[1,node_elem];
- *[IN]
- *   @param n_node_elem number of nodes per element
+ *
+ *   @param n_nod_elem  number of nodes per element
  *   @param w_x         w_i/j(x_k) values of bases function in the quadrature point (length: n_node_elem)
  *   @param diff         (dx)*|det_JF| -> differential element (dx) multiplied by weight for the quadrature formula
  *   @param g_x          g(x_k) value of g function (of the shape) in the quadrature point x_k
- *[OUT]
  *   @param sum_contrib  matrix (size: n_node_elem * n_node_elem) of sum of the other contribution that have already been computed
  */
 void q_contrib_gWW(int n_nod_elem, const float *w_x, float diff, float g_x, float **sum_contrib);
@@ -139,19 +138,33 @@ void q_contrib_gWW(int n_nod_elem, const float *w_x, float diff, float g_x, floa
 
 /**
  *    @brief Compute the contribution of the quadrature points x_k for the integral's quadrature of the shape g(x_k)Dw_i(x_k)Dw_j(x_k) for (i,j) in [1,node_elem]*[1,node_elem];
- *[IN]
- *    @param n_node_elem number of nodes per element
+ *
+ *    @param n_nod_elem  number of nodes per element
  *    @param Dw_x        Dw_i/j(x_k) -> values of bases function gradient in the quadrature point (size: n_node_elem*n_node_elem)
  *    @param diff        (dx)*|det_JF| -> differential element (dx) multiplied by weight for the quadrature formula
  *    @param g_x         g(x_k) value of g function (of the shape) in the quadrature point x_k
- *[OUT]
  *    @param sum_contrib matrix (size: n_node_elem * n_node_elem) of sum of the other contribution that have already been computed
  */
 void q_contrib_gdWdW(int n_nod_elem, const float **Dw_x, float diff, const float **g_x, float **sum_contrib);
 
 
 /**
- * @brief evaluate A_K_ij and second member l_K_i form the discretization of the variational formulation for the element K
+ * @brief Evaluates the integrals on the element K with quadrature formula
+ *
+ * @param t          type of the element (1: quadrangle, 2:triangle)
+ * @param n_quad_pts number of points in the quadrature formula
+ * @param n_nod_elem number of nodes in the element K
+ * @param a_K        nodes coordinates of element K
+ * @param x_hat_quad coordinates of quadrature points in the reference element K_hat (!= K)
+ * @param weights    array of weights associated to quadrature points
+ * @param A_K_elem   matrix : part of discretization of A_K_ij that are integrals on K
+ * @param l_K_elem   vector : part of discretization of l_K_i (2nd member) that are integrals on K
+ */
+void intElem(int t, int n_quad_pts, int n_nod_elem, const float **a_K, const float **x_hat_quad, const float *weights,
+             float **A_K_elem, float *l_K_elem);
+
+/**
+ * @brief Evaluates A_K_ij and second member l_K_i form the discretization of the variational formulation for the element K
  *
  * @param ref_interior reference number for edges inside the domain
  * @param ref_Dh       array that contains number of domain boundaries carrying an homogeneous Dirichlet condition
@@ -170,11 +183,11 @@ void q_contrib_gdWdW(int n_nod_elem, const float **Dw_x, float diff, const float
  * @param nodes_D      array where the element i in [0,n_nod_elem] =0 if nod_i carries an homogeneous Dirichlet condition, -1 i nod_i carries a non-homogenous Dirichlet condition and 1 otherwise
  * @param uD_aK        array where the element i contains the value uD(a_K_i) if the nod_i carries a non-homogenous Dirichlet condition, 0 otherwise
  */
-void eval_K(int ref_interior, const int *ref_Dh, const int *ref_Dnh, const int *ref_NF, int n_Dh, int n_Dnh, int n_NF, int t,
+void
+eval_K(int ref_interior, const int *ref_Dh, const int *ref_Dnh, const int *ref_NF, int n_Dh, int n_Dnh, int n_NF, int t,
        int n_nod_elem, const float **a_K, int n_edg_elem, const int *ref_edg_K, float **A_K, float *l_K, int *nodes_D,
        float *uD_aK
 );
-
 
 
 #endif //FEM_PROJECT_ELEM_EVAL_H

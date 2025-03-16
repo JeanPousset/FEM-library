@@ -1,0 +1,130 @@
+\doxysection{meshing.\+h File Reference}
+\hypertarget{meshing_8h}{}\label{meshing_8h}\index{meshing.h@{meshing.h}}
+
+
+Header of functions to handle mesh files (read \& write)  
+
+
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{meshing_8h_acf483d546a0d2fcd5e141eb1d0b400b6}{etiq\+Ar}} (int type, int n1, int n2, int ref\+\_\+interior, const int \texorpdfstring{$\ast$}{*}ref\+\_\+sides, int n\+\_\+elem, int n\+\_\+edg\+\_\+elem, int \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}ref\+Edg)
+\begin{DoxyCompactList}\small\item\em Fill the 2 dim tab ref\+Edg with reference number for each edge of each element. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{meshing_8h_a8b9f6bb116959edc6b0f43b8eaff17bd}{write\+\_\+mesh}} (float a, float b, float c, float d, int n1, int n2, int t, int ref\+\_\+interior, const int \texorpdfstring{$\ast$}{*}ref\+\_\+sides, char \texorpdfstring{$\ast$}{*}mesh\+\_\+out\+\_\+path)
+\begin{DoxyCompactList}\small\item\em Write a mesh file based on domain discretization parameters. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{meshing_8h_a85975f2b45b9f96ac1ecc947f1d07fa0}{read\+\_\+mesh}} (char \texorpdfstring{$\ast$}{*}input\+\_\+mesh, int \texorpdfstring{$\ast$}{*}type, int \texorpdfstring{$\ast$}{*}n\+\_\+nod, float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}p\+\_\+coords, int \texorpdfstring{$\ast$}{*}n\+\_\+elem, int \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}p\+\_\+nod\+\_\+g\+Nb, int \texorpdfstring{$\ast$}{*}n\+\_\+nod\+\_\+elem, int \texorpdfstring{$\ast$}{*}n\+\_\+edg\+\_\+elem, int \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}p\+\_\+ref\+Edg)
+\begin{DoxyCompactList}\small\item\em Read a mesh file and assign parameters values, coordinates, and edges references numbers. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Header of functions to handle mesh files (read \& write) 
+
+\begin{DoxyWarning}{Warning}
+The mesh files have to be in a specific format 
+
+The domain is supposed to be 2D and rectangular 
+\end{DoxyWarning}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{meshing_8h_acf483d546a0d2fcd5e141eb1d0b400b6}\index{meshing.h@{meshing.h}!etiqAr@{etiqAr}}
+\index{etiqAr@{etiqAr}!meshing.h@{meshing.h}}
+\doxysubsubsection{\texorpdfstring{etiqAr()}{etiqAr()}}
+{\footnotesize\ttfamily \label{meshing_8h_acf483d546a0d2fcd5e141eb1d0b400b6} 
+void etiq\+Ar (\begin{DoxyParamCaption}\item[{int}]{type}{, }\item[{int}]{n1}{, }\item[{int}]{n2}{, }\item[{int}]{ref\+\_\+interior}{, }\item[{const int \texorpdfstring{$\ast$}{*}}]{ref\+\_\+sides}{, }\item[{int}]{n\+\_\+elem}{, }\item[{int}]{n\+\_\+edg\+\_\+elem}{, }\item[{int \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{ref\+Edg}{}\end{DoxyParamCaption})}
+
+
+
+Fill the 2 dim tab ref\+Edg with reference number for each edge of each element. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em type} & type of the element (1\+: quadrangle, 2\+:triangle) \\
+\hline
+{\em n1} & number of node on the x-\/axis of the domain \\
+\hline
+{\em n2} & number of node on the x-\/axis of the domain \\
+\hline
+{\em ref\+\_\+interior} & reference number for edges inside the domain (usually 0) \\
+\hline
+{\em ref\+\_\+sides} & array of reference numbers for each domain sides \\
+\hline
+{\em n\+\_\+elem} & number of element of the mesh \\
+\hline
+{\em n\+\_\+edg\+\_\+elem} & number of edges per element \\
+\hline
+{\em ref\+Edg} & result \+: matrix of reference number for each edge of each element \\
+\hline
+\end{DoxyParams}
+\Hypertarget{meshing_8h_a85975f2b45b9f96ac1ecc947f1d07fa0}\index{meshing.h@{meshing.h}!read\_mesh@{read\_mesh}}
+\index{read\_mesh@{read\_mesh}!meshing.h@{meshing.h}}
+\doxysubsubsection{\texorpdfstring{read\_mesh()}{read\_mesh()}}
+{\footnotesize\ttfamily \label{meshing_8h_a85975f2b45b9f96ac1ecc947f1d07fa0} 
+int read\+\_\+mesh (\begin{DoxyParamCaption}\item[{char \texorpdfstring{$\ast$}{*}}]{input\+\_\+mesh}{, }\item[{int \texorpdfstring{$\ast$}{*}}]{type}{, }\item[{int \texorpdfstring{$\ast$}{*}}]{n\+\_\+nod}{, }\item[{float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{p\+\_\+coords}{, }\item[{int \texorpdfstring{$\ast$}{*}}]{n\+\_\+elem}{, }\item[{int \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{p\+\_\+nod\+\_\+g\+Nb}{, }\item[{int \texorpdfstring{$\ast$}{*}}]{n\+\_\+nod\+\_\+elem}{, }\item[{int \texorpdfstring{$\ast$}{*}}]{n\+\_\+edg\+\_\+elem}{, }\item[{int \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{p\+\_\+ref\+Edg}{}\end{DoxyParamCaption})}
+
+
+
+Read a mesh file and assign parameters values, coordinates, and edges references numbers. 
+
+\begin{DoxyWarning}{Warning}
+Every parameter to be assigned and the two 2 dimensional tabs (coords, g\+Nb\+\_\+node, ref\+Edg) are passed as pointers . 
+
+p\+\_\+coords, p\+\_\+ref\+Edg and p\+\_\+nod\+\_\+g\+Nb are supposed to be empty pointers that aren\textquotesingle{}t allocated yet
+\end{DoxyWarning}
+
+\begin{DoxyParams}{Parameters}
+{\em input\+\_\+mesh} & mesh file\textquotesingle{}s relative path \\
+\hline
+{\em type} & (pointer to) type of the element (1\+: quadrangle, 2\+:triangle) \\
+\hline
+{\em n\+\_\+nod} & (pointer to) total number of nodes \\
+\hline
+{\em p\+\_\+coords} & (pointer to) nodes\textquotesingle{} coordinates \\
+\hline
+{\em n\+\_\+elem} & (pointer to) number of element \\
+\hline
+{\em p\+\_\+nod\+\_\+g\+Nb} & (pointer to) matrix that contains nodes\textquotesingle{} global number for each element \\
+\hline
+{\em n\+\_\+nod\+\_\+elem} & (pointer to) number of nodes per element \\
+\hline
+{\em n\+\_\+edg\+\_\+elem} & (pointer to) number of edges per element \\
+\hline
+{\em p\+\_\+ref\+Edg} & (pointer to) matrix that contains edges reference number for each element\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0\+: successfully reading, -\/1 \+: error when opening the mesh file
+\end{DoxyReturn}
+Read a mesh file and assign parameters values, coordinates, and edges references numbers. \Hypertarget{meshing_8h_a8b9f6bb116959edc6b0f43b8eaff17bd}\index{meshing.h@{meshing.h}!write\_mesh@{write\_mesh}}
+\index{write\_mesh@{write\_mesh}!meshing.h@{meshing.h}}
+\doxysubsubsection{\texorpdfstring{write\_mesh()}{write\_mesh()}}
+{\footnotesize\ttfamily \label{meshing_8h_a8b9f6bb116959edc6b0f43b8eaff17bd} 
+void write\+\_\+mesh (\begin{DoxyParamCaption}\item[{float}]{a}{, }\item[{float}]{b}{, }\item[{float}]{c}{, }\item[{float}]{d}{, }\item[{int}]{n1}{, }\item[{int}]{n2}{, }\item[{int}]{t}{, }\item[{int}]{ref\+\_\+interior}{, }\item[{const int \texorpdfstring{$\ast$}{*}}]{ref\+\_\+sides}{, }\item[{char \texorpdfstring{$\ast$}{*}}]{mesh\+\_\+out\+\_\+path}{}\end{DoxyParamCaption})}
+
+
+
+Write a mesh file based on domain discretization parameters. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & x\+\_\+coordinate of the domain\textquotesingle{}s bottom right corner \\
+\hline
+{\em b} & x\+\_\+coordinate of the domain\textquotesingle{}s bottom left corner \\
+\hline
+{\em c} & y\+\_\+coordinate of the domain\textquotesingle{}s bottom right corner \\
+\hline
+{\em d} & y\+\_\+coordinate of the domain\textquotesingle{}s top right corner \\
+\hline
+{\em n1} & number of node on the x-\/axis of the domain \\
+\hline
+{\em n2} & number of node on the y-\/axis of the domain \\
+\hline
+{\em t} & type of the element (1\+: quadrangle, 2\+:triangle) \\
+\hline
+{\em ref\+\_\+interior} & reference number for edges inside the domain (usually 0) \\
+\hline
+{\em ref\+\_\+sides} & array of reference numbers for each domain sides \\
+\hline
+{\em mesh\+\_\+out\+\_\+path} & string for the relative path of the mesh file to write \\
+\hline
+\end{DoxyParams}

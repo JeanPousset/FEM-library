@@ -1,24 +1,29 @@
+/**
+ * @file meshing.c
+ * @brief Functions to handle mesh files (read & write)
+ * @warning The mesh files have to be in a specific format
+ * @warning The domain is supposed to be 2D and rectangular
+ */
 #include "meshing.h"
 #include "tab_mngmt.h"
 #include <stdio.h>
 
 
-// Fill the 2 dim tab refEdg with reference number for each edge of each element
-void etiqAr(int type_el, int n1, int n2, int ref_domain, const int *ref_sides,int n_elem, int n_edges, int **refEdg)
+/// Fill the 2 dim tab refEdg with reference number for each edge of each element
+void etiqAr(int type, int n1, int n2, int ref_interior, const int *ref_sides,int n_elem, int n_edg_elem, int **refEdg)
 {
     int i,j;
 
     // Fill everything at r0
     for (i=0; i<n_elem; i++) {
-        for (j=0; j<n_edges; j++){
-            refEdg[i][j] = ref_domain;
+        for (j=0; j<n_edg_elem; j++){
+            refEdg[i][j] = ref_interior;
         }
     }
 
-    switch (type_el) {
+    switch (type) {
 
         case 1 : // Quadrangle
-
             // Lower and upper bound of the domain
             for (i=0; i<n1-1; i++){
                 refEdg[i][3] = ref_sides[0];
@@ -45,11 +50,12 @@ void etiqAr(int type_el, int n1, int n2, int ref_domain, const int *ref_sides,in
             break;
 
         default:
-            printf("Unknown type t = %d for 'etiqAr' function",type_el);
+            printf("Unknown type t = %d for 'etiqAr' function",type);
             perror("Error : Unvalid parameter");
     }
 }
 
+/// Write a mesh file based on domain discretization parameters
 void write_mesh(float a, float b, float c, float d, int n1, int n2, int t, int ref_interior, const int* ref_sides, char* mesh_out_path)
 {
     int i,j,k;
@@ -135,12 +141,12 @@ void write_mesh(float a, float b, float c, float d, int n1, int n2, int t, int r
     fclose(mesh_f); // Close mesh output file
 }
 
-// Read a mesh file and assign parameters values, coordinates, node global numbers, and edges references numbers
-int read_mesh(char* input_mesh, int *type, int* n_nod, float*** p_coords, int* n_elem, int*** p_nod_gNb, int *n_nod_elem, int* n_edg_elem, int*** p_refEdg)
+/// Read a mesh file and assign parameters values, coordinates, node global numbers, and edges references numbers
+int read_mesh(const char *input_mesh, int *type, int* n_nod, float*** p_coords, int* n_elem, int*** p_nod_gNb, int *n_nod_elem, int* n_edg_elem, int*** p_refEdg)
 {
     int i,j;
 
-    // Opening meshfile in readmode
+    // Opening meshfile in read mode
     FILE *mesh_f = fopen(input_mesh, "r");	// mode 'w' for reading
     if (mesh_f == (FILE*)NULL) {
         printf("Error when trying to open the input (mesh) file : '%s' in read_mesh function", input_mesh);

@@ -1,0 +1,120 @@
+\doxysection{tab\+\_\+mngmt.\+h File Reference}
+\hypertarget{tab__mngmt_8h}{}\label{tab__mngmt_8h}\index{tab\_mngmt.h@{tab\_mngmt.h}}
+
+
+Header for functions that handle memory for dynamically allocated matrices.  
+
+
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{tab__mngmt_8h_a440147274078974fc6da18336a18fb0e}{mat\+F\+\_\+alloc}} (int dim1, int dim2)
+\begin{DoxyCompactList}\small\item\em This function allocates memory to store a matrix of dimensions dim1 x dim2 of type float. \end{DoxyCompactList}\item 
+int \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{tab__mngmt_8h_a3b282ab3e52de66a8c96ae1140b73cf9}{mat\+I\+\_\+alloc}} (int dim1, int dim2)
+\begin{DoxyCompactList}\small\item\em This function allocates memory to store an integer matrix of dimensions dim1 x dim2 (element type \+: int) \end{DoxyCompactList}\item 
+float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{tab__mngmt_8h_a806c62cbb733e9a5330048ac725637fc}{mat\+F\+\_\+alloc0}} (int dim1, int dim2)
+\begin{DoxyCompactList}\small\item\em This function allocates memory to store a null (each element = 0) matrix of dimensions dim1 x dim2 of type float. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{tab__mngmt_8h_a0fa27e66ffc9ad40b2755d661407fc16}{free\+\_\+mat}} (void \texorpdfstring{$\ast$}{*}ptr)
+\begin{DoxyCompactList}\small\item\em free memory that has been allocated by mat\+F\+\_\+alloc, mat\+I\+\_\+alloc or mat\+F\+\_\+alloc0 \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Header for functions that handle memory for dynamically allocated matrices. 
+
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{tab__mngmt_8h_a0fa27e66ffc9ad40b2755d661407fc16}\index{tab\_mngmt.h@{tab\_mngmt.h}!free\_mat@{free\_mat}}
+\index{free\_mat@{free\_mat}!tab\_mngmt.h@{tab\_mngmt.h}}
+\doxysubsubsection{\texorpdfstring{free\_mat()}{free\_mat()}}
+{\footnotesize\ttfamily \label{tab__mngmt_8h_a0fa27e66ffc9ad40b2755d661407fc16} 
+void free\+\_\+mat (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{ptr}{}\end{DoxyParamCaption})}
+
+
+
+free memory that has been allocated by mat\+F\+\_\+alloc, mat\+I\+\_\+alloc or mat\+F\+\_\+alloc0 
+
+\begin{DoxyWarning}{Warning}
+Not use for 1-\/dimensional container !
+\end{DoxyWarning}
+
+\begin{DoxyParams}{Parameters}
+{\em ptr} & double-\/pointer that handles the matrix to be cleaned\\
+\hline
+\end{DoxyParams}
+free memory that has been allocated by mat\+F\+\_\+alloc, mat\+I\+\_\+alloc or mat\+F\+\_\+alloc0 \Hypertarget{tab__mngmt_8h_a440147274078974fc6da18336a18fb0e}\index{tab\_mngmt.h@{tab\_mngmt.h}!matF\_alloc@{matF\_alloc}}
+\index{matF\_alloc@{matF\_alloc}!tab\_mngmt.h@{tab\_mngmt.h}}
+\doxysubsubsection{\texorpdfstring{matF\_alloc()}{matF\_alloc()}}
+{\footnotesize\ttfamily \label{tab__mngmt_8h_a440147274078974fc6da18336a18fb0e} 
+float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} mat\+F\+\_\+alloc (\begin{DoxyParamCaption}\item[{int}]{dim1}{, }\item[{int}]{dim2}{}\end{DoxyParamCaption})}
+
+
+
+This function allocates memory to store a matrix of dimensions dim1 x dim2 of type float. 
+
+The function allocates an array of pointers (ptr) each of whose dim1 elements points to a zone of dim2 elements.
+
+The function returns NULL if an error occurs during allocation.
+
+The allocated memory can be freed by calling freetab. Note\+: The useful elements of the matrix are arranged consecutively in memory, in dim1 blocks of dim2 elements each. It follows that this set can be transmitted to a Fortran procedure via the value of ptr\mbox{[}0\mbox{]}, as a single array of dimensions (dim2, dim1). We therefore have the following addressing correspondence (ptr\mbox{[}i\mbox{]}\mbox{[}j\mbox{]} and tab(j,i) designate the same element)\+:
+\begin{DoxyItemize}
+\item C language\+: ptr\mbox{[}i\mbox{]}\mbox{[}j\mbox{]}, i=0,dim1-\/1, j=0,dim2-\/1, Matrix elements are then referred to using the two-\/index notation indicated above.
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}{Parameters}
+{\em dim1} & number of rows \\
+\hline
+{\em dim2} & number of columns\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+double-\/pointer to handle the matrix
+\end{DoxyReturn}
+This function allocates memory to store a matrix of dimensions dim1 x dim2 of type float. \Hypertarget{tab__mngmt_8h_a806c62cbb733e9a5330048ac725637fc}\index{tab\_mngmt.h@{tab\_mngmt.h}!matF\_alloc0@{matF\_alloc0}}
+\index{matF\_alloc0@{matF\_alloc0}!tab\_mngmt.h@{tab\_mngmt.h}}
+\doxysubsubsection{\texorpdfstring{matF\_alloc0()}{matF\_alloc0()}}
+{\footnotesize\ttfamily \label{tab__mngmt_8h_a806c62cbb733e9a5330048ac725637fc} 
+float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} mat\+F\+\_\+alloc0 (\begin{DoxyParamCaption}\item[{int}]{dim1}{, }\item[{int}]{dim2}{}\end{DoxyParamCaption})}
+
+
+
+This function allocates memory to store a null (each element = 0) matrix of dimensions dim1 x dim2 of type float. 
+
+Same as mat\+F\+\_\+alloc (\begin{DoxySeeAlso}{See also}
+\doxylink{tab__mngmt_8h_a440147274078974fc6da18336a18fb0e}{mat\+F\+\_\+alloc}) but every element of the matrix is initialized to 0
+\end{DoxySeeAlso}
+
+\begin{DoxyParams}{Parameters}
+{\em dim1} & number of rows \\
+\hline
+{\em dim2} & number of columns\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+double-\/pointer to handle the matrix
+\end{DoxyReturn}
+This function allocates memory to store a null (each element = 0) matrix of dimensions dim1 x dim2 of type float. \Hypertarget{tab__mngmt_8h_a3b282ab3e52de66a8c96ae1140b73cf9}\index{tab\_mngmt.h@{tab\_mngmt.h}!matI\_alloc@{matI\_alloc}}
+\index{matI\_alloc@{matI\_alloc}!tab\_mngmt.h@{tab\_mngmt.h}}
+\doxysubsubsection{\texorpdfstring{matI\_alloc()}{matI\_alloc()}}
+{\footnotesize\ttfamily \label{tab__mngmt_8h_a3b282ab3e52de66a8c96ae1140b73cf9} 
+int \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} mat\+I\+\_\+alloc (\begin{DoxyParamCaption}\item[{int}]{dim1}{, }\item[{int}]{dim2}{}\end{DoxyParamCaption})}
+
+
+
+This function allocates memory to store an integer matrix of dimensions dim1 x dim2 (element type \+: int) 
+
+Same as mat\+F\+\_\+alloc (\begin{DoxySeeAlso}{See also}
+\doxylink{tab__mngmt_8h_a440147274078974fc6da18336a18fb0e}{mat\+F\+\_\+alloc}) but for int
+\end{DoxySeeAlso}
+
+\begin{DoxyParams}{Parameters}
+{\em dim1} & number of rows \\
+\hline
+{\em dim2} & number of columns\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+double-\/pointer to handle the matrix
+\end{DoxyReturn}
+This function allocates memory to store an integer matrix of dimensions dim1 x dim2 (element type \+: int) 

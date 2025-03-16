@@ -1,6 +1,6 @@
 CC = clang
 CFLAGS =-Wall -pedantic-errors -MMD # -MMD : automatic generation of dependance files (.d)
-LDFLAGS= #-lm -llapack
+LDFLAGS= -lm #-llapack
 
 EXEC := main
 SRCS := $(EXEC).c meshing.c tab_mngmt.c elem_eval.c unit_tests.c  # list of source files

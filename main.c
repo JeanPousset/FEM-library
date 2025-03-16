@@ -1,3 +1,10 @@
+/**
+ * @file main.c
+ * @brief Here we lunch every unit test
+ *
+ * @details The mesh files data to lunch test are located in the Mesh_files folder
+ */
+
 #include "meshing.h"
 #include "unit_tests.h"
 #include "elem_eval.h"

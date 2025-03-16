@@ -1,57 +1,70 @@
+/**
+ * @file tab_mngmt.h
+ * @brief Header for functions that handle memory for dynamically allocated matrices
+ */
+
 #ifndef FEM_PROJECT_TAB_MNGMT_H
 #define FEM_PROJECT_TAB_MNGMT_H
 
-/*
---------------------------------------------------------------------------------
-  Cette fonction alloue de la memoire pour stocker une matrice de dimensions
-  dim1 x dim2 de type float. La fonction alloue un tableau de pointeurs (ptr)
-  dont chacun des dim1 elements pointe vers une zone de dim2 elements.
+/**
+ * @brief  This function allocates memory to store a matrix of dimensions dim1 x dim2 of type float
+ *
+ * @details The function allocates an array of pointers (ptr)
+  each of whose dim1 elements points to a zone of dim2 elements.
 
-  La fonction renvoie NULL en cas d'erreur lors de l'allocation.
+  The function returns NULL if an error occurs during allocation.
 
-  La liberation de la memoire allouee peut etre faite par appel a freetab.
-  Remarque :
-    Les elements utiles de la matrice sont ranges consecutivement en memoire,
-    en dim1 blocs de dim2 elements chacun. Il s'ensuit que cet ensemble peut
-    etre transmis a une procedure Fortran via la valeur de ptr[0], comme un seul
-    tableau de dimensions (dim2, dim1). On a donc la correspondance d'adressage
-    suivante (ptr[i][j] et tab(j,i) designent le meme element) :
-      - langage C : ptr[i][j], i=0,dim1-1, j=0,dim2-1,
-      - Fortran   : tab(j,i),  i=1,dim1,   j=1,dim2.
-    En pratique, etant donnees le sous-programme Fortran :
-      subroutine trucF (tab,nbli,nbco)
-      integer nbli, nbco
-      real tab(nbli, nbco)
-    et la fonction C :
-      void trucC(float **ptr)
-    l'allocation de memoire et les appels se feront de la maniere suivante :
-      ptr = matF_alloc(nbco, nbli);
-      FORTRANNAME(trucF) (ptr[0], nbli, nbco);
-      trucC (ptr);
-    La reference aux elements de la matrice se font alors par la notation a
-    deux indices indiquee ci-dessus.
---------------------------------------------------------------------------------
-*/
+  The allocated memory can be freed by calling freetab.
+  Note:
+    The useful elements of the matrix are arranged consecutively in memory,
+    in dim1 blocks of dim2 elements each. It follows that this set can
+    be transmitted to a Fortran procedure via the value of ptr[0], as a single
+    array of dimensions (dim2, dim1). We therefore have the following addressing correspondence
+    (ptr[i][j] and tab(j,i) designate the same element):
+      - C language: ptr[i][j], i=0,dim1-1, j=0,dim2-1,
+    Matrix elements are then referred to using the two-index notation indicated above.
+
+ * @param dim1 number of rows
+ * @param dim2 number of columns
+ *
+ * @return double-pointer to handle the matrix
+ */
 float **matF_alloc(int dim1, int dim2);
 
-
-/*
-    Same but with a Integer tab
-*/
+/**
+ * @brief  This function allocates memory to store an integer matrix of dimensions dim1 x dim2 (element type : int)
+ *
+ * @details Same as matF_alloc (@see matF_alloc) but for int
+ *
+ * @param dim1 number of rows
+ * @param dim2 number of columns
+ *
+ * @return double-pointer to handle the matrix
+ */
 int **matI_alloc(int dim1, int dim2);
 
-/*
-    Once again float but every element is set to 0.0 (calloc)
-*/
+
+/**
+ * @brief  This function allocates memory to store a null (each element = 0) matrix of dimensions dim1 x dim2 of type float
+ *
+ * @details Same as matF_alloc (@see matF_alloc) but every element of the matrix is initialized to 0
+ *
+ * @param dim1 number of rows
+ * @param dim2 number of columns
+ *
+ * @return double-pointer to handle the matrix
+ */
 float **matF_alloc0(int dim1, int dim2);
 
 
 
-/*
---------------------------------------------------------------------------------
-  Cette fonction libere la memoire allouee par matF_alloc or matI_alloc.
---------------------------------------------------------------------------------
-*/
+/**
+ * @brief free memory that has been allocated by matF_alloc, matI_alloc or matF_alloc0
+ *
+ * @warning Not use for 1-dimensional container !
+ *
+ * @param ptr double-pointer that handles the matrix to be cleaned
+ */
 void free_mat(void *ptr);
 
 #endif //FEM_PROJECT_TAB_MNGMT_H

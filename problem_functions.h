@@ -1,5 +1,11 @@
+/**
+ * @file problem_functions.h
+ * @brief Implementations of mathematical function associated to the physical problem to be addressed
+ */
+
 #ifndef FEM_PROJECT_PROBLEM_FUNCTIONS_H
 #define FEM_PROJECT_PROBLEM_FUNCTIONS_H
+
 
 float a00(const float* x) { return 0;}
 

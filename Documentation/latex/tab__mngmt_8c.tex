@@ -1,0 +1,68 @@
+\doxysection{tab\+\_\+mngmt.\+c File Reference}
+\hypertarget{tab__mngmt_8c}{}\label{tab__mngmt_8c}\index{tab\_mngmt.c@{tab\_mngmt.c}}
+
+
+Functions that handle memory for dynamically allocated matrices.  
+
+
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{tab__mngmt_8c_a806c62cbb733e9a5330048ac725637fc}{mat\+F\+\_\+alloc0}} (int dim1, int dim2)
+\begin{DoxyCompactList}\small\item\em Allocate a 2-\/dimensional tab (matrix) of float dynamically with value 0.\+0 for each element. \end{DoxyCompactList}\item 
+float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{tab__mngmt_8c_a440147274078974fc6da18336a18fb0e}{mat\+F\+\_\+alloc}} (int dim1, int dim2)
+\begin{DoxyCompactList}\small\item\em Allocate a 2-\/dimensional tab (matrix) of float dynamically. \end{DoxyCompactList}\item 
+int \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} \mbox{\hyperlink{tab__mngmt_8c_a3b282ab3e52de66a8c96ae1140b73cf9}{mat\+I\+\_\+alloc}} (int dim1, int dim2)
+\begin{DoxyCompactList}\small\item\em Allocate a 2-\/dimensional tab (matrix) of integer dynamically. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{tab__mngmt_8c_a0fa27e66ffc9ad40b2755d661407fc16}{free\+\_\+mat}} (void \texorpdfstring{$\ast$}{*}ptr)
+\begin{DoxyCompactList}\small\item\em Free memory that has been allocated by mat\+F\+\_\+alloc / mat\+I\+\_\+alloc. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Functions that handle memory for dynamically allocated matrices. 
+
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{tab__mngmt_8c_a0fa27e66ffc9ad40b2755d661407fc16}\index{tab\_mngmt.c@{tab\_mngmt.c}!free\_mat@{free\_mat}}
+\index{free\_mat@{free\_mat}!tab\_mngmt.c@{tab\_mngmt.c}}
+\doxysubsubsection{\texorpdfstring{free\_mat()}{free\_mat()}}
+{\footnotesize\ttfamily \label{tab__mngmt_8c_a0fa27e66ffc9ad40b2755d661407fc16} 
+void free\+\_\+mat (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{ptr}{}\end{DoxyParamCaption})}
+
+
+
+Free memory that has been allocated by mat\+F\+\_\+alloc / mat\+I\+\_\+alloc. 
+
+free memory that has been allocated by mat\+F\+\_\+alloc, mat\+I\+\_\+alloc or mat\+F\+\_\+alloc0 \Hypertarget{tab__mngmt_8c_a440147274078974fc6da18336a18fb0e}\index{tab\_mngmt.c@{tab\_mngmt.c}!matF\_alloc@{matF\_alloc}}
+\index{matF\_alloc@{matF\_alloc}!tab\_mngmt.c@{tab\_mngmt.c}}
+\doxysubsubsection{\texorpdfstring{matF\_alloc()}{matF\_alloc()}}
+{\footnotesize\ttfamily \label{tab__mngmt_8c_a440147274078974fc6da18336a18fb0e} 
+float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} mat\+F\+\_\+alloc (\begin{DoxyParamCaption}\item[{int}]{dim1}{, }\item[{int}]{dim2}{}\end{DoxyParamCaption})}
+
+
+
+Allocate a 2-\/dimensional tab (matrix) of float dynamically. 
+
+This function allocates memory to store a matrix of dimensions dim1 x dim2 of type float. \Hypertarget{tab__mngmt_8c_a806c62cbb733e9a5330048ac725637fc}\index{tab\_mngmt.c@{tab\_mngmt.c}!matF\_alloc0@{matF\_alloc0}}
+\index{matF\_alloc0@{matF\_alloc0}!tab\_mngmt.c@{tab\_mngmt.c}}
+\doxysubsubsection{\texorpdfstring{matF\_alloc0()}{matF\_alloc0()}}
+{\footnotesize\ttfamily \label{tab__mngmt_8c_a806c62cbb733e9a5330048ac725637fc} 
+float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} mat\+F\+\_\+alloc0 (\begin{DoxyParamCaption}\item[{int}]{dim1}{, }\item[{int}]{dim2}{}\end{DoxyParamCaption})}
+
+
+
+Allocate a 2-\/dimensional tab (matrix) of float dynamically with value 0.\+0 for each element. 
+
+This function allocates memory to store a null (each element = 0) matrix of dimensions dim1 x dim2 of type float. \Hypertarget{tab__mngmt_8c_a3b282ab3e52de66a8c96ae1140b73cf9}\index{tab\_mngmt.c@{tab\_mngmt.c}!matI\_alloc@{matI\_alloc}}
+\index{matI\_alloc@{matI\_alloc}!tab\_mngmt.c@{tab\_mngmt.c}}
+\doxysubsubsection{\texorpdfstring{matI\_alloc()}{matI\_alloc()}}
+{\footnotesize\ttfamily \label{tab__mngmt_8c_a3b282ab3e52de66a8c96ae1140b73cf9} 
+int \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} mat\+I\+\_\+alloc (\begin{DoxyParamCaption}\item[{int}]{dim1}{, }\item[{int}]{dim2}{}\end{DoxyParamCaption})}
+
+
+
+Allocate a 2-\/dimensional tab (matrix) of integer dynamically. 
+
+This function allocates memory to store an integer matrix of dimensions dim1 x dim2 (element type \+: int) 

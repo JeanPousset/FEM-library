@@ -5,7 +5,7 @@ The goal of this school project was to understand how a FEM solver works. To do 
 ## Documentation
 
 This project is divided into several modules to handle every steps needed to solve a physical problem with a Finite Element Method. 
-[Full documentation is available here](Documentation/html/index.html) (created with doxygen).
+[Full documentation is available here](https://jeanpousset.github.io/FEM-library/Documentation/html/files.html) (created with doxygen).
 
 ## License 
 

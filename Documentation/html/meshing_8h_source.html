@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>My Project: meshing.h Source File</title>
+<title>FEM-library: meshing.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">My Project
+   <div id="projectname">FEM-library
    </div>
   </td>
     <td>        <div id="MSearchBox" class="MSearchBoxInactive">
@@ -115,12 +115,12 @@ $(function(){initNavTree('meshing_8h_source.html',''); initResizable(true); });
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="keywordtype">void</span> <a class="code hl_function" href="meshing_8h.html#a8b9f6bb116959edc6b0f43b8eaff17bd">write_mesh</a>(<span class="keywordtype">float</span> a, <span class="keywordtype">float</span> b, <span class="keywordtype">float</span> c, <span class="keywordtype">float</span> d, <span class="keywordtype">int</span> n1, <span class="keywordtype">int</span> n2, <span class="keywordtype">int</span> t, <span class="keywordtype">int</span> ref_interior, <span class="keyword">const</span> <span class="keywordtype">int</span>* ref_sides, <span class="keywordtype">char</span>* mesh_out_path);</div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span></div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="keywordtype">int</span> <a class="code hl_function" href="meshing_8h.html#a85975f2b45b9f96ac1ecc947f1d07fa0">read_mesh</a>(<span class="keywordtype">char</span>* input_mesh, <span class="keywordtype">int</span> *type, <span class="keywordtype">int</span>* n_nod, <span class="keywordtype">float</span>*** p_coords, <span class="keywordtype">int</span>* n_elem, <span class="keywordtype">int</span>*** p_nod_gNb, <span class="keywordtype">int</span> *n_nod_elem, <span class="keywordtype">int</span>* n_edg_elem, <span class="keywordtype">int</span>*** p_refEdg);</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="keywordtype">int</span> <a class="code hl_function" href="meshing_8h.html#ade081787e58bde11508b93fa724a6c3a">read_mesh</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *input_mesh, <span class="keywordtype">int</span> *type, <span class="keywordtype">int</span>* n_nod, <span class="keywordtype">float</span>*** p_coords, <span class="keywordtype">int</span>* n_elem, <span class="keywordtype">int</span>*** p_nod_gNb, <span class="keywordtype">int</span> *n_nod_elem, <span class="keywordtype">int</span>* n_edg_elem, <span class="keywordtype">int</span>*** p_refEdg);</div>
 <div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="preprocessor">#endif </span><span class="comment">//FEM_PROJECT_MESHING_H</span></div>
-<div class="ttc" id="ameshing_8h_html_a85975f2b45b9f96ac1ecc947f1d07fa0"><div class="ttname"><a href="meshing_8h.html#a85975f2b45b9f96ac1ecc947f1d07fa0">read_mesh</a></div><div class="ttdeci">int read_mesh(char *input_mesh, int *type, int *n_nod, float ***p_coords, int *n_elem, int ***p_nod_gNb, int *n_nod_elem, int *n_edg_elem, int ***p_refEdg)</div><div class="ttdoc">Read a mesh file and assign parameters values, coordinates, and edges references numbers.</div><div class="ttdef"><b>Definition</b> meshing.c:145</div></div>
 <div class="ttc" id="ameshing_8h_html_a8b9f6bb116959edc6b0f43b8eaff17bd"><div class="ttname"><a href="meshing_8h.html#a8b9f6bb116959edc6b0f43b8eaff17bd">write_mesh</a></div><div class="ttdeci">void write_mesh(float a, float b, float c, float d, int n1, int n2, int t, int ref_interior, const int *ref_sides, char *mesh_out_path)</div><div class="ttdoc">Write a mesh file based on domain discretization parameters.</div><div class="ttdef"><b>Definition</b> meshing.c:59</div></div>
 <div class="ttc" id="ameshing_8h_html_acf483d546a0d2fcd5e141eb1d0b400b6"><div class="ttname"><a href="meshing_8h.html#acf483d546a0d2fcd5e141eb1d0b400b6">etiqAr</a></div><div class="ttdeci">void etiqAr(int type, int n1, int n2, int ref_interior, const int *ref_sides, int n_elem, int n_edg_elem, int **refEdg)</div><div class="ttdoc">Fill the 2 dim tab refEdg with reference number for each edge of each element.</div><div class="ttdef"><b>Definition</b> meshing.c:13</div></div>
+<div class="ttc" id="ameshing_8h_html_ade081787e58bde11508b93fa724a6c3a"><div class="ttname"><a href="meshing_8h.html#ade081787e58bde11508b93fa724a6c3a">read_mesh</a></div><div class="ttdeci">int read_mesh(const char *input_mesh, int *type, int *n_nod, float ***p_coords, int *n_elem, int ***p_nod_gNb, int *n_nod_elem, int *n_edg_elem, int ***p_refEdg)</div><div class="ttdoc">Read a mesh file and assign parameters values, coordinates, and edges references numbers.</div><div class="ttdef"><b>Definition</b> meshing.c:145</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

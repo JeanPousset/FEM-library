@@ -24,7 +24,10 @@
 */
 var NAVTREE =
 [
-  [ "My Project", "index.html", [
+  [ "FEM-library", "index.html", [
+    [ "Finite Element Method library", "md__read_me.html", [
+      [ "Documentation", "md__read_me.html#autotoc_md1", null ]
+    ] ],
     [ "Files", "files.html", [
       [ "File List", "files.html", "files_dup" ],
       [ "Globals", "globals.html", [

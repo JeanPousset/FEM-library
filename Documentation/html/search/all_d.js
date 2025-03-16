@@ -1,10 +1,4 @@
 var searchData=
 [
-  ['tab_5fmngmt_2ec_0',['tab_mngmt.c',['../tab__mngmt_8c.html',1,'']]],
-  ['tab_5fmngmt_2eh_1',['tab_mngmt.h',['../tab__mngmt_8h.html',1,'']]],
-  ['test_5feval_5fk_2',['test_eval_K',['../unit__tests_8c.html#a45ecb24a34e00c489f387bfe3586c2ea',1,'test_eval_K(const char *mesh_file):&#160;unit_tests.c'],['../unit__tests_8h.html#a45ecb24a34e00c489f387bfe3586c2ea',1,'test_eval_K(const char *mesh_file):&#160;unit_tests.c']]],
-  ['test_5finv2x2_3',['test_inv2x2',['../unit__tests_8c.html#a5de9685adea17a3997d203734de0b3e7',1,'test_inv2x2(void):&#160;unit_tests.c'],['../unit__tests_8h.html#a5de9685adea17a3997d203734de0b3e7',1,'test_inv2x2(void):&#160;unit_tests.c']]],
-  ['test_5fread_5fmesh_4',['test_read_mesh',['../unit__tests_8c.html#abd23dd2dfe7c564f5a5e145940d33c38',1,'test_read_mesh(char *input_mesh, char *out_check_mesh):&#160;unit_tests.c'],['../unit__tests_8h.html#abd23dd2dfe7c564f5a5e145940d33c38',1,'test_read_mesh(char *input_mesh, char *out_check_mesh):&#160;unit_tests.c']]],
-  ['test_5fwrite_5fmesh_5',['test_write_mesh',['../unit__tests_8c.html#ae39a46f46008a61d86967d3f5b645075',1,'test_write_mesh(float a, float b, float c, float d, int n1, int n2, int t, int nrefdom, const int *nrefcot, char *mesh_file_path, char *correct_mesh_file):&#160;unit_tests.c'],['../unit__tests_8h.html#ae39a46f46008a61d86967d3f5b645075',1,'test_write_mesh(float a, float b, float c, float d, int n1, int n2, int t, int nrefdom, const int *nrefcot, char *mesh_file_path, char *correct_mesh_file):&#160;unit_tests.c']]],
-  ['transfk_6',['transFK',['../elem__eval_8c.html#ab87ad12377de19e865ea3c74b61ca111',1,'transFK(int q, const float **a_K, const float *w_hat_x_hat, float *Fk_x_hat):&#160;elem_eval.c'],['../elem__eval_8h.html#ab87ad12377de19e865ea3c74b61ca111',1,'transFK(int q, const float **a_K, const float *w_hat_x_hat, float *Fk_x_hat):&#160;elem_eval.c']]]
+  ['selectpts_0',['selectPts',['../elem__eval_8c.html#aab25700c4cb50662e141408f6b85a663',1,'selectPts(int n_pts, const int pts_nb[], float *coordSet[], float *select_coord[]):&#160;elem_eval.c'],['../elem__eval_8h.html#aab25700c4cb50662e141408f6b85a663',1,'selectPts(int n_pts, const int pts_nb[], float *coordSet[], float *select_coord[]):&#160;elem_eval.c']]]
 ];

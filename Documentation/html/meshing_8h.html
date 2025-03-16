@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>My Project: meshing.h File Reference</title>
+<title>FEM-library: meshing.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -32,7 +32,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">My Project
+   <div id="projectname">FEM-library
    </div>
   </td>
     <td>        <div id="MSearchBox" class="MSearchBoxInactive">
@@ -121,9 +121,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a8b9f6bb116959edc6b0f43b8eaff17bd" id="r_a8b9f6bb116959edc6b0f43b8eaff17bd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8b9f6bb116959edc6b0f43b8eaff17bd">write_mesh</a> (float a, float b, float c, float d, int n1, int n2, int t, int ref_interior, const int *ref_sides, char *mesh_out_path)</td></tr>
 <tr class="memdesc:a8b9f6bb116959edc6b0f43b8eaff17bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write a mesh file based on domain discretization parameters.  <br /></td></tr>
 <tr class="separator:a8b9f6bb116959edc6b0f43b8eaff17bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a85975f2b45b9f96ac1ecc947f1d07fa0" id="r_a85975f2b45b9f96ac1ecc947f1d07fa0"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a85975f2b45b9f96ac1ecc947f1d07fa0">read_mesh</a> (char *input_mesh, int *type, int *n_nod, float ***p_coords, int *n_elem, int ***p_nod_gNb, int *n_nod_elem, int *n_edg_elem, int ***p_refEdg)</td></tr>
-<tr class="memdesc:a85975f2b45b9f96ac1ecc947f1d07fa0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read a mesh file and assign parameters values, coordinates, and edges references numbers.  <br /></td></tr>
-<tr class="separator:a85975f2b45b9f96ac1ecc947f1d07fa0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade081787e58bde11508b93fa724a6c3a" id="r_ade081787e58bde11508b93fa724a6c3a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ade081787e58bde11508b93fa724a6c3a">read_mesh</a> (const char *input_mesh, int *type, int *n_nod, float ***p_coords, int *n_elem, int ***p_nod_gNb, int *n_nod_elem, int *n_edg_elem, int ***p_refEdg)</td></tr>
+<tr class="memdesc:ade081787e58bde11508b93fa724a6c3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read a mesh file and assign parameters values, coordinates, and edges references numbers.  <br /></td></tr>
+<tr class="separator:ade081787e58bde11508b93fa724a6c3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Header of functions to handle mesh files (read &amp; write) </p>
@@ -197,8 +197,8 @@ The domain is supposed to be 2D and rectangular </dd></dl>
 
 </div>
 </div>
-<a id="a85975f2b45b9f96ac1ecc947f1d07fa0" name="a85975f2b45b9f96ac1ecc947f1d07fa0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a85975f2b45b9f96ac1ecc947f1d07fa0">&#9670;&#160;</a></span>read_mesh()</h2>
+<a id="ade081787e58bde11508b93fa724a6c3a" name="ade081787e58bde11508b93fa724a6c3a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade081787e58bde11508b93fa724a6c3a">&#9670;&#160;</a></span>read_mesh()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -206,7 +206,7 @@ The domain is supposed to be 2D and rectangular </dd></dl>
         <tr>
           <td class="memname">int read_mesh </td>
           <td>(</td>
-          <td class="paramtype">char *</td>          <td class="paramname"><span class="paramname"><em>input_mesh</em></span>, </td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>input_mesh</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>

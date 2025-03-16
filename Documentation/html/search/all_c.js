@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['selectpts_0',['selectPts',['../elem__eval_8c.html#aab25700c4cb50662e141408f6b85a663',1,'selectPts(int n_pts, const int pts_nb[], float *coordSet[], float *select_coord[]):&#160;elem_eval.c'],['../elem__eval_8h.html#aab25700c4cb50662e141408f6b85a663',1,'selectPts(int n_pts, const int pts_nb[], float *coordSet[], float *select_coord[]):&#160;elem_eval.c']]]
+  ['read_5fmesh_0',['read_mesh',['../meshing_8c.html#ade081787e58bde11508b93fa724a6c3a',1,'read_mesh(const char *input_mesh, int *type, int *n_nod, float ***p_coords, int *n_elem, int ***p_nod_gNb, int *n_nod_elem, int *n_edg_elem, int ***p_refEdg):&#160;meshing.c'],['../meshing_8h.html#ade081787e58bde11508b93fa724a6c3a',1,'read_mesh(const char *input_mesh, int *type, int *n_nod, float ***p_coords, int *n_elem, int ***p_nod_gNb, int *n_nod_elem, int *n_edg_elem, int ***p_refEdg):&#160;meshing.c']]],
+  ['readme_2emd_1',['ReadMe.md',['../_read_me_8md.html',1,'']]]
 ];

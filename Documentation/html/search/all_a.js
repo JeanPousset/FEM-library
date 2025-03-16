@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['q_5fcontrib_5fgdwdw_0',['q_contrib_gdWdW',['../elem__eval_8c.html#a75316c4602c3f41c1c0a798411fce68d',1,'q_contrib_gdWdW(int n_nod_elem, const float **Dw_x, float diff, const float **g_x, float **sum_contrib):&#160;elem_eval.c'],['../elem__eval_8h.html#a75316c4602c3f41c1c0a798411fce68d',1,'q_contrib_gdWdW(int n_nod_elem, const float **Dw_x, float diff, const float **g_x, float **sum_contrib):&#160;elem_eval.c']]],
-  ['q_5fcontrib_5fgw_1',['q_contrib_gW',['../elem__eval_8c.html#a5f2fabf585679a00a5f90d4814ac257c',1,'q_contrib_gW(int n_nod_elem, const float *w_x, float diff, float g_x, float *sum_contrib):&#160;elem_eval.c'],['../elem__eval_8h.html#a5f2fabf585679a00a5f90d4814ac257c',1,'q_contrib_gW(int n_nod_elem, const float *w_x, float diff, float g_x, float *sum_contrib):&#160;elem_eval.c']]],
-  ['q_5fcontrib_5fgww_2',['q_contrib_gWW',['../elem__eval_8c.html#a8f1685423e8601a5cae4fb560f4dd9ee',1,'q_contrib_gWW(int n_nod_elem, const float *w_x, float diff, float g_x, float **sum_contrib):&#160;elem_eval.c'],['../elem__eval_8h.html#a8f1685423e8601a5cae4fb560f4dd9ee',1,'q_contrib_gWW(int n_nod_elem, const float *w_x, float diff, float g_x, float **sum_contrib):&#160;elem_eval.c']]],
-  ['quad_5forder_3',['quad_order',['../elem__eval_8c.html#a38a249e92ef0dcf0cf8f566dbd595357',1,'quad_order(int t):&#160;elem_eval.c'],['../elem__eval_8h.html#a38a249e92ef0dcf0cf8f566dbd595357',1,'quad_order(int t):&#160;elem_eval.c']]]
+  ['print_5feval_5fk_0',['print_eval_K',['../unit__tests_8c.html#ac8ca575a53014fea8a09a09e0eb5aa79',1,'print_eval_K(int K, int type, int n_nod_elem, float **A_K, float *l_K, int *nodes_D, float *uD_aK):&#160;unit_tests.c'],['../unit__tests_8h.html#ac8ca575a53014fea8a09a09e0eb5aa79',1,'print_eval_K(int K, int type, int n_nod_elem, float **A_K, float *l_K, int *nodes_D, float *uD_aK):&#160;unit_tests.c']]],
+  ['problem_5ffunctions_2eh_1',['problem_functions.h',['../problem__functions_8h.html',1,'']]]
 ];

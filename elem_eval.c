@@ -1,10 +1,12 @@
 /**
- * @file elem_eval.c
- * @brief Functions that evaluate discretization of variational formulation : A_K_ij and l_K_i for the element K
+ * @file elem_eval.h
+ * @brief Header for functions that evaluate discretization of variational formulation : A_K_ij and l_K_i for the element K
  *
  * @warning In these functions, tab allocation is supposed to be done outside the function with correct dimension.
  * @warning We work in a 2-dimensional space.
- * @warning We suppose we approximate the element geometry at the order 1.
+ * @warning We suppose we approximate the element geometry at the degree 1 (N_NOD_EDG : 2) if degree > 1 then it becomes
+ *          a variable that is equal to degree + 1
+ * @warning We suppose dynamical tab of sum of contribution are initialized to 0.
  */
 
 
@@ -62,7 +64,7 @@ void evalDFbase(int t, const float *x_hat, float **Dw_hat_x_hat) {
             Dw_hat_x_hat[2][1] = -1;
             break;
         case 3: // Segment (! Matrix of size 2*1)
-            Dw_hat_x_hat[0][0] = -1;
+            Dw_hat_x_hat[0][0] = 1;
             Dw_hat_x_hat[1][0] = -1;
             break;
         default:
@@ -155,8 +157,8 @@ void wp_quad(int t, float **x_quad_hat, float *weights) {
             // weights
             weight_1 = 1.0 / 6;
             weights[0] = weight_1;
-            weights[0] = weight_1;
-            weights[0] = 4 * weight_1;
+            weights[1] = weight_1;
+            weights[2] = 4 * weight_1;
             // quadrature points (x_i_hat)
             x_quad_hat[0][0] = 1;    // x1
             x_quad_hat[1][0] = 0;    // x2
@@ -170,17 +172,19 @@ void wp_quad(int t, float **x_quad_hat, float *weights) {
 }
 
 /// Evaluates transformation Fk of a point of the reference element x_hat
-void transFK(int q, const float **a_K, const float *w_hat_x_hat, float *Fk_x_hat) {
+void transFK(int n_nod_elem, const float **a_K, const float *w_hat_x_hat, float *Fk_x_hat) {
     Fk_x_hat[0] = 0;
     Fk_x_hat[1] = 0;
-    for (int i = 0; i < q; i++) {
+    for (int i = 0; i < n_nod_elem; i++) {
+        //printf("a_K %f\n",a_K[i][0]);
+        //printf("w_hat %f\n",w_hat_x_hat[i]);
         Fk_x_hat[0] += a_K[i][0] * w_hat_x_hat[i];
         Fk_x_hat[0] += a_K[i][1] * w_hat_x_hat[i];
     }
 }
 
 /// Evaluates the jacobian matrix of the transformation Fk of a point of the reference element x_hat
-void jacobFK(int p, int d, const float **a_K, const float **Dw_hat_x_hat, float **jacob_Fk_x_hat) {
+void jacobFK(int n_nod_elem, int d, const float **a_K, const float **Dw_hat_x_hat, float **jacob_Fk_x_hat) {
     int i;
     if (d == 2) { // quadrangle, triangle
         // initialisation
@@ -188,7 +192,7 @@ void jacobFK(int p, int d, const float **a_K, const float **Dw_hat_x_hat, float 
         jacob_Fk_x_hat[0][1] = 0;
         jacob_Fk_x_hat[1][0] = 0;
         jacob_Fk_x_hat[1][1] = 0;
-        for (i = 0; i < p; i++) {
+        for (i = 0; i < n_nod_elem; i++) {
             jacob_Fk_x_hat[0][0] += a_K[i][0] * Dw_hat_x_hat[i][0];
             jacob_Fk_x_hat[0][1] += a_K[i][0] * Dw_hat_x_hat[i][1];
             jacob_Fk_x_hat[1][0] += a_K[i][1] * Dw_hat_x_hat[i][0];
@@ -197,7 +201,7 @@ void jacobFK(int p, int d, const float **a_K, const float **Dw_hat_x_hat, float 
     } else if (d == 1) { // segment
         jacob_Fk_x_hat[0][0] = 0;
         jacob_Fk_x_hat[1][0] = 0;
-        for (i = 0; i < p; i++) {
+        for (i = 0; i < n_nod_elem; i++) {
             jacob_Fk_x_hat[0][0] += a_K[i][0] * Dw_hat_x_hat[i][0];
             jacob_Fk_x_hat[1][0] += a_K[i][1] * Dw_hat_x_hat[i][0];
         }
@@ -228,7 +232,8 @@ void vertices_Edge(int edge_nb, int t, int *local_nodes) {
 /// select n_pts in the coordSet and copy them into sel_coord
 void selectPts(int n_pts, const int pts_nb[], float *coordSet[], float *select_coord[]) {
     for (int i = 0; i < n_pts; i++)
-        select_coord[i] = coordSet[pts_nb[i] - 1]; // -1 because numbers begins at 1 in pts_nb
+        select_coord[i] = coordSet[pts_nb[i]]; // (10) -1 or not because numbers begins at 1 in pts_nb
+    // currently we dont put pts nb but pts indices
 }
 
 /// Compute the contribution of the quadrature points x_k for the integral's quadrature of the shape g(x_k)w_i(x_k)
@@ -283,18 +288,16 @@ void intElem(int t, int n_quad_pts, int n_nod_elem, const float **a_K, const flo
     float **inv_JFk_x_hat = matF_alloc(DIM, DIM);
     float **a_alpha_beta = matF_alloc(DIM, DIM);
 
-    // Get node coordinates of the element (a_K) -> (1) maybe get them before ??
-    // -> yes because when a_K is freed, the coordinates are deleted because it's only a pointers copy
-
     for (k = 0; k < n_quad_pts; k++) {
-        transFK(n_nod_elem, (const float **) a_K, w_hat_x_hat,
-                x_quad); // Get the quadrature points coordinates x_quad_k with F_K
 
         // evaluation of bases function et gradient of bases functions in the quadrature point x_hat_quad
         evalFbase(t, x_hat_quad[k], w_hat_x_hat);
         evalDFbase(t, x_hat_quad[k], Dw_hat_x_hat);
 
-        // Evaluation Dw(x_quad)/Dx_alpha, alpha in {1,2};
+        // Get the quadrature points coordinates x_quad_k with F_K
+        transFK(n_nod_elem, (const float **) a_K, w_hat_x_hat, x_quad);
+
+        // Evaluation Dw(x_quad)/Dx_alpha, alpha in {1,2} and detJFK
         jacobFK(n_nod_elem, DIM, (const float **) a_K, (const float **) Dw_hat_x_hat, JFk_x_hat);
         detJF = inv_2x2(JFk_x_hat, inv_JFk_x_hat);
         diff = fabsf(detJF) * weights[k]; // differential elem * weight for the quadrature formula
@@ -325,35 +328,53 @@ void intElem(int t, int n_quad_pts, int n_nod_elem, const float **a_K, const flo
 }
 
 
-/// Evaluates the integrals on the edges of element K (K prime) with quadrature formula
-void intEdge(
-        int n_quad_pts,
-        const float **nodes_coords,
-        const float **x_hat_quad, // (2) -> dim = 1 ?
-        const float *weights,
-        float **A_K_edg,
+/// Evaluates the integrals on the edges of element K (Kp = K prime) with quadrature formula
+void
+intEdge(int n_quad_pts, const float **a_Kp, const float **x_hat_quad, const float *weights, float **A_K_edg,
         float *l_K_edg
 ) {
+
+    int k, i, j;
+    float Kp_length, diff;
+
+    // Memory allocation for object reset in each quadrature point
+    float *x_quad = malloc(2 * sizeof(float));
+    float *w_hat_x_hat = malloc(N_NOD_EDG * sizeof(float));
+    float **Dw_hat_x_hat = matF_alloc(N_NOD_EDG, DIM);
+    float **JFk_x_hat = matF_alloc(DIM, 1);
+
+    for (k = 0; k < n_quad_pts; k++) {
+
+        // evaluation of bases function et gradient of bases functions in the quadrature point x_hat_quad
+        evalFbase(SEG_TYPE, x_hat_quad[k], w_hat_x_hat);
+        evalDFbase(SEG_TYPE, x_hat_quad[k], Dw_hat_x_hat);
+
+        // Get the quadrature points coordinates x_quad_k with F_K
+        transFK(N_NOD_EDG, a_Kp, w_hat_x_hat, x_quad);
+        jacobFK(N_NOD_EDG, 1, a_Kp, (const float **) Dw_hat_x_hat, JFk_x_hat);
+
+        // evaluation of segment length to get differential element in the quadrature formula
+        Kp_length = sqrtf(JFk_x_hat[0][0] * JFk_x_hat[0][0] + JFk_x_hat[1][0] * JFk_x_hat[1][0]);
+        diff = Kp_length * weights[k]; // differential coef * weight for the quadrature formula
+
+        // Contribution of the quadrature point for the quadrature formula
+        q_contrib_gW(N_NOD_EDG, (const float *) w_hat_x_hat, diff, fN(x_quad), l_K_edg);
+        q_contrib_gWW(N_NOD_EDG, (const float *) w_hat_x_hat, diff, bN(x_quad), A_K_edg);
+    }
+
+    // free memory
+    free(x_quad);
+    free(w_hat_x_hat);
+    free_mat(Dw_hat_x_hat);
+    free_mat(JFk_x_hat);
 }
 
+
 /// Evaluates A_K_ij and second member l_K_i form the discretization of the variational formulation for the element K
-void eval_K(
-        int ref_interior,
-        const int *ref_Dh,
-        const int *ref_Dnh,
-        const int *ref_NF,
-        int n_Dh,
-        int n_Dnh,
-        int n_NF,
-        int t,
-        int n_nod_elem,
-        const float **a_K,
-        int n_edg_elem,
-        const int *ref_edg_K,
-        float **A_K,
-        float *l_K,
-        int *nodes_D,
-        float *uD_aK
+void
+eval_K(int ref_interior, const int *ref_Dh, const int *ref_Dnh, const int *ref_NF, int n_Dh, int n_Dnh, int n_NF, int t,
+       int n_nod_elem, const float **a_K, int n_edg_elem, const int *ref_edg_K, float **A_K, float *l_K, int *nodes_D,
+       float *uD_aK
 ) {
     int i, j, k, l;
     int flag_categorized;     // boolean to know if the edge has already been categorized
@@ -387,16 +408,17 @@ void eval_K(
     // ----------- Integral on a potential edge element K
 
     // Memory update (clean and new)
-    n_quad_pts_edg = quad_order(3);
+    n_quad_pts_edg = quad_order(SEG_TYPE);
     float **x_quad_hat_edg = matF_alloc(n_quad_pts_edg, DIM);
     float *weights_edg = malloc(n_quad_pts_edg * sizeof(float));
-    int *edg_nodes = malloc(N_NOD_EDG * sizeof(int));
-    float **A_K_edg = matF_alloc0(N_NOD_EDG, N_NOD_EDG);         // Every value set to 0 //
-    float *l_K_edg = calloc(N_NOD_EDG, sizeof(float));           // Every value set to 0
+    int *edg_nod_ind = malloc(N_NOD_EDG * sizeof(int));
+    float **A_K_edg = matF_alloc(N_NOD_EDG, N_NOD_EDG);        // Values to be re-initialize to 0 for each Neumann edge
+    float *l_K_edg = malloc(
+            N_NOD_EDG * sizeof(float));          // Values to be re-initialize to 0 for each Neumann edge
 
 
     // Special case for this one : it's a dynamic tab of float pointers
-    float **edg_nodes_coords = malloc(n_quad_pts_edg * sizeof(float *));
+    float **edg_nodes_coords = malloc(N_NOD_EDG * sizeof(float *));
     // (5) -> Is it a good way to handle it ? Because if I don't do this they will be a pb when memory clean because on the simple copy of selectPts
 
 
@@ -405,39 +427,45 @@ void eval_K(
         if (ref_edg_K[i] == ref_interior) { flag_categorized = 1; } // Most current case : edge is inside the domain
         else {
             flag_categorized = 0;                   // edge isn't categorized yet
-            vertices_Edge(i + 1, t, edg_nodes);
-            for (k = 0; k < N_NOD_EDG; k++)
-                edg_nodes[k]--;// We retrieve indices (2) ? Shouldn't do it directly in vertices edges and change the function's name
-        }
-        for (j = 0; j < n_Dh & flag_categorized == 0; j++) {      // Dirichlet homogeneous edge
-            if (ref_edg_K[i] == ref_Dh[j]) {
-                for (k = 0; k < N_NOD_EDG; k++) nodes_D[edg_nodes[k]] = 0;
-                flag_categorized = 1;
-            }
-        }
-        for (j = 0; j < n_Dnh & flag_categorized == 0; j++) {     // Dirichlet non-homogeneous edge
-            if (ref_edg_K[i] == ref_Dnh[j]) {
-                for (k = 0; k < N_NOD_EDG; k++) {
-                    nodes_D[edg_nodes[k]] = -1;
-                    uD_aK[edg_nodes[k]] = uD(a_K[edg_nodes[k]]);
-                }
-                flag_categorized = 1;
-            }
-        }
-        for (j = 0; j < n_NF & flag_categorized == 0; j++) {
-            if (ref_edg_K[i] == ref_NF[j]) {                  // Neumann or Fourier edge
-                selectPts(N_NOD_EDG, edg_nodes, (float **) a_K,
-                          edg_nodes_coords);       // Careful we lost the const on a_K here
-                wp_quad(3, x_quad_hat_edg, weights_edg);
-                intEdge(n_quad_pts_edg, (const float **) edg_nodes_coords, (const float **) x_quad_hat_edg, weights_edg,
-                        A_K_edg, l_K_edg);
+            vertices_Edge(i + 1, t, edg_nod_ind);
+            for (j = 0; j < N_NOD_EDG; j++) edg_nod_ind[j]--;
+            // We retrieve indices (2) ? Shouldn't do it directly in vertices edges and change the function's name
 
-                // Update results (we had the contribution for each node at the end of the edge (2 nodes)
-                for (k = 0; k < N_NOD_EDG; k++) {
-                    l_K[edg_nodes[k]] += l_K_edg[edg_nodes[k]];
-                    for (l = 0; l < N_NOD_EDG; l++) A_K[edg_nodes[k]][edg_nodes[l]] += A_K_edg[k][l];
+            for (j = 0; j < n_Dh & flag_categorized == 0; j++) {      // Dirichlet homogeneous edge
+                if (ref_edg_K[i] == ref_Dh[j]) {
+                    for (k = 0; k < N_NOD_EDG; k++) nodes_D[edg_nod_ind[k]] = 0;
+                    flag_categorized = 1;
                 }
-                flag_categorized = 1;
+            }
+            for (j = 0; j < n_Dnh & flag_categorized == 0; j++) {     // Dirichlet non-homogeneous edge
+                if (ref_edg_K[i] == ref_Dnh[j]) {
+                    for (k = 0; k < N_NOD_EDG; k++) {
+                        nodes_D[edg_nod_ind[k]] = -1;
+                        uD_aK[edg_nod_ind[k]] = uD(a_K[edg_nod_ind[k]]);
+                    }
+                    flag_categorized = 1;
+                }
+            }
+            for (j = 0; j < n_NF & flag_categorized == 0; j++) {    // Neumann or Fourier edge
+                if (ref_edg_K[i] == ref_NF[j]) {
+                    selectPts(N_NOD_EDG, edg_nod_ind, (float **) a_K, edg_nodes_coords);/// @warning lost "const" on a_K
+                    wp_quad(SEG_TYPE, x_quad_hat_edg, weights_edg);
+
+                    // Re-intialize A_K_edg and l_K_edg to 0;
+                    for (k = 0; k < N_NOD_EDG; k++) {
+                        l_K_edg[k] = 0;
+                        for (l = 0; l < N_NOD_EDG; l++) A_K_edg[k][l] = 0;
+                    }
+                    intEdge(n_quad_pts_edg, (const float **) edg_nodes_coords, (const float **) x_quad_hat_edg,
+                            weights_edg, A_K_edg, l_K_edg);
+
+                    // Update results (we had the contribution for each node at the end of the edge (2 nodes)
+                    for (k = 0; k < N_NOD_EDG; k++) {
+                        l_K[edg_nod_ind[k]] += l_K_edg[k];
+                        for (l = 0; l < N_NOD_EDG; l++) A_K[edg_nod_ind[k]][edg_nod_ind[l]] += A_K_edg[k][l];
+                    }
+                    flag_categorized = 1;
+                }
             }
         }
     }
@@ -445,12 +473,8 @@ void eval_K(
     // free memory
     free_mat(x_quad_hat_edg);
     free(l_K_edg);
-    free(edg_nodes);
+    free(edg_nod_ind);
     free(edg_nodes_coords); // (5) Here we only free an dynamic array of float pointers -> different from a matrix
     free_mat(A_K_edg);
     free(weights_edg);
 }
-
-
-
-// (4) : Hypothese : We suppose that, dynamical tab of sum of contribution are initialized to 0

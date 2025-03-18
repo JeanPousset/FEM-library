@@ -4,13 +4,16 @@
  *
  * @warning In these functions, tab allocation is supposed to be done outside the function with correct dimension.
  * @warning We work in a 2-dimensional space.
- * @warning We suppose we approximate the element geometry at the order 1.
+ * @warning We suppose we approximate the element geometry at the degree 1 (N_NOD_EDG : 2) if degree > 1 then it becomes
+ *          a variable that is equal to degree + 1
+ * @warning We suppose dynamical tab of sum of contribution are initialized to 0.
  */
 #ifndef FEM_PROJECT_ELEM_EVAL_H
 #define FEM_PROJECT_ELEM_EVAL_H
 
 #define DIM 2
 #define N_NOD_EDG 2
+#define SEG_TYPE 3
 
 
 /**
@@ -68,24 +71,24 @@ void wp_quad(int t, float **x_quad_hat, float *weights);
 /**
  *   @brief Evaluates transformation Fk of a point of the reference element x_hat
  *
- *   @param q           number of nodes (=p because we take element to 1st degree)
+ *   @param n_nod_elem  number of nodes (=p because we take element to 1st degree)
  *   @param a_K         contains the coordinates of  element K 's nodes
  *   @param w_hat_x_hat vector that contains pre-compute base function value of the point x_hat
  *   @param Fk_x_hat    result
  */
-void transFK(int q, const float **a_K, const float *w_hat_x_hat, float *Fk_x_hat);
+void transFK(int n_nod_elem, const float **a_K, const float *w_hat_x_hat, float *Fk_x_hat);
 
 
 /**
  *    @brief Evaluates the jacobian matrix of the transformation Fk of a point of the reference element x_hat
  *
- *    @param p              number of nodes (=p because we take element to 1st degree)
+ *    @param n_nod_elem     number of nodes per element (=p because we take element to 1st degree)
  *    @param d              dimension 2 (quadrangle/triangle) or 1 (edge)
  *    @param a_K            contains the coordinates of  element K 's nodes
  *    @param Dw_hat_x_hat   the vector that contains pre-compute base function value of the point x_hat
  *    @param jacob_Fk_x_hat result
  */
-void jacobFK(int p, int d, const float **a_K, const float **Dw_hat_x_hat, float **jacob_Fk_x_hat);
+void jacobFK(int n_nod_elem, int d, const float **a_K, const float **Dw_hat_x_hat, float **jacob_Fk_x_hat);
 
 
 /**

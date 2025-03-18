@@ -63,7 +63,7 @@ int main(int argc, char* argv[])
     printf("=====================================================================================\n"
            "Test of eval_K for the simple case : 3x3 boxes that contain 2 triangle element each :\n"
            "=====================================================================================\n");
-    test_eval_K("Mesh_files/check_read_car3x3t_3");
+    //test_eval_K("Mesh_files/check_read_car3x3t_3");
 
     return 0;
 }

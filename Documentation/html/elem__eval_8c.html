@@ -107,9 +107,6 @@ $(function(){initNavTree('elem__eval_8c.html',''); initResizable(true); });
   <div class="headertitle"><div class="title">elem_eval.c File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>Functions that evaluate discretization of variational formulation : A_K_ij and l_K_i for the element K.  
-<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="elem__eval_8h_source.html">elem_eval.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="tab__mngmt_8h_source.html">tab_mngmt.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="problem__functions_8h_source.html">problem_functions.h</a>&quot;</code><br />
@@ -134,12 +131,12 @@ Functions</h2></td></tr>
 <tr class="memitem:a8899171f0ec171b870816d8dcd38d7d5" id="r_a8899171f0ec171b870816d8dcd38d7d5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8899171f0ec171b870816d8dcd38d7d5">wp_quad</a> (int t, float **x_quad_hat, float *weights)</td></tr>
 <tr class="memdesc:a8899171f0ec171b870816d8dcd38d7d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute quadrature points and weights corresponding to the element type.  <br /></td></tr>
 <tr class="separator:a8899171f0ec171b870816d8dcd38d7d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab87ad12377de19e865ea3c74b61ca111" id="r_ab87ad12377de19e865ea3c74b61ca111"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab87ad12377de19e865ea3c74b61ca111">transFK</a> (int q, const float **a_K, const float *w_hat_x_hat, float *Fk_x_hat)</td></tr>
-<tr class="memdesc:ab87ad12377de19e865ea3c74b61ca111"><td class="mdescLeft">&#160;</td><td class="mdescRight">Evaluates transformation Fk of a point of the reference element x_hat.  <br /></td></tr>
-<tr class="separator:ab87ad12377de19e865ea3c74b61ca111"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab598d3f5185226d18bbdc99394fa224d" id="r_ab598d3f5185226d18bbdc99394fa224d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab598d3f5185226d18bbdc99394fa224d">jacobFK</a> (int p, int d, const float **a_K, const float **Dw_hat_x_hat, float **jacob_Fk_x_hat)</td></tr>
-<tr class="memdesc:ab598d3f5185226d18bbdc99394fa224d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Evaluates the jacobian matrix of the transformation Fk of a point of the reference element x_hat.  <br /></td></tr>
-<tr class="separator:ab598d3f5185226d18bbdc99394fa224d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1fbf17908321a868e4944650ace5c2e0" id="r_a1fbf17908321a868e4944650ace5c2e0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1fbf17908321a868e4944650ace5c2e0">transFK</a> (int n_nod_elem, const float **a_K, const float *w_hat_x_hat, float *Fk_x_hat)</td></tr>
+<tr class="memdesc:a1fbf17908321a868e4944650ace5c2e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Evaluates transformation Fk of a point of the reference element x_hat.  <br /></td></tr>
+<tr class="separator:a1fbf17908321a868e4944650ace5c2e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a576c9f90e6f81755a58fcda124066563" id="r_a576c9f90e6f81755a58fcda124066563"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a576c9f90e6f81755a58fcda124066563">jacobFK</a> (int n_nod_elem, int d, const float **a_K, const float **Dw_hat_x_hat, float **jacob_Fk_x_hat)</td></tr>
+<tr class="memdesc:a576c9f90e6f81755a58fcda124066563"><td class="mdescLeft">&#160;</td><td class="mdescRight">Evaluates the jacobian matrix of the transformation Fk of a point of the reference element x_hat.  <br /></td></tr>
+<tr class="separator:a576c9f90e6f81755a58fcda124066563"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa72a73a0acc702937e54966a28106585" id="r_aa72a73a0acc702937e54966a28106585"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa72a73a0acc702937e54966a28106585">vertices_Edge</a> (int edge_nb, int t, int *local_nodes)</td></tr>
 <tr class="memdesc:aa72a73a0acc702937e54966a28106585"><td class="mdescLeft">&#160;</td><td class="mdescRight">Give the local number of the nodes at each side of the edge (we suppose we approximate the element geometry at the order 1)  <br /></td></tr>
 <tr class="separator:aa72a73a0acc702937e54966a28106585"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -158,21 +155,14 @@ Functions</h2></td></tr>
 <tr class="memitem:aaee5d12e8a4c3235c413cae3dabb9d1e" id="r_aaee5d12e8a4c3235c413cae3dabb9d1e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaee5d12e8a4c3235c413cae3dabb9d1e">intElem</a> (int t, int n_quad_pts, int n_nod_elem, const float **a_K, const float **x_hat_quad, const float *weights, float **A_K_elem, float *l_K_elem)</td></tr>
 <tr class="memdesc:aaee5d12e8a4c3235c413cae3dabb9d1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Evaluates the integrals on the element K with quadrature formula *&zwj;/.  <br /></td></tr>
 <tr class="separator:aaee5d12e8a4c3235c413cae3dabb9d1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aec94d8b419efbfbb2ca7aeff5992f393" id="r_aec94d8b419efbfbb2ca7aeff5992f393"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aec94d8b419efbfbb2ca7aeff5992f393">intEdge</a> (int n_quad_pts, const float **nodes_coords, const float **x_hat_quad, const float *weights, float **A_K_edg, float *l_K_edg)</td></tr>
-<tr class="memdesc:aec94d8b419efbfbb2ca7aeff5992f393"><td class="mdescLeft">&#160;</td><td class="mdescRight">Evaluates the integrals on the edges of element K (K prime) with quadrature formula.  <br /></td></tr>
-<tr class="separator:aec94d8b419efbfbb2ca7aeff5992f393"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f6761c376242722dc0c16a9c7a342b5" id="r_a8f6761c376242722dc0c16a9c7a342b5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8f6761c376242722dc0c16a9c7a342b5">intEdge</a> (int n_quad_pts, const float **a_Kp, const float **x_hat_quad, const float *weights, float **A_K_edg, float *l_K_edg)</td></tr>
+<tr class="memdesc:a8f6761c376242722dc0c16a9c7a342b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Evaluates the integrals on the edges of element K (Kp = K prime) with quadrature formula.  <br /></td></tr>
+<tr class="separator:a8f6761c376242722dc0c16a9c7a342b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acbfe0c3f5be1de6b953bafa4f7dc343d" id="r_acbfe0c3f5be1de6b953bafa4f7dc343d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acbfe0c3f5be1de6b953bafa4f7dc343d">eval_K</a> (int ref_interior, const int *ref_Dh, const int *ref_Dnh, const int *ref_NF, int n_Dh, int n_Dnh, int n_NF, int t, int n_nod_elem, const float **a_K, int n_edg_elem, const int *ref_edg_K, float **A_K, float *l_K, int *nodes_D, float *uD_aK)</td></tr>
 <tr class="memdesc:acbfe0c3f5be1de6b953bafa4f7dc343d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Evaluates A_K_ij and second member l_K_i form the discretization of the variational formulation for the element K.  <br /></td></tr>
 <tr class="separator:acbfe0c3f5be1de6b953bafa4f7dc343d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Functions that evaluate discretization of variational formulation : A_K_ij and l_K_i for the element K. </p>
-<dl class="section warning"><dt>Warning</dt><dd>In these functions, tab allocation is supposed to be done outside the function with correct dimension. </dd>
-<dd>
-We work in a 2-dimensional space. </dd>
-<dd>
-We suppose we approximate the element geometry at the order 1. </dd></dl>
-</div><h2 class="groupheader">Function Documentation</h2>
+<h2 class="groupheader">Function Documentation</h2>
 <a id="acbfe0c3f5be1de6b953bafa4f7dc343d" name="acbfe0c3f5be1de6b953bafa4f7dc343d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acbfe0c3f5be1de6b953bafa4f7dc343d">&#9670;&#160;</a></span>eval_K()</h2>
 
@@ -284,6 +274,7 @@ We suppose we approximate the element geometry at the order 1. </dd></dl>
   </table>
   </dd>
 </dl>
+<dl class="section warning"><dt>Warning</dt><dd>lost "const" on a_K</dd></dl>
 
 </div>
 </div>
@@ -360,8 +351,8 @@ We suppose we approximate the element geometry at the order 1. </dd></dl>
 
 </div>
 </div>
-<a id="aec94d8b419efbfbb2ca7aeff5992f393" name="aec94d8b419efbfbb2ca7aeff5992f393"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aec94d8b419efbfbb2ca7aeff5992f393">&#9670;&#160;</a></span>intEdge()</h2>
+<a id="a8f6761c376242722dc0c16a9c7a342b5" name="a8f6761c376242722dc0c16a9c7a342b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f6761c376242722dc0c16a9c7a342b5">&#9670;&#160;</a></span>intEdge()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -374,7 +365,7 @@ We suppose we approximate the element geometry at the order 1. </dd></dl>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const float **</td>          <td class="paramname"><span class="paramname"><em>nodes_coords</em></span>, </td>
+          <td class="paramtype">const float **</td>          <td class="paramname"><span class="paramname"><em>a_Kp</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -399,7 +390,18 @@ We suppose we approximate the element geometry at the order 1. </dd></dl>
       </table>
 </div><div class="memdoc">
 
-<p>Evaluates the integrals on the edges of element K (K prime) with quadrature formula. </p>
+<p>Evaluates the integrals on the edges of element K (Kp = K prime) with quadrature formula. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">n_quad_pts</td><td>number of points in the quadrature formula for an integral over a segment </td></tr>
+    <tr><td class="paramname">a_Kp</td><td>nodes coordinates of edge Kp </td></tr>
+    <tr><td class="paramname">x_hat_quad</td><td>coordinates of quadrature points in the reference element Kp_hat (!= Kp) </td></tr>
+    <tr><td class="paramname">weights</td><td>array of weights associated to quadrature points </td></tr>
+    <tr><td class="paramname">A_K_edg</td><td>matrix : part of discretization of A_K_ij that are integrals on Kp </td></tr>
+    <tr><td class="paramname">l_K_edg</td><td>vector : part of discretization of l_K_i (2nd member) that are integrals on K </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -487,8 +489,8 @@ We suppose we approximate the element geometry at the order 1. </dd></dl>
 
 </div>
 </div>
-<a id="ab598d3f5185226d18bbdc99394fa224d" name="ab598d3f5185226d18bbdc99394fa224d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab598d3f5185226d18bbdc99394fa224d">&#9670;&#160;</a></span>jacobFK()</h2>
+<a id="a576c9f90e6f81755a58fcda124066563" name="a576c9f90e6f81755a58fcda124066563"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a576c9f90e6f81755a58fcda124066563">&#9670;&#160;</a></span>jacobFK()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -496,7 +498,7 @@ We suppose we approximate the element geometry at the order 1. </dd></dl>
         <tr>
           <td class="memname">void jacobFK </td>
           <td>(</td>
-          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>p</em></span>, </td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>n_nod_elem</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -524,7 +526,7 @@ We suppose we approximate the element geometry at the order 1. </dd></dl>
 <p>Evaluates the jacobian matrix of the transformation Fk of a point of the reference element x_hat. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">p</td><td>number of nodes (=p because we take element to 1st degree) </td></tr>
+    <tr><td class="paramname">n_nod_elem</td><td>number of nodes per element (=p because we take element to 1st degree) </td></tr>
     <tr><td class="paramname">d</td><td>dimension 2 (quadrangle/triangle) or 1 (edge) </td></tr>
     <tr><td class="paramname">a_K</td><td>contains the coordinates of element K 's nodes </td></tr>
     <tr><td class="paramname">Dw_hat_x_hat</td><td>the vector that contains pre-compute base function value of the point x_hat </td></tr>
@@ -706,8 +708,8 @@ We suppose we approximate the element geometry at the order 1. </dd></dl>
 
 </div>
 </div>
-<a id="ab87ad12377de19e865ea3c74b61ca111" name="ab87ad12377de19e865ea3c74b61ca111"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab87ad12377de19e865ea3c74b61ca111">&#9670;&#160;</a></span>transFK()</h2>
+<a id="a1fbf17908321a868e4944650ace5c2e0" name="a1fbf17908321a868e4944650ace5c2e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1fbf17908321a868e4944650ace5c2e0">&#9670;&#160;</a></span>transFK()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -715,7 +717,7 @@ We suppose we approximate the element geometry at the order 1. </dd></dl>
         <tr>
           <td class="memname">void transFK </td>
           <td>(</td>
-          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>q</em></span>, </td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>n_nod_elem</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -738,7 +740,7 @@ We suppose we approximate the element geometry at the order 1. </dd></dl>
 <p>Evaluates transformation Fk of a point of the reference element x_hat. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">q</td><td>number of nodes (=p because we take element to 1st degree) </td></tr>
+    <tr><td class="paramname">n_nod_elem</td><td>number of nodes (=p because we take element to 1st degree) </td></tr>
     <tr><td class="paramname">a_K</td><td>contains the coordinates of element K 's nodes </td></tr>
     <tr><td class="paramname">w_hat_x_hat</td><td>vector that contains pre-compute base function value of the point x_hat </td></tr>
     <tr><td class="paramname">Fk_x_hat</td><td>result </td></tr>

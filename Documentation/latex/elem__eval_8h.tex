@@ -11,6 +11,8 @@ Header for functions that evaluate discretization of variational formulation \+:
 \#define \mbox{\hyperlink{elem__eval_8h_ac25189db92959bff3c6c2adf4c34b50a}{DIM}}~2
 \item 
 \#define \mbox{\hyperlink{elem__eval_8h_a04e54e5c78aa3d14d900f7e765b12f9b}{N\+\_\+\+NOD\+\_\+\+EDG}}~2
+\item 
+\#define \mbox{\hyperlink{elem__eval_8h_a016208942d520638bddb70f2b4b26e0e}{SEG\+\_\+\+TYPE}}~3
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
@@ -25,9 +27,9 @@ int \mbox{\hyperlink{elem__eval_8h_a38a249e92ef0dcf0cf8f566dbd595357}{quad\+\_\+
 \begin{DoxyCompactList}\small\item\em Returns the quadrature order corresponding to the element type. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{elem__eval_8h_a8899171f0ec171b870816d8dcd38d7d5}{wp\+\_\+quad}} (int t, float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}x\+\_\+quad\+\_\+hat, float \texorpdfstring{$\ast$}{*}weights)
 \begin{DoxyCompactList}\small\item\em Compute quadrature points and weights corresponding to the element type. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{elem__eval_8h_ab87ad12377de19e865ea3c74b61ca111}{trans\+FK}} (int q, const float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}a\+\_\+K, const float \texorpdfstring{$\ast$}{*}w\+\_\+hat\+\_\+x\+\_\+hat, float \texorpdfstring{$\ast$}{*}Fk\+\_\+x\+\_\+hat)
+void \mbox{\hyperlink{elem__eval_8h_a1fbf17908321a868e4944650ace5c2e0}{trans\+FK}} (int n\+\_\+nod\+\_\+elem, const float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}a\+\_\+K, const float \texorpdfstring{$\ast$}{*}w\+\_\+hat\+\_\+x\+\_\+hat, float \texorpdfstring{$\ast$}{*}Fk\+\_\+x\+\_\+hat)
 \begin{DoxyCompactList}\small\item\em Evaluates transformation Fk of a point of the reference element x\+\_\+hat. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{elem__eval_8h_ab598d3f5185226d18bbdc99394fa224d}{jacob\+FK}} (int p, int d, const float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}a\+\_\+K, const float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}Dw\+\_\+hat\+\_\+x\+\_\+hat, float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}jacob\+\_\+\+Fk\+\_\+x\+\_\+hat)
+void \mbox{\hyperlink{elem__eval_8h_a576c9f90e6f81755a58fcda124066563}{jacob\+FK}} (int n\+\_\+nod\+\_\+elem, int d, const float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}a\+\_\+K, const float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}Dw\+\_\+hat\+\_\+x\+\_\+hat, float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}jacob\+\_\+\+Fk\+\_\+x\+\_\+hat)
 \begin{DoxyCompactList}\small\item\em Evaluates the jacobian matrix of the transformation Fk of a point of the reference element x\+\_\+hat. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{elem__eval_8h_aa72a73a0acc702937e54966a28106585}{vertices\+\_\+\+Edge}} (int edge\+\_\+nb, int t, int \texorpdfstring{$\ast$}{*}local\+\_\+nodes)
 \begin{DoxyCompactList}\small\item\em Give the local number of the nodes at each side of the edge. \end{DoxyCompactList}\item 
@@ -41,6 +43,8 @@ void \mbox{\hyperlink{elem__eval_8h_a75316c4602c3f41c1c0a798411fce68d}{q\+\_\+co
 \begin{DoxyCompactList}\small\item\em Compute the contribution of the quadrature points x\+\_\+k for the integral\textquotesingle{}s quadrature of the shape g(x\+\_\+k)Dw\+\_\+i(x\+\_\+k)Dw\+\_\+j(x\+\_\+k) for (i,j) in \mbox{[}1,node\+\_\+elem\mbox{]}\texorpdfstring{$\ast$}{*}\mbox{[}1,node\+\_\+elem\mbox{]};. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{elem__eval_8h_aaee5d12e8a4c3235c413cae3dabb9d1e}{int\+Elem}} (int t, int n\+\_\+quad\+\_\+pts, int n\+\_\+nod\+\_\+elem, const float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}a\+\_\+K, const float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}x\+\_\+hat\+\_\+quad, const float \texorpdfstring{$\ast$}{*}weights, float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}A\+\_\+\+K\+\_\+elem, float \texorpdfstring{$\ast$}{*}l\+\_\+\+K\+\_\+elem)
 \begin{DoxyCompactList}\small\item\em Evaluates the integrals on the element K with quadrature formula. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{elem__eval_8h_a8f6761c376242722dc0c16a9c7a342b5}{int\+Edge}} (int n\+\_\+quad\+\_\+pts, const float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}a\+\_\+\+Kp, const float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}x\+\_\+hat\+\_\+quad, const float \texorpdfstring{$\ast$}{*}weights, float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}A\+\_\+\+K\+\_\+edg, float \texorpdfstring{$\ast$}{*}l\+\_\+\+K\+\_\+edg)
+\begin{DoxyCompactList}\small\item\em Evaluates the integrals on the edges of element K (Kp = K prime) with quadrature formula. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{elem__eval_8h_acbfe0c3f5be1de6b953bafa4f7dc343d}{eval\+\_\+K}} (int ref\+\_\+interior, const int \texorpdfstring{$\ast$}{*}ref\+\_\+\+Dh, const int \texorpdfstring{$\ast$}{*}ref\+\_\+\+Dnh, const int \texorpdfstring{$\ast$}{*}ref\+\_\+\+NF, int n\+\_\+\+Dh, int n\+\_\+\+Dnh, int n\+\_\+\+NF, int t, int n\+\_\+nod\+\_\+elem, const float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}a\+\_\+K, int n\+\_\+edg\+\_\+elem, const int \texorpdfstring{$\ast$}{*}ref\+\_\+edg\+\_\+K, float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}A\+\_\+K, float \texorpdfstring{$\ast$}{*}l\+\_\+K, int \texorpdfstring{$\ast$}{*}nodes\+\_\+D, float \texorpdfstring{$\ast$}{*}u\+D\+\_\+aK)
 \begin{DoxyCompactList}\small\item\em Evaluates A\+\_\+\+K\+\_\+ij and second member l\+\_\+\+K\+\_\+i form the discretization of the variational formulation for the element K. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
@@ -53,7 +57,9 @@ In these functions, tab allocation is supposed to be done outside the function w
 
 We work in a 2-\/dimensional space. 
 
-We suppose we approximate the element geometry at the order 1. 
+We suppose we approximate the element geometry at the degree 1 (N\+\_\+\+NOD\+\_\+\+EDG \+: 2) if degree \texorpdfstring{$>$}{>} 1 then it becomes a variable that is equal to degree + 1 
+
+We suppose dynamical tab of sum of contribution are initialized to 0. 
 \end{DoxyWarning}
 
 
@@ -69,6 +75,12 @@ We suppose we approximate the element geometry at the order 1.
 \doxysubsubsection{\texorpdfstring{N\_NOD\_EDG}{N\_NOD\_EDG}}
 {\footnotesize\ttfamily \label{elem__eval_8h_a04e54e5c78aa3d14d900f7e765b12f9b} 
 \#define N\+\_\+\+NOD\+\_\+\+EDG~2}
+
+\Hypertarget{elem__eval_8h_a016208942d520638bddb70f2b4b26e0e}\index{elem\_eval.h@{elem\_eval.h}!SEG\_TYPE@{SEG\_TYPE}}
+\index{SEG\_TYPE@{SEG\_TYPE}!elem\_eval.h@{elem\_eval.h}}
+\doxysubsubsection{\texorpdfstring{SEG\_TYPE}{SEG\_TYPE}}
+{\footnotesize\ttfamily \label{elem__eval_8h_a016208942d520638bddb70f2b4b26e0e} 
+\#define SEG\+\_\+\+TYPE~3}
 
 
 
@@ -118,6 +130,9 @@ Evaluates A\+\_\+\+K\+\_\+ij and second member l\+\_\+\+K\+\_\+i form the discre
 {\em u\+D\+\_\+aK} & array where the element i contains the value u\+D(a\+\_\+\+K\+\_\+i) if the nod\+\_\+i carries a non-\/homogenous Dirichlet condition, 0 otherwise \\
 \hline
 \end{DoxyParams}
+\begin{DoxyWarning}{Warning}
+lost "{}const"{} on a\+\_\+K
+\end{DoxyWarning}
 \Hypertarget{elem__eval_8h_ac23e68c41f6ebbb07c65f94a1291a04c}\index{elem\_eval.h@{elem\_eval.h}!evalDFbase@{evalDFbase}}
 \index{evalDFbase@{evalDFbase}!elem\_eval.h@{elem\_eval.h}}
 \doxysubsubsection{\texorpdfstring{evalDFbase()}{evalDFbase()}}
@@ -156,6 +171,31 @@ Evaluates every base function w\+\_\+i i in \mbox{[}1,q\mbox{]} for a given poin
 {\em x\+\_\+hat} & coordinates in the reference element K\+\_\+hat of the point to evaluate \\
 \hline
 {\em w\+\_\+hat\+\_\+x\+\_\+hat} & evaluations of each base function in the point x\+\_\+hat \\
+\hline
+\end{DoxyParams}
+\Hypertarget{elem__eval_8h_a8f6761c376242722dc0c16a9c7a342b5}\index{elem\_eval.h@{elem\_eval.h}!intEdge@{intEdge}}
+\index{intEdge@{intEdge}!elem\_eval.h@{elem\_eval.h}}
+\doxysubsubsection{\texorpdfstring{intEdge()}{intEdge()}}
+{\footnotesize\ttfamily \label{elem__eval_8h_a8f6761c376242722dc0c16a9c7a342b5} 
+void int\+Edge (\begin{DoxyParamCaption}\item[{int}]{n\+\_\+quad\+\_\+pts}{, }\item[{const float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{a\+\_\+\+Kp}{, }\item[{const float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{x\+\_\+hat\+\_\+quad}{, }\item[{const float \texorpdfstring{$\ast$}{*}}]{weights}{, }\item[{float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{A\+\_\+\+K\+\_\+edg}{, }\item[{float \texorpdfstring{$\ast$}{*}}]{l\+\_\+\+K\+\_\+edg}{}\end{DoxyParamCaption})}
+
+
+
+Evaluates the integrals on the edges of element K (Kp = K prime) with quadrature formula. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em n\+\_\+quad\+\_\+pts} & number of points in the quadrature formula for an integral over a segment \\
+\hline
+{\em a\+\_\+\+Kp} & nodes coordinates of edge Kp \\
+\hline
+{\em x\+\_\+hat\+\_\+quad} & coordinates of quadrature points in the reference element Kp\+\_\+hat (!= Kp) \\
+\hline
+{\em weights} & array of weights associated to quadrature points \\
+\hline
+{\em A\+\_\+\+K\+\_\+edg} & matrix \+: part of discretization of A\+\_\+\+K\+\_\+ij that are integrals on Kp \\
+\hline
+{\em l\+\_\+\+K\+\_\+edg} & vector \+: part of discretization of l\+\_\+\+K\+\_\+i (2nd member) that are integrals on K \\
 \hline
 \end{DoxyParams}
 \Hypertarget{elem__eval_8h_aaee5d12e8a4c3235c413cae3dabb9d1e}\index{elem\_eval.h@{elem\_eval.h}!intElem@{intElem}}
@@ -204,11 +244,11 @@ Inverse a 2 by 2 matrix, store the result into another matrix and return the det
 {\em M\+\_\+inv} & inverse of M \\
 \hline
 \end{DoxyParams}
-\Hypertarget{elem__eval_8h_ab598d3f5185226d18bbdc99394fa224d}\index{elem\_eval.h@{elem\_eval.h}!jacobFK@{jacobFK}}
+\Hypertarget{elem__eval_8h_a576c9f90e6f81755a58fcda124066563}\index{elem\_eval.h@{elem\_eval.h}!jacobFK@{jacobFK}}
 \index{jacobFK@{jacobFK}!elem\_eval.h@{elem\_eval.h}}
 \doxysubsubsection{\texorpdfstring{jacobFK()}{jacobFK()}}
-{\footnotesize\ttfamily \label{elem__eval_8h_ab598d3f5185226d18bbdc99394fa224d} 
-void jacob\+FK (\begin{DoxyParamCaption}\item[{int}]{p}{, }\item[{int}]{d}{, }\item[{const float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{a\+\_\+K}{, }\item[{const float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{Dw\+\_\+hat\+\_\+x\+\_\+hat}{, }\item[{float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{jacob\+\_\+\+Fk\+\_\+x\+\_\+hat}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \label{elem__eval_8h_a576c9f90e6f81755a58fcda124066563} 
+void jacob\+FK (\begin{DoxyParamCaption}\item[{int}]{n\+\_\+nod\+\_\+elem}{, }\item[{int}]{d}{, }\item[{const float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{a\+\_\+K}{, }\item[{const float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{Dw\+\_\+hat\+\_\+x\+\_\+hat}{, }\item[{float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{jacob\+\_\+\+Fk\+\_\+x\+\_\+hat}{}\end{DoxyParamCaption})}
 
 
 
@@ -216,7 +256,7 @@ Evaluates the jacobian matrix of the transformation Fk of a point of the referen
 
 
 \begin{DoxyParams}{Parameters}
-{\em p} & number of nodes (=p because we take element to 1st degree) \\
+{\em n\+\_\+nod\+\_\+elem} & number of nodes per element (=p because we take element to 1st degree) \\
 \hline
 {\em d} & dimension 2 (quadrangle/triangle) or 1 (edge) \\
 \hline
@@ -340,11 +380,11 @@ coord\+Set and sel\+\_\+coord are arrays of pointers to array that contains coor
 {\em select\+\_\+coord} & results\\
 \hline
 \end{DoxyParams}
-Select n\+\_\+pts in the coord\+Set and copy them into select\+\_\+coord. \Hypertarget{elem__eval_8h_ab87ad12377de19e865ea3c74b61ca111}\index{elem\_eval.h@{elem\_eval.h}!transFK@{transFK}}
+Select n\+\_\+pts in the coord\+Set and copy them into select\+\_\+coord. \Hypertarget{elem__eval_8h_a1fbf17908321a868e4944650ace5c2e0}\index{elem\_eval.h@{elem\_eval.h}!transFK@{transFK}}
 \index{transFK@{transFK}!elem\_eval.h@{elem\_eval.h}}
 \doxysubsubsection{\texorpdfstring{transFK()}{transFK()}}
-{\footnotesize\ttfamily \label{elem__eval_8h_ab87ad12377de19e865ea3c74b61ca111} 
-void trans\+FK (\begin{DoxyParamCaption}\item[{int}]{q}{, }\item[{const float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{a\+\_\+K}{, }\item[{const float \texorpdfstring{$\ast$}{*}}]{w\+\_\+hat\+\_\+x\+\_\+hat}{, }\item[{float \texorpdfstring{$\ast$}{*}}]{Fk\+\_\+x\+\_\+hat}{}\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \label{elem__eval_8h_a1fbf17908321a868e4944650ace5c2e0} 
+void trans\+FK (\begin{DoxyParamCaption}\item[{int}]{n\+\_\+nod\+\_\+elem}{, }\item[{const float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{a\+\_\+K}{, }\item[{const float \texorpdfstring{$\ast$}{*}}]{w\+\_\+hat\+\_\+x\+\_\+hat}{, }\item[{float \texorpdfstring{$\ast$}{*}}]{Fk\+\_\+x\+\_\+hat}{}\end{DoxyParamCaption})}
 
 
 
@@ -352,7 +392,7 @@ Evaluates transformation Fk of a point of the reference element x\+\_\+hat.
 
 
 \begin{DoxyParams}{Parameters}
-{\em q} & number of nodes (=p because we take element to 1st degree) \\
+{\em n\+\_\+nod\+\_\+elem} & number of nodes (=p because we take element to 1st degree) \\
 \hline
 {\em a\+\_\+K} & contains the coordinates of element K \textquotesingle{}s nodes \\
 \hline

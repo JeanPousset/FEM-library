@@ -2,59 +2,66 @@
 \hypertarget{elem__eval_8h_source}{}\label{elem__eval_8h_source}\mbox{\hyperlink{elem__eval_8h}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
 \DoxyCodeLine{00001\ }
-\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#ifndef\ FEM\_PROJECT\_ELEM\_EVAL\_H}}
-\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#define\ FEM\_PROJECT\_ELEM\_EVAL\_H}}
-\DoxyCodeLine{00011\ }
-\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ DIM\ 2}}
-\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#define\ N\_NOD\_EDG\ 2}}
-\DoxyCodeLine{00014\ }
-\DoxyCodeLine{00015\ }
-\DoxyCodeLine{00023\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{elem__eval_8h_afb699e47f7587f6398dbeb27fe7537d8}{evalFbase}}(\textcolor{keywordtype}{int}\ t,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ *x\_hat,\ \textcolor{keywordtype}{float}\ *w\_hat\_x\_hat);}
-\DoxyCodeLine{00024\ }
-\DoxyCodeLine{00025\ }
-\DoxyCodeLine{00035\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{elem__eval_8h_ac23e68c41f6ebbb07c65f94a1291a04c}{evalDFbase}}(\textcolor{keywordtype}{int}\ t,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ *x\_hat,\ \textcolor{keywordtype}{float}\ **Dw\_hat);}
-\DoxyCodeLine{00036\ }
-\DoxyCodeLine{00037\ }
-\DoxyCodeLine{00044\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{elem__eval_8h_afed67963460022130e36abecf3a43933}{inv\_2x2}}(\textcolor{keywordtype}{float}\ **M,\ \textcolor{keywordtype}{float}\ **M\_inv);}
-\DoxyCodeLine{00045\ }
-\DoxyCodeLine{00046\ }
-\DoxyCodeLine{00055\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{elem__eval_8h_a38a249e92ef0dcf0cf8f566dbd595357}{quad\_order}}(\textcolor{keywordtype}{int}\ t);}
-\DoxyCodeLine{00056\ }
-\DoxyCodeLine{00057\ }
-\DoxyCodeLine{00065\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{elem__eval_8h_a8899171f0ec171b870816d8dcd38d7d5}{wp\_quad}}(\textcolor{keywordtype}{int}\ t,\ \textcolor{keywordtype}{float}\ **x\_quad\_hat,\ \textcolor{keywordtype}{float}\ *weights);}
-\DoxyCodeLine{00066\ }
-\DoxyCodeLine{00067\ }
-\DoxyCodeLine{00076\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{elem__eval_8h_ab87ad12377de19e865ea3c74b61ca111}{transFK}}(\textcolor{keywordtype}{int}\ q,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ **a\_K,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ *w\_hat\_x\_hat,\ \textcolor{keywordtype}{float}\ *Fk\_x\_hat);}
-\DoxyCodeLine{00077\ }
-\DoxyCodeLine{00078\ }
-\DoxyCodeLine{00088\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{elem__eval_8h_ab598d3f5185226d18bbdc99394fa224d}{jacobFK}}(\textcolor{keywordtype}{int}\ p,\ \textcolor{keywordtype}{int}\ d,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ **a\_K,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ **Dw\_hat\_x\_hat,\ \textcolor{keywordtype}{float}\ **jacob\_Fk\_x\_hat);}
-\DoxyCodeLine{00089\ }
-\DoxyCodeLine{00090\ }
-\DoxyCodeLine{00099\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{elem__eval_8h_aa72a73a0acc702937e54966a28106585}{vertices\_Edge}}(\textcolor{keywordtype}{int}\ edge\_nb,\ \textcolor{keywordtype}{int}\ t,\ \textcolor{keywordtype}{int}\ *local\_nodes);}
-\DoxyCodeLine{00100\ }
-\DoxyCodeLine{00101\ }
-\DoxyCodeLine{00112\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{elem__eval_8h_aab25700c4cb50662e141408f6b85a663}{selectPts}}(\textcolor{keywordtype}{int}\ n\_pts,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ pts\_nb[],\ \textcolor{keywordtype}{float}\ *coordSet[],\ \textcolor{keywordtype}{float}\ *select\_coord[]);}
-\DoxyCodeLine{00113\ }
-\DoxyCodeLine{00114\ }
-\DoxyCodeLine{00124\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{elem__eval_8h_a5f2fabf585679a00a5f90d4814ac257c}{q\_contrib\_gW}}(\textcolor{keywordtype}{int}\ n\_nod\_elem,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ *w\_x,\ \textcolor{keywordtype}{float}\ diff,\ \textcolor{keywordtype}{float}\ g\_x,\ \textcolor{keywordtype}{float}\ *sum\_contrib);}
-\DoxyCodeLine{00125\ }
-\DoxyCodeLine{00126\ }
-\DoxyCodeLine{00136\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{elem__eval_8h_a8f1685423e8601a5cae4fb560f4dd9ee}{q\_contrib\_gWW}}(\textcolor{keywordtype}{int}\ n\_nod\_elem,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ *w\_x,\ \textcolor{keywordtype}{float}\ diff,\ \textcolor{keywordtype}{float}\ g\_x,\ \textcolor{keywordtype}{float}\ **sum\_contrib);}
-\DoxyCodeLine{00137\ }
-\DoxyCodeLine{00138\ }
-\DoxyCodeLine{00148\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{elem__eval_8h_a75316c4602c3f41c1c0a798411fce68d}{q\_contrib\_gdWdW}}(\textcolor{keywordtype}{int}\ n\_nod\_elem,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ **Dw\_x,\ \textcolor{keywordtype}{float}\ diff,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ **g\_x,\ \textcolor{keywordtype}{float}\ **sum\_contrib);}
-\DoxyCodeLine{00149\ }
-\DoxyCodeLine{00150\ }
-\DoxyCodeLine{00163\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{elem__eval_8h_aaee5d12e8a4c3235c413cae3dabb9d1e}{intElem}}(\textcolor{keywordtype}{int}\ t,\ \textcolor{keywordtype}{int}\ n\_quad\_pts,\ \textcolor{keywordtype}{int}\ n\_nod\_elem,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ **a\_K,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ **x\_hat\_quad,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ *weights,}
-\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ **A\_K\_elem,\ \textcolor{keywordtype}{float}\ *l\_K\_elem);}
-\DoxyCodeLine{00165\ }
-\DoxyCodeLine{00186\ \textcolor{keywordtype}{void}}
-\DoxyCodeLine{00187\ \mbox{\hyperlink{elem__eval_8h_acbfe0c3f5be1de6b953bafa4f7dc343d}{eval\_K}}(\textcolor{keywordtype}{int}\ ref\_interior,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ *ref\_Dh,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ *ref\_Dnh,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ *ref\_NF,\ \textcolor{keywordtype}{int}\ n\_Dh,\ \textcolor{keywordtype}{int}\ n\_Dnh,\ \textcolor{keywordtype}{int}\ n\_NF,\ \textcolor{keywordtype}{int}\ t,}
-\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ n\_nod\_elem,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ **a\_K,\ \textcolor{keywordtype}{int}\ n\_edg\_elem,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ *ref\_edg\_K,\ \textcolor{keywordtype}{float}\ **A\_K,\ \textcolor{keywordtype}{float}\ *l\_K,\ \textcolor{keywordtype}{int}\ *nodes\_D,}
-\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ *uD\_aK}
-\DoxyCodeLine{00190\ );}
-\DoxyCodeLine{00191\ }
-\DoxyCodeLine{00192\ }
-\DoxyCodeLine{00193\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//FEM\_PROJECT\_ELEM\_EVAL\_H}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#ifndef\ FEM\_PROJECT\_ELEM\_EVAL\_H}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ FEM\_PROJECT\_ELEM\_EVAL\_H}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#define\ DIM\ 2}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#define\ N\_NOD\_EDG\ 2}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#define\ SEG\_TYPE\ 3}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00026\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{elem__eval_8h_afb699e47f7587f6398dbeb27fe7537d8}{evalFbase}}(\textcolor{keywordtype}{int}\ t,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ *x\_hat,\ \textcolor{keywordtype}{float}\ *w\_hat\_x\_hat);}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00038\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{elem__eval_8h_ac23e68c41f6ebbb07c65f94a1291a04c}{evalDFbase}}(\textcolor{keywordtype}{int}\ t,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ *x\_hat,\ \textcolor{keywordtype}{float}\ **Dw\_hat);}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00047\ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{elem__eval_8h_afed67963460022130e36abecf3a43933}{inv\_2x2}}(\textcolor{keywordtype}{float}\ **M,\ \textcolor{keywordtype}{float}\ **M\_inv);}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00058\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{elem__eval_8h_a38a249e92ef0dcf0cf8f566dbd595357}{quad\_order}}(\textcolor{keywordtype}{int}\ t);}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00068\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{elem__eval_8h_a8899171f0ec171b870816d8dcd38d7d5}{wp\_quad}}(\textcolor{keywordtype}{int}\ t,\ \textcolor{keywordtype}{float}\ **x\_quad\_hat,\ \textcolor{keywordtype}{float}\ *weights);}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00079\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{elem__eval_8h_a1fbf17908321a868e4944650ace5c2e0}{transFK}}(\textcolor{keywordtype}{int}\ n\_nod\_elem,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ **a\_K,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ *w\_hat\_x\_hat,\ \textcolor{keywordtype}{float}\ *Fk\_x\_hat);}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00091\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{elem__eval_8h_a576c9f90e6f81755a58fcda124066563}{jacobFK}}(\textcolor{keywordtype}{int}\ n\_nod\_elem,\ \textcolor{keywordtype}{int}\ d,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ **a\_K,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ **Dw\_hat\_x\_hat,\ \textcolor{keywordtype}{float}\ **jacob\_Fk\_x\_hat);}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00102\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{elem__eval_8h_aa72a73a0acc702937e54966a28106585}{vertices\_Edge}}(\textcolor{keywordtype}{int}\ edge\_nb,\ \textcolor{keywordtype}{int}\ t,\ \textcolor{keywordtype}{int}\ *local\_nodes);}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00115\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{elem__eval_8h_aab25700c4cb50662e141408f6b85a663}{selectPts}}(\textcolor{keywordtype}{int}\ n\_pts,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ pts\_nb[],\ \textcolor{keywordtype}{float}\ *coordSet[],\ \textcolor{keywordtype}{float}\ *select\_coord[]);}
+\DoxyCodeLine{00116\ }
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00127\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{elem__eval_8h_a5f2fabf585679a00a5f90d4814ac257c}{q\_contrib\_gW}}(\textcolor{keywordtype}{int}\ n\_nod\_elem,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ *w\_x,\ \textcolor{keywordtype}{float}\ diff,\ \textcolor{keywordtype}{float}\ g\_x,\ \textcolor{keywordtype}{float}\ *sum\_contrib);}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00129\ }
+\DoxyCodeLine{00139\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{elem__eval_8h_a8f1685423e8601a5cae4fb560f4dd9ee}{q\_contrib\_gWW}}(\textcolor{keywordtype}{int}\ n\_nod\_elem,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ *w\_x,\ \textcolor{keywordtype}{float}\ diff,\ \textcolor{keywordtype}{float}\ g\_x,\ \textcolor{keywordtype}{float}\ **sum\_contrib);}
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00141\ }
+\DoxyCodeLine{00151\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{elem__eval_8h_a75316c4602c3f41c1c0a798411fce68d}{q\_contrib\_gdWdW}}(\textcolor{keywordtype}{int}\ n\_nod\_elem,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ **Dw\_x,\ \textcolor{keywordtype}{float}\ diff,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ **g\_x,\ \textcolor{keywordtype}{float}\ **sum\_contrib);}
+\DoxyCodeLine{00152\ }
+\DoxyCodeLine{00153\ }
+\DoxyCodeLine{00166\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{elem__eval_8h_aaee5d12e8a4c3235c413cae3dabb9d1e}{intElem}}(\textcolor{keywordtype}{int}\ t,\ \textcolor{keywordtype}{int}\ n\_quad\_pts,\ \textcolor{keywordtype}{int}\ n\_nod\_elem,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ **a\_K,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ **x\_hat\_quad,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ *weights,}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ **A\_K\_elem,\ \textcolor{keywordtype}{float}\ *l\_K\_elem);}
+\DoxyCodeLine{00168\ }
+\DoxyCodeLine{00179\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{elem__eval_8h_a8f6761c376242722dc0c16a9c7a342b5}{intEdge}}(\textcolor{keywordtype}{int}\ n\_quad\_pts,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ **a\_Kp,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ **x\_hat\_quad,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ *weights,\ \textcolor{keywordtype}{float}\ **A\_K\_edg,}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ *l\_K\_edg);}
+\DoxyCodeLine{00181\ }
+\DoxyCodeLine{00182\ }
+\DoxyCodeLine{00203\ \textcolor{keywordtype}{void}}
+\DoxyCodeLine{00204\ \mbox{\hyperlink{elem__eval_8h_acbfe0c3f5be1de6b953bafa4f7dc343d}{eval\_K}}(\textcolor{keywordtype}{int}\ ref\_interior,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ *ref\_Dh,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ *ref\_Dnh,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ *ref\_NF,\ \textcolor{keywordtype}{int}\ n\_Dh,\ \textcolor{keywordtype}{int}\ n\_Dnh,}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ n\_NF,\ \textcolor{keywordtype}{int}\ t,}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ n\_nod\_elem,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{float}\ **a\_K,\ \textcolor{keywordtype}{int}\ n\_edg\_elem,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ *ref\_edg\_K,\ \textcolor{keywordtype}{float}\ **A\_K,\ \textcolor{keywordtype}{float}\ *l\_K,}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ *nodes\_D,}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ *uD\_aK}
+\DoxyCodeLine{00209\ );}
+\DoxyCodeLine{00210\ }
+\DoxyCodeLine{00211\ }
+\DoxyCodeLine{00212\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//FEM\_PROJECT\_ELEM\_EVAL\_H}}
 
 \end{DoxyCode}

@@ -107,6 +107,9 @@ $(function(){initNavTree('elem__eval_8c.html',''); initResizable(true); });
   <div class="headertitle"><div class="title">elem_eval.c File Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Functions that evaluate discretization of variational formulation : A_K_ij and l_K_i for the element K.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="elem__eval_8h_source.html">elem_eval.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="tab__mngmt_8h_source.html">tab_mngmt.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="problem__functions_8h_source.html">problem_functions.h</a>&quot;</code><br />
@@ -153,7 +156,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:a75316c4602c3f41c1c0a798411fce68d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the contribution of the quadrature points x_k for the integral's quadrature of the shape g(x_k)Dw_i(x_k)Dw_j(x_k) for (i,j) in [1,node_elem]*[1,node_elem];.  <br /></td></tr>
 <tr class="separator:a75316c4602c3f41c1c0a798411fce68d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaee5d12e8a4c3235c413cae3dabb9d1e" id="r_aaee5d12e8a4c3235c413cae3dabb9d1e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaee5d12e8a4c3235c413cae3dabb9d1e">intElem</a> (int t, int n_quad_pts, int n_nod_elem, const float **a_K, const float **x_hat_quad, const float *weights, float **A_K_elem, float *l_K_elem)</td></tr>
-<tr class="memdesc:aaee5d12e8a4c3235c413cae3dabb9d1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Evaluates the integrals on the element K with quadrature formula *&zwj;/.  <br /></td></tr>
+<tr class="memdesc:aaee5d12e8a4c3235c413cae3dabb9d1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Evaluates the integrals on the element K with quadrature formula.  <br /></td></tr>
 <tr class="separator:aaee5d12e8a4c3235c413cae3dabb9d1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8f6761c376242722dc0c16a9c7a342b5" id="r_a8f6761c376242722dc0c16a9c7a342b5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8f6761c376242722dc0c16a9c7a342b5">intEdge</a> (int n_quad_pts, const float **a_Kp, const float **x_hat_quad, const float *weights, float **A_K_edg, float *l_K_edg)</td></tr>
 <tr class="memdesc:a8f6761c376242722dc0c16a9c7a342b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Evaluates the integrals on the edges of element K (Kp = K prime) with quadrature formula.  <br /></td></tr>
@@ -162,7 +165,16 @@ Functions</h2></td></tr>
 <tr class="memdesc:acbfe0c3f5be1de6b953bafa4f7dc343d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Evaluates A_K_ij and second member l_K_i form the discretization of the variational formulation for the element K.  <br /></td></tr>
 <tr class="separator:acbfe0c3f5be1de6b953bafa4f7dc343d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Functions that evaluate discretization of variational formulation : A_K_ij and l_K_i for the element K. </p>
+<dl class="section warning"><dt>Warning</dt><dd>In these functions, tab allocation is supposed to be done outside the function with correct dimension. </dd>
+<dd>
+We work in a 2-dimensional space. </dd>
+<dd>
+We suppose we approximate the element geometry at the degree 1 (N_NOD_EDG : 2) if degree &gt; 1 then it becomes a variable that is equal to degree + 1 </dd>
+<dd>
+We suppose dynamical tab of sum of contribution are initialized to 0. </dd></dl>
+</div><h2 class="groupheader">Function Documentation</h2>
 <a id="acbfe0c3f5be1de6b953bafa4f7dc343d" name="acbfe0c3f5be1de6b953bafa4f7dc343d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acbfe0c3f5be1de6b953bafa4f7dc343d">&#9670;&#160;</a></span>eval_K()</h2>
 
@@ -454,8 +466,20 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Evaluates the integrals on the element K with quadrature formula *&zwj;/. </p>
 <p>Evaluates the integrals on the element K with quadrature formula. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">t</td><td>type of the element (1: quadrangle, 2:triangle) </td></tr>
+    <tr><td class="paramname">n_quad_pts</td><td>number of points in the quadrature formula </td></tr>
+    <tr><td class="paramname">n_nod_elem</td><td>number of nodes in the element K </td></tr>
+    <tr><td class="paramname">a_K</td><td>nodes coordinates of element K </td></tr>
+    <tr><td class="paramname">x_hat_quad</td><td>coordinates of quadrature points in the reference element K_hat (!= K) </td></tr>
+    <tr><td class="paramname">weights</td><td>array of weights associated to quadrature points </td></tr>
+    <tr><td class="paramname">A_K_elem</td><td>matrix : part of discretization of A_K_ij that are integrals on K </td></tr>
+    <tr><td class="paramname">l_K_elem</td><td>vector : part of discretization of l_K_i (2nd member) that are integrals on K </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

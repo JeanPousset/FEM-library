@@ -201,10 +201,8 @@ void intEdge(int n_quad_pts, const float **a_Kp, const float **x_hat_quad, const
  * @param uD_aK        array where the element i contains the value uD(a_K_i) if the nod_i carries a non-homogenous Dirichlet condition, 0 otherwise
  */
 void
-eval_K(int ref_interior, const int *ref_Dh, const int *ref_Dnh, const int *ref_NF, int n_Dh, int n_Dnh,
-       int n_NF, int t,
-       int n_nod_elem, const float **a_K, int n_edg_elem, const int *ref_edg_K, float **A_K, float *l_K,
-       int *nodes_D,
+eval_K(int ref_interior, const int *ref_Dh, const int *ref_Dnh, const int *ref_NF, int n_Dh, int n_Dnh, int n_NF, int t,
+       int n_nod_elem, const float **a_K, int n_edg_elem, const int *ref_edg_K, float **A_K, float *l_K, int *nodes_D,
        float *uD_aK
 );
 

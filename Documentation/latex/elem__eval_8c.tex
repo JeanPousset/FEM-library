@@ -1,5 +1,10 @@
 \doxysection{elem\+\_\+eval.\+c File Reference}
 \hypertarget{elem__eval_8c}{}\label{elem__eval_8c}\index{elem\_eval.c@{elem\_eval.c}}
+
+
+Functions that evaluate discretization of variational formulation \+: A\+\_\+\+K\+\_\+ij and l\+\_\+\+K\+\_\+i for the element K.  
+
+
 {\ttfamily \#include "{}elem\+\_\+eval.\+h"{}}\newline
 {\ttfamily \#include "{}tab\+\_\+mngmt.\+h"{}}\newline
 {\ttfamily \#include "{}problem\+\_\+functions.\+h"{}}\newline
@@ -34,11 +39,25 @@ void \mbox{\hyperlink{elem__eval_8c_a8f1685423e8601a5cae4fb560f4dd9ee}{q\+\_\+co
 void \mbox{\hyperlink{elem__eval_8c_a75316c4602c3f41c1c0a798411fce68d}{q\+\_\+contrib\+\_\+gd\+WdW}} (int n\+\_\+nod\+\_\+elem, const float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}Dw\+\_\+x, float diff, const float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}g\+\_\+x, float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}sum\+\_\+contrib)
 \begin{DoxyCompactList}\small\item\em Compute the contribution of the quadrature points x\+\_\+k for the integral\textquotesingle{}s quadrature of the shape g(x\+\_\+k)Dw\+\_\+i(x\+\_\+k)Dw\+\_\+j(x\+\_\+k) for (i,j) in \mbox{[}1,node\+\_\+elem\mbox{]}\texorpdfstring{$\ast$}{*}\mbox{[}1,node\+\_\+elem\mbox{]};. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{elem__eval_8c_aaee5d12e8a4c3235c413cae3dabb9d1e}{int\+Elem}} (int t, int n\+\_\+quad\+\_\+pts, int n\+\_\+nod\+\_\+elem, const float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}a\+\_\+K, const float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}x\+\_\+hat\+\_\+quad, const float \texorpdfstring{$\ast$}{*}weights, float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}A\+\_\+\+K\+\_\+elem, float \texorpdfstring{$\ast$}{*}l\+\_\+\+K\+\_\+elem)
-\begin{DoxyCompactList}\small\item\em Evaluates the integrals on the element K with quadrature formula \texorpdfstring{$\ast$}{*}/. \end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Evaluates the integrals on the element K with quadrature formula. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{elem__eval_8c_a8f6761c376242722dc0c16a9c7a342b5}{int\+Edge}} (int n\+\_\+quad\+\_\+pts, const float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}a\+\_\+\+Kp, const float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}x\+\_\+hat\+\_\+quad, const float \texorpdfstring{$\ast$}{*}weights, float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}A\+\_\+\+K\+\_\+edg, float \texorpdfstring{$\ast$}{*}l\+\_\+\+K\+\_\+edg)
 \begin{DoxyCompactList}\small\item\em Evaluates the integrals on the edges of element K (Kp = K prime) with quadrature formula. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{elem__eval_8c_acbfe0c3f5be1de6b953bafa4f7dc343d}{eval\+\_\+K}} (int ref\+\_\+interior, const int \texorpdfstring{$\ast$}{*}ref\+\_\+\+Dh, const int \texorpdfstring{$\ast$}{*}ref\+\_\+\+Dnh, const int \texorpdfstring{$\ast$}{*}ref\+\_\+\+NF, int n\+\_\+\+Dh, int n\+\_\+\+Dnh, int n\+\_\+\+NF, int t, int n\+\_\+nod\+\_\+elem, const float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}a\+\_\+K, int n\+\_\+edg\+\_\+elem, const int \texorpdfstring{$\ast$}{*}ref\+\_\+edg\+\_\+K, float \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}A\+\_\+K, float \texorpdfstring{$\ast$}{*}l\+\_\+K, int \texorpdfstring{$\ast$}{*}nodes\+\_\+D, float \texorpdfstring{$\ast$}{*}u\+D\+\_\+aK)
 \begin{DoxyCompactList}\small\item\em Evaluates A\+\_\+\+K\+\_\+ij and second member l\+\_\+\+K\+\_\+i form the discretization of the variational formulation for the element K. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Functions that evaluate discretization of variational formulation \+: A\+\_\+\+K\+\_\+ij and l\+\_\+\+K\+\_\+i for the element K. 
+
+\begin{DoxyWarning}{Warning}
+In these functions, tab allocation is supposed to be done outside the function with correct dimension. 
+
+We work in a 2-\/dimensional space. 
+
+We suppose we approximate the element geometry at the degree 1 (N\+\_\+\+NOD\+\_\+\+EDG \+: 2) if degree \texorpdfstring{$>$}{>} 1 then it becomes a variable that is equal to degree + 1 
+
+We suppose dynamical tab of sum of contribution are initialized to 0. 
+\end{DoxyWarning}
 
 
 \doxysubsection{Function Documentation}
@@ -163,9 +182,28 @@ void int\+Elem (\begin{DoxyParamCaption}\item[{int}]{t}{, }\item[{int}]{n\+\_\+q
 
 
 
-Evaluates the integrals on the element K with quadrature formula \texorpdfstring{$\ast$}{*}/. 
+Evaluates the integrals on the element K with quadrature formula. 
 
-Evaluates the integrals on the element K with quadrature formula. \Hypertarget{elem__eval_8c_afed67963460022130e36abecf3a43933}\index{elem\_eval.c@{elem\_eval.c}!inv\_2x2@{inv\_2x2}}
+
+\begin{DoxyParams}{Parameters}
+{\em t} & type of the element (1\+: quadrangle, 2\+:triangle) \\
+\hline
+{\em n\+\_\+quad\+\_\+pts} & number of points in the quadrature formula \\
+\hline
+{\em n\+\_\+nod\+\_\+elem} & number of nodes in the element K \\
+\hline
+{\em a\+\_\+K} & nodes coordinates of element K \\
+\hline
+{\em x\+\_\+hat\+\_\+quad} & coordinates of quadrature points in the reference element K\+\_\+hat (!= K) \\
+\hline
+{\em weights} & array of weights associated to quadrature points \\
+\hline
+{\em A\+\_\+\+K\+\_\+elem} & matrix \+: part of discretization of A\+\_\+\+K\+\_\+ij that are integrals on K \\
+\hline
+{\em l\+\_\+\+K\+\_\+elem} & vector \+: part of discretization of l\+\_\+\+K\+\_\+i (2nd member) that are integrals on K \\
+\hline
+\end{DoxyParams}
+\Hypertarget{elem__eval_8c_afed67963460022130e36abecf3a43933}\index{elem\_eval.c@{elem\_eval.c}!inv\_2x2@{inv\_2x2}}
 \index{inv\_2x2@{inv\_2x2}!elem\_eval.c@{elem\_eval.c}}
 \doxysubsubsection{\texorpdfstring{inv\_2x2()}{inv\_2x2()}}
 {\footnotesize\ttfamily \label{elem__eval_8c_afed67963460022130e36abecf3a43933} 

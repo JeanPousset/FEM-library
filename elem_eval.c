@@ -1,6 +1,6 @@
 /**
- * @file elem_eval.h
- * @brief Header for functions that evaluate discretization of variational formulation : A_K_ij and l_K_i for the element K
+ * @file elem_eval.c
+ * @brief Functions that evaluate discretization of variational formulation : A_K_ij and l_K_i for the element K
  *
  * @warning In these functions, tab allocation is supposed to be done outside the function with correct dimension.
  * @warning We work in a 2-dimensional space.
@@ -273,7 +273,7 @@ void q_contrib_gdWdW(int n_nod_elem, const float **Dw_x, float diff, const float
     }
 }
 
-/// Evaluates the integrals on the element K with quadrature formula */
+/// Evaluates the integrals on the element K with quadrature formula
 void intElem(int t, int n_quad_pts, int n_nod_elem, const float **a_K, const float **x_hat_quad, const float *weights,
              float **A_K_elem, float *l_K_elem) {
     int k, i, j;

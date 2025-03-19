@@ -167,6 +167,20 @@ void intElem(int t, int n_quad_pts, int n_nod_elem, const float **a_K, const flo
              float **A_K_elem, float *l_K_elem);
 
 /**
+ * @brief Evaluates the integrals on the edges of element K (Kp = K prime) with quadrature formula
+ *
+ * @param n_quad_pts number of points in the quadrature formula for an integral over a segment
+ * @param a_Kp       nodes coordinates of edge Kp
+ * @param x_hat_quad coordinates of quadrature points in the reference element Kp_hat (!= Kp)
+ * @param weights    array of weights associated to quadrature points
+ * @param A_K_edg    matrix : part of discretization of A_K_ij that are integrals on Kp
+ * @param l_K_edg    vector : part of discretization of l_K_i (2nd member) that are integrals on K
+ */
+void intEdge(int n_quad_pts, const float **a_Kp, const float **x_hat_quad, const float *weights, float **A_K_edg,
+             float *l_K_edg);
+
+
+/**
  * @brief Evaluates A_K_ij and second member l_K_i form the discretization of the variational formulation for the element K
  *
  * @param ref_interior reference number for edges inside the domain
@@ -187,8 +201,10 @@ void intElem(int t, int n_quad_pts, int n_nod_elem, const float **a_K, const flo
  * @param uD_aK        array where the element i contains the value uD(a_K_i) if the nod_i carries a non-homogenous Dirichlet condition, 0 otherwise
  */
 void
-eval_K(int ref_interior, const int *ref_Dh, const int *ref_Dnh, const int *ref_NF, int n_Dh, int n_Dnh, int n_NF, int t,
-       int n_nod_elem, const float **a_K, int n_edg_elem, const int *ref_edg_K, float **A_K, float *l_K, int *nodes_D,
+eval_K(int ref_interior, const int *ref_Dh, const int *ref_Dnh, const int *ref_NF, int n_Dh, int n_Dnh,
+       int n_NF, int t,
+       int n_nod_elem, const float **a_K, int n_edg_elem, const int *ref_edg_K, float **A_K, float *l_K,
+       int *nodes_D,
        float *uD_aK
 );
 

@@ -334,7 +334,7 @@ intEdge(int n_quad_pts, const float **a_Kp, const float **x_hat_quad, const floa
         float *l_K_edg
 ) {
 
-    int k, i, j;
+    int k;
     float Kp_length, diff;
 
     // Memory allocation for object reset in each quadrature point
@@ -349,11 +349,10 @@ intEdge(int n_quad_pts, const float **a_Kp, const float **x_hat_quad, const floa
         evalFbase(SEG_TYPE, x_hat_quad[k], w_hat_x_hat);
         evalDFbase(SEG_TYPE, x_hat_quad[k], Dw_hat_x_hat);
 
-        // Get the quadrature points coordinates x_quad_k with F_K
-        transFK(N_NOD_EDG, a_Kp, w_hat_x_hat, x_quad);
+        transFK(N_NOD_EDG, a_Kp, w_hat_x_hat, x_quad); // Get the quadrature points coordinates x_quad_k
         jacobFK(N_NOD_EDG, 1, a_Kp, (const float **) Dw_hat_x_hat, JFk_x_hat);
 
-        // evaluation of segment length to get differential element in the quadrature formula
+        // evaluation of segment length to get the differential term in the quadrature formula
         Kp_length = sqrtf(JFk_x_hat[0][0] * JFk_x_hat[0][0] + JFk_x_hat[1][0] * JFk_x_hat[1][0]);
         diff = Kp_length * weights[k]; // differential coef * weight for the quadrature formula
 
@@ -383,7 +382,7 @@ eval_K(int ref_interior, const int *ref_Dh, const int *ref_Dnh, const int *ref_N
     // ----------- Integral on the element K -----------
 
     n_quad_pts_elem = quad_order(t);
-    // Memory
+    // Memory allocation
     float **x_quad_hat_elem = matF_alloc(n_quad_pts_elem, 2);
     float *weights_elem = malloc(n_quad_pts_elem * sizeof(float));
     float **A_K_elem = matF_alloc0(n_nod_elem, n_nod_elem);  // Every value set to 0
@@ -412,15 +411,11 @@ eval_K(int ref_interior, const int *ref_Dh, const int *ref_Dnh, const int *ref_N
     float **x_quad_hat_edg = matF_alloc(n_quad_pts_edg, DIM);
     float *weights_edg = malloc(n_quad_pts_edg * sizeof(float));
     int *edg_nod_ind = malloc(N_NOD_EDG * sizeof(int));
-    float **A_K_edg = matF_alloc(N_NOD_EDG, N_NOD_EDG);        // Values to be re-initialize to 0 for each Neumann edge
-    float *l_K_edg = malloc(
-            N_NOD_EDG * sizeof(float));          // Values to be re-initialize to 0 for each Neumann edge
-
-
+    float **A_K_edg = matF_alloc(N_NOD_EDG, N_NOD_EDG);     // Values to be re-initialize to 0 for each Neumann edge
+    float *l_K_edg = malloc(N_NOD_EDG * sizeof(float));     // Values to be re-initialize to 0 for each Neumann edge
     // Special case for this one : it's a dynamic tab of float pointers
     float **edg_nodes_coords = malloc(N_NOD_EDG * sizeof(float *));
     // (5) -> Is it a good way to handle it ? Because if I don't do this they will be a pb when memory clean because on the simple copy of selectPts
-
 
     for (i = 0; i < n_edg_elem; i++) {
 
@@ -446,7 +441,7 @@ eval_K(int ref_interior, const int *ref_Dh, const int *ref_Dnh, const int *ref_N
                     flag_categorized = 1;
                 }
             }
-            for (j = 0; j < n_NF & flag_categorized == 0; j++) {    // Neumann or Fourier edge
+            for (j = 0; j < n_NF & flag_categorized == 0; j++) {      // Neumann or Fourier edge
                 if (ref_edg_K[i] == ref_NF[j]) {
                     selectPts(N_NOD_EDG, edg_nod_ind, (float **) a_K, edg_nodes_coords);/// @warning lost "const" on a_K
                     wp_quad(SEG_TYPE, x_quad_hat_edg, weights_edg);
@@ -456,10 +451,10 @@ eval_K(int ref_interior, const int *ref_Dh, const int *ref_Dnh, const int *ref_N
                         l_K_edg[k] = 0;
                         for (l = 0; l < N_NOD_EDG; l++) A_K_edg[k][l] = 0;
                     }
+
+                    // Update results (we have the contribution for each node at the end of the edge (2 nodes)
                     intEdge(n_quad_pts_edg, (const float **) edg_nodes_coords, (const float **) x_quad_hat_edg,
                             weights_edg, A_K_edg, l_K_edg);
-
-                    // Update results (we had the contribution for each node at the end of the edge (2 nodes)
                     for (k = 0; k < N_NOD_EDG; k++) {
                         l_K[edg_nod_ind[k]] += l_K_edg[k];
                         for (l = 0; l < N_NOD_EDG; l++) A_K[edg_nod_ind[k]][edg_nod_ind[l]] += A_K_edg[k][l];

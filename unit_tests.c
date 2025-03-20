@@ -141,38 +141,29 @@ void test_eval_K(const char *mesh_file) {
     int ref_NF[2] = {2, 3};
     int n_NF = 2;
 
-    float **a_K = matF_alloc(n_nod_elem, DIM); // will be used to store nodes coordinates of each element K
 
     // Elementary results memory allocation (they will be correctly initialize for every element K
     float **A_K = matF_alloc(n_nod_elem, n_nod_elem);
     float *l_K = malloc(n_nod_elem * sizeof(float));
     int *nodes_D = malloc(n_nod_elem * sizeof(int));
     float *uD_aK = malloc(n_nod_elem * sizeof(float));
+    float **a_K = malloc(n_nod_elem * sizeof(float *)); // Special case : dynamic tab of float pointers
+
 
     for (k = 0; k < n_elem; k++) {
 
-        // Initialize elementary result and Dirichlet containers with correct values
         for (i = 0; i < n_nod_elem; i++) {
+            // Initialize elementary result and Dirichlet containers with correct values
             l_K[i] = 0;
             nodes_D[i] = 1;
-            uD_aK[i] = 0; // (3) maybe useless because element with 0 values won't be used / accessed ?
+            uD_aK[i] = 0; //(3) maybe useless because element with 0 values won't be used / accessed ?
             for (j = 0; j < n_nod_elem; j++) {
                 A_K[i][j] = 0;
             }
+            // get nodes coordinates of K (we could also use selectPts)
+            a_K[i] = nod_coords[nod_gNb[k][i]-1]; /// @warning : only a simple pointers copy (not a deep copy)
         }
 
-        // Get nodes coordinates of element K (a_K)
-        //(1) Is it ok to not make a deep copy ? yes bc constant ?
-        //      maybe better to make a deep copy to have everything aligned ?
-        // for (j=0; j<n_nod_elem; j++) a_K[j] = nod_coords[nod_gNb[i][j]-1]; // -1 because global number begin at 1
-        for (i = 0; i < n_nod_elem; i++) {
-            for (j = 0; j < DIM; j++) {
-                a_K[i][j] = nod_coords[nod_gNb[k][i] - 1][j]; // -1 because global number begin at 1
-                //printf("a_K(i,j) = %f\n",a_K[i][j]);
-            }
-        }
-        // (3) I have to put &() to get the line of i of ref_edg[i] ??
-        //for(i=0;i<n_edg_elem;i++) printf("ref_edg_%d of elem %d : %d\n",i,k,ref_edg[k][i]);
         eval_K(ref_interior, ref_Dh, ref_Dnh, ref_NF, n_Dh, n_Dnh, n_NF, type, n_nod_elem, (const float **) a_K,
                n_edg_elem, ref_edg[k], A_K, l_K, nodes_D, uD_aK);
 
@@ -180,11 +171,11 @@ void test_eval_K(const char *mesh_file) {
 
         // (4) How to handle case where a nod is in a corner and is of 2 different edge conditions at the time ??
         //      -> because for now if I'm not wrong the old condition is replaced by the last condition in nodes_D
-        //       (*) Is it ok with the hypothesis of continuous conditions ?
+        //       (*) It's ok with the hypothesis of continuous conditions for Dirichlet conditions
 
     }
     // free memory
-    free_mat(a_K);
+    free(a_K);      // Only an array of pointers -> not really a matrix
     free_mat(A_K);
     free(l_K);
     free(nodes_D);

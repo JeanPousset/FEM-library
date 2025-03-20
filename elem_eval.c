@@ -406,16 +406,9 @@ eval_K(int ref_interior, const int *ref_Dh, const int *ref_Dnh, const int *ref_N
 
     // ----------- Integral on a potential edge element K
 
-    // Memory update (clean and new)
-    n_quad_pts_edg = quad_order(SEG_TYPE);
-    float **x_quad_hat_edg = matF_alloc(n_quad_pts_edg, DIM);
-    float *weights_edg = malloc(n_quad_pts_edg * sizeof(float));
+    // Memory allocation for all kind of special edge
     int *edg_nod_ind = malloc(N_NOD_EDG * sizeof(int));
-    float **A_K_edg = matF_alloc(N_NOD_EDG, N_NOD_EDG);     // Values to be re-initialize to 0 for each Neumann edge
-    float *l_K_edg = malloc(N_NOD_EDG * sizeof(float));     // Values to be re-initialize to 0 for each Neumann edge
-    // Special case for this one : it's a dynamic tab of float pointers
-    float **edg_nodes_coords = malloc(N_NOD_EDG * sizeof(float *));
-    // (5) -> Is it a good way to handle it ? Because if I don't do this they will be a pb when memory clean because on the simple copy of selectPts
+
 
     for (i = 0; i < n_edg_elem; i++) {
 
@@ -443,7 +436,18 @@ eval_K(int ref_interior, const int *ref_Dh, const int *ref_Dnh, const int *ref_N
             }
             for (j = 0; j < n_NF & flag_categorized == 0; j++) {      // Neumann or Fourier edge
                 if (ref_edg_K[i] == ref_NF[j]) {
-                    selectPts(N_NOD_EDG, edg_nod_ind, (float **) a_K, edg_nodes_coords);/// @warning lost "const" on a_K
+
+                    // Memory needs for this case of edge
+                    n_quad_pts_edg = quad_order(SEG_TYPE);
+                    float **x_quad_hat_edg = matF_alloc(n_quad_pts_edg, DIM);
+                    float *weights_edg = malloc(n_quad_pts_edg * sizeof(float));
+                    float **A_K_edg = matF_alloc(N_NOD_EDG, N_NOD_EDG);     // Values to be re-initialize to 0 for each Neumann edge
+                    float *l_K_edg = malloc(N_NOD_EDG * sizeof(float));     // Values to be re-initialize to 0 for each Neumann edge
+                    // Special case for this one : it's a dynamic tab of float pointers
+                    float **a_Kp = malloc(N_NOD_EDG * sizeof(float *));
+                    // (5) -> Is it a good way to handle it ? Because if I don't do this they will be a pb when memory clean because on the simple copy of selectPts
+
+                    selectPts(N_NOD_EDG, edg_nod_ind, (float **) a_K, a_Kp);/// @warning lost "const" on a_K
                     wp_quad(SEG_TYPE, x_quad_hat_edg, weights_edg);
 
                     // Re-intialize A_K_edg and l_K_edg to 0;
@@ -453,23 +457,25 @@ eval_K(int ref_interior, const int *ref_Dh, const int *ref_Dnh, const int *ref_N
                     }
 
                     // Update results (we have the contribution for each node at the end of the edge (2 nodes)
-                    intEdge(n_quad_pts_edg, (const float **) edg_nodes_coords, (const float **) x_quad_hat_edg,
+                    intEdge(n_quad_pts_edg, (const float **) a_Kp, (const float **) x_quad_hat_edg,
                             weights_edg, A_K_edg, l_K_edg);
                     for (k = 0; k < N_NOD_EDG; k++) {
                         l_K[edg_nod_ind[k]] += l_K_edg[k];
                         for (l = 0; l < N_NOD_EDG; l++) A_K[edg_nod_ind[k]][edg_nod_ind[l]] += A_K_edg[k][l];
                     }
                     flag_categorized = 1;
+
+                    // Memory clean
+                    free(a_Kp); // (5) Here we only free an dynamic array of float pointers -> different from a matrix
+                    free_mat(A_K_edg);
+                    free(weights_edg);
+                    free_mat(x_quad_hat_edg);
+                    free(l_K_edg);
                 }
             }
         }
     }
 
-    // free memory
-    free_mat(x_quad_hat_edg);
-    free(l_K_edg);
+    // Memory for all kind of special edges
     free(edg_nod_ind);
-    free(edg_nodes_coords); // (5) Here we only free an dynamic array of float pointers -> different from a matrix
-    free_mat(A_K_edg);
-    free(weights_edg);
 }

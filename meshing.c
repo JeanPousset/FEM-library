@@ -154,8 +154,8 @@ int read_mesh(const char *input_mesh, int *type, int* n_nod, float*** p_coords, 
         return -1;
     }
 
-    fscanf(mesh_f,"%d",n_nod);      // number of nodes (n)
-    *p_coords = matF_alloc(*n_nod,2);   // allocate a n x 2 tab for coordinates
+    fscanf(mesh_f,"%d",n_nod);        // number of nodes (n)
+    *p_coords = matF_alloc(*n_nod,2); // allocate a n x 2 tab for coordinates
 
     // fill coordinates x_i y_i
     for (i=0; i<*n_nod; i++) fscanf(mesh_f,"%f %f",&(*p_coords)[i][0], &(*p_coords)[i][1]);

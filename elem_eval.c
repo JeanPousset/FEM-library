@@ -79,7 +79,7 @@ float inv_2x2(float **M, float **M_inv) {
     if (det < 10e-9) { // Throw an error if the matrix isn't invertible
         printf("determinant value that pose a problem : %f\n", det);
         perror("Matrix is almost singular or not invertible (inv_2x2) call");
-        return (1);
+        return 1;
     } else {
         float inv_det = 1 / det;
         M_inv[0][0] = inv_det * M[1][1];
@@ -417,7 +417,6 @@ eval_K(int ref_interior, const int *ref_Dh, const int *ref_Dnh, const int *ref_N
             flag_categorized = 0;                   // edge isn't categorized yet
             vertices_Edge(i + 1, t, edg_nod_ind);
             for (j = 0; j < N_NOD_EDG; j++) edg_nod_ind[j]--;
-            // We retrieve indices (2) ? Shouldn't do it directly in vertices edges and change the function's name
 
             for (j = 0; j < n_Dh & flag_categorized == 0; j++) {      // Dirichlet homogeneous edge
                 if (ref_edg_K[i] == ref_Dh[j]) {
@@ -445,7 +444,6 @@ eval_K(int ref_interior, const int *ref_Dh, const int *ref_Dnh, const int *ref_N
                     float *l_K_edg = malloc(N_NOD_EDG * sizeof(float));     // Values to be re-initialize to 0 for each Neumann edge
                     // Special case for this one : it's a dynamic tab of float pointers
                     float **a_Kp = malloc(N_NOD_EDG * sizeof(float *));
-                    // (5) -> Is it a good way to handle it ? Because if I don't do this they will be a pb when memory clean because on the simple copy of selectPts
 
                     selectPts(N_NOD_EDG, edg_nod_ind, (float **) a_K, a_Kp);/// @warning lost "const" on a_K
                     wp_quad(SEG_TYPE, x_quad_hat_edg, weights_edg);
@@ -466,7 +464,7 @@ eval_K(int ref_interior, const int *ref_Dh, const int *ref_Dnh, const int *ref_N
                     flag_categorized = 1;
 
                     // Memory clean
-                    free(a_Kp); // (5) Here we only free an dynamic array of float pointers -> different from a matrix
+                    free(a_Kp); // Here we only free a dynamic array of float pointers -> different from a matrix
                     free_mat(A_K_edg);
                     free(weights_edg);
                     free_mat(x_quad_hat_edg);

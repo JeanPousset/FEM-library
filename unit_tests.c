@@ -156,7 +156,7 @@ void test_eval_K(const char *mesh_file) {
             // Initialize elementary result and Dirichlet containers with correct values
             l_K[i] = 0;
             nodes_D[i] = 1;
-            uD_aK[i] = 0; //(3) maybe useless because element with 0 values won't be used / accessed ?
+            uD_aK[i] = 0; // (JP:) maybe useless because element with 0 values won't be used / accessed ?
             for (j = 0; j < n_nod_elem; j++) {
                 A_K[i][j] = 0;
             }

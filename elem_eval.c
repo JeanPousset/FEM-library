@@ -179,7 +179,7 @@ void transFK(int n_nod_elem, const float **a_K, const float *w_hat_x_hat, float 
         //printf("a_K %f\n",a_K[i][0]);
         //printf("w_hat %f\n",w_hat_x_hat[i]);
         Fk_x_hat[0] += a_K[i][0] * w_hat_x_hat[i];
-        Fk_x_hat[0] += a_K[i][1] * w_hat_x_hat[i];
+        Fk_x_hat[1] += a_K[i][1] * w_hat_x_hat[i];
     }
 }
 

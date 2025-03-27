@@ -6,7 +6,6 @@
 #ifndef FEM_PROJECT_PROBLEM_FUNCTIONS_H
 #define FEM_PROJECT_PROBLEM_FUNCTIONS_H
 
-
 float a00(const float* x) { return 1;}
 
 float a11(const float* x) { return 1;}

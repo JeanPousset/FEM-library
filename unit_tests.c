@@ -141,14 +141,12 @@ void test_eval_K(const char *mesh_file) {
     int ref_NF[2] = {2, 3};
     int n_NF = 2;
 
-
     // Elementary results memory allocation (they will be correctly initialize for every element K
     float **A_K = matF_alloc(n_nod_elem, n_nod_elem);
     float *l_K = malloc(n_nod_elem * sizeof(float));
     int *nodes_D = malloc(n_nod_elem * sizeof(int));
     float *uD_aK = malloc(n_nod_elem * sizeof(float));
     float **a_K = malloc(n_nod_elem * sizeof(float *)); // Special case : dynamic tab of float pointers
-
 
     for (k = 0; k < n_elem; k++) {
 

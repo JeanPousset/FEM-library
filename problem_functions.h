@@ -14,9 +14,9 @@ float a12(const float* x) { return 0;}
 
 float a22(const float* x) { return 1;}
 
-float bN(const float* x) { return 1;}
+float bN(const float* x) { return 0;}
 
-float fN(const float* x) { return 1;}
+float fN(const float* x) { return 0;}
 
 float f_OMEGA(const float* x) { return 1;}
 

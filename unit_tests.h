@@ -57,4 +57,11 @@ void print_eval_K(int K, int type, int n_nod_elem, float **A_K, float *l_K,
  */
 void test_eval_K(const char* mesh_file);
 
+/**
+ *
+ * @brief Test the assembly of the global matrix and 2nd member from the evaluation on each element K
+ */
+
+void test_assembly(const char *mesh_file);
+
 #endif //FEM_PROJECT_UNIT_TEST_H

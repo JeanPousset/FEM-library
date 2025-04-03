@@ -55,7 +55,7 @@ int main(int argc, char* argv[])
 
     /// Test eval_K
     // -> please check expression of problem function (a_ij, bN, ...) in the problem_functions.h file before
-
+    /*
     printf("=============================================================================\n"
            "Test of eval_K for the simple case : 1 box that contains 2 triangle element :\n"
            "=============================================================================\n");
@@ -65,6 +65,7 @@ int main(int argc, char* argv[])
            "Test of eval_K for basic case : 3x3 boxes that contain 2 triangle element each :\n"
            "=====================================================================================\n");
     test_eval_K("Mesh_files/check_read_car3x3t_3");
+    */
 
     /* // There isn't any correction
     printf("=====================================================================================\n"
@@ -78,6 +79,13 @@ int main(int argc, char* argv[])
            "=====================================================================================\n");
     test_eval_K("Mesh_files/check_read_car1x1t_4");
     */
+
+    // Assembly test
+    //test_assembly("Mesh_files/check_read_car1x1t_1");
+    test_assembly("Mesh_files/check_read_car3x3t_3");
+
+    /// (1) It seems I don't go through element the same way so I don't override the array D_gb_nod (NumDLDir) in the
+    ///     way . Why ??
 
 
 

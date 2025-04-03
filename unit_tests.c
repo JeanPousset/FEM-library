@@ -8,6 +8,8 @@
 #include "meshing.h"
 #include "tab_mngmt.h"
 #include "elem_eval.h"
+#include "assembly.h"
+#include "forfun.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -31,7 +33,7 @@ int test_inv2x2(void) {
     det = inv_2x2(M, M_inv);
     if (det != 2.0) res = 0;     // Checking if the matrix is correctly inverted
     for (i = 0; i < 2; i++) for (j = 0; j < 2; j++) if (M_cor[i][j] != M_inv[i][j]) res = 0;
-    if (res == 1) {printf(" 'inv2x2' function passed test with success \n");}
+    if (res == 1) { printf(" 'inv2x2' function passed test with success \n"); }
 
     // memory clean
     free_mat(M);
@@ -159,7 +161,7 @@ void test_eval_K(const char *mesh_file) {
                 A_K[i][j] = 0;
             }
             // get nodes coordinates of K (we could also use selectPts)
-            a_K[i] = nod_coords[nod_gNb[k][i]-1]; /// @warning : only a simple pointers copy (not a deep copy)
+            a_K[i] = nod_coords[nod_gNb[k][i] - 1]; /// @warning : only a simple pointers copy (not a deep copy)
         }
 
         eval_K(ref_interior, ref_Dh, ref_Dnh, ref_NF, n_Dh, n_Dnh, n_NF, type, n_nod_elem, (const float **) a_K,
@@ -178,6 +180,60 @@ void test_eval_K(const char *mesh_file) {
     free(l_K);
     free(nodes_D);
     free(uD_aK);
+}
+
+
+void test_assembly(const char *mesh_file) {
+
+    // Mesh file reading
+    int type, n_nod, n_elem, n_nod_elem, n_edg_elem;
+    float **nod_coords;
+    int **nod_gNb;
+    int **ref_edg;
+    read_mesh(mesh_file, &type, &n_nod, &nod_coords, &n_elem, &nod_gNb, &n_nod_elem, &n_edg_elem, &ref_edg);
+
+    // Edges conditions assignment
+    int ref_interior = 0;
+    int ref_Dh[1] = {1};
+    int n_Dh = 1;
+    int ref_Dnh[1] = {4};
+    int n_Dnh = 1;
+    int ref_NF[2] = {2, 3};
+    int n_NF = 2;
+
+    int n_lowA = NON_0_ROW * n_nod;
+    // Second member in the linear system of the variational formulation's discretization
+    float *sec_mb = calloc(n_nod,sizeof(float)); // Avant
+    // array to know if nodes are on a Dirichlet edge
+    int *D_gb_nod = malloc(n_nod * sizeof(int));
+    // Contains indices of the first non-zero element of the line i of the bottom triangular part of A_sparse
+    float *D_values = malloc(n_nod * sizeof(float));
+    int *first_non0_row = calloc(n_nod, sizeof(int));
+    float *A_sparse = calloc(n_nod + n_lowA, sizeof(float));
+    // column indices of non-zeros element of triangular bottom part of A_sparse
+    int *col_ind = malloc(n_lowA * sizeof(float));
+    // Position in triangular bottom part of A_sparse of the next element in the same line
+    int *nextInRow = calloc(n_lowA, sizeof(float));
+
+    assembly(type, n_nod, n_elem, n_nod_elem, n_edg_elem, (const float **) nod_coords, (const int **) nod_gNb,
+             (const int **) ref_edg, ref_interior, ref_Dh, ref_Dnh, ref_NF, n_Dh, n_Dnh, n_NF, n_lowA, sec_mb, D_gb_nod,
+             D_values, first_non0_row, A_sparse, col_ind, nextInRow);
+    // display
+    affsmd_(&n_nod,first_non0_row,col_ind,nextInRow,A_sparse,sec_mb,D_gb_nod,D_values);
+
+
+    // Clean memory
+    free_mat(nod_coords);
+    free_mat(nod_gNb);
+    free_mat(ref_edg);
+    free(sec_mb);
+    free(D_gb_nod);
+    free(D_values);
+    free(first_non0_row);
+    free(A_sparse);
+    free(col_ind);
+    free(nextInRow);
+
 }
 
 

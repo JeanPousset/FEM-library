@@ -6,7 +6,7 @@ LDFLAGS= -lm #-llapack
 
 EXEC := main
 SRCS := $(EXEC).c meshing.c tab_mngmt.c elem_eval.c unit_tests.c  # list of source files
-F_SRCS := assmat.f affsmd.f
+F_SRCS := fortran_utilites/assmat.f fortran_utilites/affsmd.f fortran_utilites/affsmo.f fortran_utilites/cdesse.f fortran_utilites/tri.f
 OBJ_C := $(SRCS:.c=.o) # convert source file name into object file name
 OBJ_F := $(F_SRCS:.f=.o) # convert source file name into object file name
 OBJ := $(OBJ_C) $(OBJ_F)

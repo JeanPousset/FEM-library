@@ -86,8 +86,5 @@ int main(int argc, char* argv[])
 
     /// (1) It seems I don't go through element the same way so I don't override the array D_gb_nod (NumDLDir) in the
     ///     way . Why ??
-
-
-
     return 0;
 }

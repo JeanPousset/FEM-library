@@ -1,20 +1,20 @@
-CC = clang
+CC = gcc
 FC = gfortran
-CFLAGS =-Wall -pedantic-errors -MMD # -MMD : automatic generation of dependance files (.d)
-FFLAGS = -cpp -Wall -MMD
-LDFLAGS= -lm #-llapack
+CFLAGS =-Wall -pedantic-errors -MMD# -MMD : automatic generation of dependance files (.d)
+FFLAGS = -Wall -ffixed-form -fno-underscoring -fno-automatic
+LDFLAGS= -lm#-llapack
 
 EXEC := main
 SRCS := $(EXEC).c meshing.c tab_mngmt.c elem_eval.c unit_tests.c  # list of source files
-F_SRCS := fortran_utilites/assmat.f fortran_utilites/affsmd.f fortran_utilites/affsmo.f fortran_utilites/cdesse.f fortran_utilites/tri.f
+F_SRCS := fortran_utilities/assmat.f fortran_utilities/affsmd.f fortran_utilities/affsmo.f fortran_utilities/cdesse.f fortran_utilities/tri.f
 OBJ_C := $(SRCS:.c=.o) # convert source file name into object file name
 OBJ_F := $(F_SRCS:.f=.o) # convert source file name into object file name
-OBJ := $(OBJ_C) $(OBJ_F)
+#OBJ := $(OBJ_C) $(OBJ_F)
 
 all : $(EXEC)
 
-$(EXEC) : $(OBJ)
-	$(CC) $(CFLAGS) -o $(EXEC) $(OBJ) $(LDFLAGS)
+$(EXEC) : $(OBJ_C) $(OBJ_F)
+	$(FC) $(CFLAGS) -o $(EXEC) $(OBJ_C) $(OBJ_F) $(LDFLAGS)
 
 # call compilator to compile source files ($<) et produce the object file associated ($@).
 %.o : %.c

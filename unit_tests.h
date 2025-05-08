@@ -58,10 +58,26 @@ void print_eval_K(int K, int type, int n_nod_elem, float **A_K, float *l_K,
 void test_eval_K(const char* mesh_file);
 
 /**
- *
  * @brief Test the assembly of the global matrix and 2nd member from the evaluation on each element K
  */
 
 void test_assembly(const char *mesh_file);
+
+/**
+ * @brief Test assembly then conversion DMS -> OMS + BC taken into account
+ */
+void test_DMS_to_OMS_with_BC(const char *mesh_file);
+
+/**
+ * @brief Assemblies, then transform into profile storage
+ * @warning in these function we allocate the result INSIDE !
+ * @return number of rows of the linear system matrix
+ */
+int linear_system(const char *mesh_file, float **A_pr, int **profile, float **sec_mb_BC);
+
+/**
+ * @brief Gets the profile storage of A and prints it
+ */
+void test_OMS_to_profile(const char *mesh_file);
 
 #endif //FEM_PROJECT_UNIT_TEST_H

@@ -203,7 +203,7 @@ void test_assembly(const char *mesh_file) {
 
     int n_lowA = NON_0_ROW * n_nod;
     // Second member in the linear system of the variational formulation's discretization
-    float *sec_mb = calloc(n_nod,sizeof(float)); // Avant
+    float *sec_mb = calloc(n_nod, sizeof(float)); // Avant
     // array to know if nodes are on a Dirichlet edge
     int *D_gb_nod = malloc(n_nod * sizeof(int));
     // Contains indices of the first non-zero element of the line i of the bottom triangular part of A_sparse
@@ -219,7 +219,7 @@ void test_assembly(const char *mesh_file) {
              (const int **) ref_edg, ref_interior, ref_Dh, ref_Dnh, ref_NF, n_Dh, n_Dnh, n_NF, n_lowA, sec_mb, D_gb_nod,
              D_values, first_non0_row, A_sparse, col_ind, nextInRow);
     // display
-    affsmd_(&n_nod,first_non0_row,col_ind,nextInRow,A_sparse,sec_mb,D_gb_nod,D_values);
+    affsmd_(&n_nod, first_non0_row, col_ind, nextInRow, A_sparse, sec_mb, D_gb_nod, D_values);
 
 
     // Clean memory
@@ -233,7 +233,188 @@ void test_assembly(const char *mesh_file) {
     free(A_sparse);
     free(col_ind);
     free(nextInRow);
+}
 
+///@brief Test assembly then conversion DMS -> OMS + BC taken into account
+void test_DMS_to_OMS_with_BC(const char *mesh_file) {
+
+    // Mesh file reading
+    int type, n_nod, n_elem, n_nod_elem, n_edg_elem;
+    float **nod_coords;
+    int **nod_gNb;
+    int **ref_edg;
+    read_mesh(mesh_file, &type, &n_nod, &nod_coords, &n_elem, &nod_gNb, &n_nod_elem, &n_edg_elem, &ref_edg);
+
+    // For conversion DMS to OMS
+    int length_A_sparse, i, n_row;
+
+    // Edges conditions assignment
+    int ref_interior = 0;
+    int ref_Dh[1] = {1};
+    int n_Dh = 1;
+    int ref_Dnh[1] = {4};
+    int n_Dnh = 1;
+    int ref_NF[2] = {2, 3};
+    int n_NF = 2;
+
+    // * --------- Memory allocation for DMS of A --------- *
+    int n_lowA = NON_0_ROW * n_nod;
+    // Second member in the linear system of the variational formulation's discretization
+    float *sec_mb = calloc(n_nod, sizeof(float));
+    // array to know if nodes are on a Dirichlet edge
+    int *BC_nod = malloc(n_nod * sizeof(int));
+    // Contains indices of the first non-zero element of the line i of the bottom triangular part of A_sparse
+    float *D_values = malloc(n_nod * sizeof(float));
+    int *first_non0_row_DMS = calloc(n_nod, sizeof(int));
+    float *A_DMS = calloc(n_nod + n_lowA, sizeof(float));
+    // column indices of non-zeros element of triangular bottom part of A_sparse
+    int *col_ind_DMS = malloc(n_lowA * sizeof(float));
+    // Position in triangular bottom part of A_sparse of the next element in the same line
+    int *nextInRow = calloc(n_lowA, sizeof(float));
+
+    length_A_sparse = assembly(type, n_nod, n_elem, n_nod_elem, n_edg_elem, (const float **) nod_coords,
+                               (const int **) nod_gNb,
+                               (const int **) ref_edg, ref_interior, ref_Dh, ref_Dnh, ref_NF, n_Dh, n_Dnh, n_NF, n_lowA,
+                               sec_mb, BC_nod, D_values, first_non0_row_DMS, A_DMS, col_ind_DMS, nextInRow);
+
+
+    // * --------- Memory allocation for OMS of A --------- *
+    n_row = n_row_with_BC(n_nod,BC_nod);    // Count how many nodes are Dirichlet's
+    float *A_OMS = malloc(length_A_sparse * sizeof(float)); // A (sparse) matrix in an OMS
+    int *first_non0_row_OMS = calloc(n_nod, sizeof(int));
+    int *col_ind_OMS = malloc((length_A_sparse - n_nod) * sizeof(float));
+    float *sec_mb_BC = malloc((n_nod - n_row) * sizeof(float)); // 2nd member with BC conditions (smaller than previous)
+
+    // Transforms into OMS and take Neumann nodes into 2nd member
+    DMS_to_OMS_with_BC(A_DMS, first_non0_row_DMS, col_ind_DMS, nextInRow, sec_mb, BC_nod, D_values, n_nod, A_OMS,
+                       first_non0_row_OMS, col_ind_OMS, sec_mb_BC);
+
+    // Display result
+    affsmo_(&n_nod, first_non0_row_OMS, col_ind_OMS, A_OMS, sec_mb_BC);
+
+    // Clean memory for DMS
+    free_mat(nod_coords);
+    free_mat(nod_gNb);
+    free_mat(ref_edg);
+    free(sec_mb);
+    free(BC_nod);
+    free(D_values);
+    free(first_non0_row_DMS);
+    free(A_DMS);
+    free(col_ind_DMS);
+    free(nextInRow);
+
+    // Clean memory for OMS
+    free(A_OMS);
+    free(first_non0_row_OMS);
+    free(col_ind_OMS);
+    free(sec_mb_BC);
+}
+
+int linear_system(const char *mesh_file, float **A_pr, int **profile, float **sec_mb_BC) {
+    ///@warning in these function we allocate the result INSIDE !
+    // Mesh file reading
+    int type, n_nod, n_elem, n_nod_elem, n_edg_elem;
+    float **nod_coords;
+    int **nod_gNb;
+    int **ref_edg;
+    read_mesh(mesh_file, &type, &n_nod, &nod_coords, &n_elem, &nod_gNb, &n_nod_elem, &n_edg_elem, &ref_edg);
+
+    // For conversion DMS to OMS
+    int length_A_DMS,n_row, i;
+
+    // Edges conditions assignment
+    int ref_interior = 0;
+    int ref_Dh[1] = {1};
+    int n_Dh = 1;
+    int ref_Dnh[1] = {4};
+    int n_Dnh = 1;
+    int ref_NF[2] = {2, 3};
+    int n_NF = 2;
+
+    // * --------- Assembly into a DMS for A --------- *
+
+    int n_lowA = NON_0_ROW * n_nod;
+    // Second member in the linear system of the variational formulation's discretization
+    float *sec_mb = calloc(n_nod, sizeof(float));
+    // array to know if nodes are on a Dirichlet edge
+    int *BC_nod = malloc(n_nod * sizeof(int));
+    // Contains indices of the first non-zero element of the line i of the bottom triangular part of A_sparse
+    float *D_values = malloc(n_nod * sizeof(float));
+    int *first_non0_row_DMS = calloc(n_nod, sizeof(int));
+    float *A_DMS = calloc(n_nod + n_lowA, sizeof(float));
+    // column indices of non-zeros element of triangular bottom part of A_sparse
+    int *col_ind_DMS = malloc(n_lowA * sizeof(float));
+    // Position in triangular bottom part of A_sparse of the next element in the same line
+    int *nextInRow = calloc(n_lowA, sizeof(float));
+
+    length_A_DMS = assembly(type, n_nod, n_elem, n_nod_elem, n_edg_elem, (const float **) nod_coords,
+                     (const int **) nod_gNb,
+                     (const int **) ref_edg, ref_interior, ref_Dh, ref_Dnh, ref_NF, n_Dh, n_Dnh, n_NF, n_lowA,
+                     sec_mb, BC_nod, D_values, first_non0_row_DMS, A_DMS, col_ind_DMS, nextInRow);
+
+
+    // * --------- DMS to OMS with BC inside 2nd member --------- *
+
+    // Memory allocation
+    n_row = n_row_with_BC(n_nod,BC_nod);    // Count how many nodes are Dirichlet's
+    /// @note OMS size is too big, we'll get the minimum size after transforming it into profile storage
+    float *A_OMS = malloc(length_A_DMS * sizeof(float));
+    int *first_non0_row_OMS = calloc(n_row, sizeof(int));
+    int *col_ind_OMS = malloc(length_A_DMS * sizeof(float)); // same here, too big
+    *sec_mb_BC = malloc(n_row * sizeof(float)); // 2nd member with BC conditions (smaller than previous)
+
+    // Transforms into OMS and take Neumann nodes into 2nd member
+    DMS_to_OMS_with_BC(A_DMS, first_non0_row_DMS, col_ind_DMS, nextInRow, sec_mb, BC_nod, D_values, n_nod, A_OMS,
+                       first_non0_row_OMS, col_ind_OMS, sec_mb_BC);
+
+    // Clean memory for DMS
+    free_mat(nod_coords);
+    free_mat(nod_gNb);
+    free_mat(ref_edg);
+    free(sec_mb);
+    free(BC_nod);
+    free(D_values);
+    free(first_non0_row_DMS);
+    free(A_DMS);
+    free(col_ind_DMS);
+    free(nextInRow);
+
+
+    // * --------- Transforms OMS into profile --------- *
+
+    // Memory allocation for profile storage (here we know the exact size)
+    int n_lowA_pr = length_profile(n_row, first_non0_row_OMS, col_ind_OMS);
+    *A_pr = calloc(n_lowA_pr + n_row, sizeof(float)); // Must be initialized to 0
+    *profile = malloc(n_row * sizeof(int));
+
+    // Transformation into profile
+    OMS_to_profile(A_OMS, n_row, first_non0_row_OMS, col_ind_OMS, *A_pr, *profile);
+
+    // Clean memory for OMS
+    free(A_OMS);
+    free(first_non0_row_OMS);
+    free(col_ind_OMS);
+
+    return n_row;
+}
+
+///@brief Gets the profile storage of A and prints it
+void test_OMS_to_profile(const char *mesh_file) {
+    int param_imp = 0;
+    int n_row;
+    float *A_pr;
+    int *profile;
+    float *sec_mb_BC;
+    n_row = linear_system(mesh_file, &A_pr, &profile, &sec_mb_BC);
+
+    // Print matrix in a profile storage
+    impmpr_(&param_imp,&n_row, profile, A_pr, &A_pr[n_row]);
+
+    // Clean memory for A_pr and 2nd member that were allocated in linear_system
+    free(A_pr);
+    free(profile);
+    free(sec_mb_BC);
 }
 
 

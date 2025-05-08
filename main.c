@@ -9,8 +9,11 @@
 #include "unit_tests.h"
 #include "elem_eval.h"
 #include "tab_mngmt.h"
+#include "problem_functions.h"
 #include <stdio.h>
 #include <stdlib.h>
+
+int nucas;
 
 int main(int argc, char* argv[])
 {
@@ -60,7 +63,8 @@ int main(int argc, char* argv[])
            "Test of eval_K for the simple case : 1 box that contains 2 triangle element :\n"
            "=============================================================================\n");
     test_eval_K("Mesh_files/check_read_car1x1t_1");
-
+    */
+    /*
     printf("=====================================================================================\n"
            "Test of eval_K for basic case : 3x3 boxes that contain 2 triangle element each :\n"
            "=====================================================================================\n");
@@ -80,11 +84,16 @@ int main(int argc, char* argv[])
     test_eval_K("Mesh_files/check_read_car1x1t_4");
     */
 
-    // Assembly test
+    /// Assembly test
     //test_assembly("Mesh_files/check_read_car1x1t_1");
-    test_assembly("Mesh_files/check_read_car3x3t_3");
+    //test_assembly("Mesh_files/check_read_car3x3t_3");
 
-    /// (1) It seems I don't go through element the same way so I don't override the array D_gb_nod (NumDLDir) in the
-    ///     way . Why ??
+    /// DMS -> OMS with BC condition into 2nd member test
+    //test_DMS_to_OMS_with_BC("Mesh_files/check_read_car1x1t_1");
+    //test_DMS_to_OMS_with_BC("Mesh_files/check_read_car3x3t_3");
+
+    /// OMS -> profile
+    nucas = 1;
+    test_OMS_to_profile("Mesh_files/check_read_car1x1t_1");
     return 0;
 }

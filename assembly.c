@@ -6,7 +6,7 @@
 #include <stdlib.h>
 
 /// @brief evaluates elementary matrices and 2nd members for each element and then assemblies everything into a messy morse stored matrix and a 2nd member vector
-void assembly(
+int assembly(
         int type,
         int n_nod,
         int n_elem,
@@ -119,9 +119,12 @@ void assembly(
     free(l_K);
     free(nodes_D);
     free(uD_aK);
+
+    return next_free_A; // Length of A_DMS array;
 }
 
-/// @brief take the messy (Disordered) matrix, takes Dirichlet nodes into condition and give the Ordered MS (ODS) matrix
+
+/// @brief transform DMS to OMS and takes Dirichlet nodes into condition
 void DMS_to_OMS_with_BC(
         const float *A_DMS,
         const int *first_non0_row_DMS,
@@ -139,37 +142,84 @@ void DMS_to_OMS_with_BC(
     cdesse_(&n_nod, first_non0_row_DMS, col_ind_DMS, nextInRow, A_DMS, sec_mb, BC_nod, D_values, first_non0_row_OMS,
             col_ind_OMS, A_OMS, sec_mb_BC);
 }
+///@brief count number of row in A_OMS after BC are taken in condition
+int n_row_with_BC(int n_nod,const int *BC_nod) {
+    int n_row = 0;
+    for (int i = 0; i < n_nod; i++) if (BC_nod[i] != i + 1) { n_row++; }
+    return n_row;
+}
 
+/// @brief compute array's length of profile storage of A
+int length_profile(int n_row, const int *first_non0_row_OMS, const int *col_ind_OMS){
+    int res = 0;
+    for(int i=0; i<n_row; i++){
+        res += i - (col_ind_OMS[first_non0_row_OMS[i]-1]-1);
+    }
+    return res;
+}
 
+/// @brief transforms OM storage into profile storage
 void OMS_to_profile(
         const float *A_OMS,
-        int n_nod,
+        int n_row,     /// @param n_row number of rows in the matrix A_OMS (!= n_nod)
         const int *first_non0_row,
         const int *col_ind_OMS,
         float *A_pr,   /// @param A_pr matrix A stored in the profile way (supposed to be initialized with 0)
-        int n_lowApr,
+        int *profile,   /// @param profile array of indices in low part of A_pr of the first non-zero element of each row
+        int n_lowA_pr
+){
+    int i,l;
+    profile[0] = first_non0_row[0];
+    for(l=1;l<n_row;l++){
+        if(first_non0_row[l-1]==first_non0_row[l]){
+            profile[l] = profile[l-1];
+        }
+        else{
+            profile[l] = profile[l-1] + l - col_ind_OMS[first_non0_row[l-1]-1]; // -1 + 1
+        }
+    }
+    l = 0;
+    for(i=0; i<n_lowA_pr; i++){
+        if(i==first_non0_row[l]-1){ // new row
+            A_pr[profile[l]] = A_OMS[i]
+        }
+        else{
+            A_pr[]
+        }
+
+    }
+}
+
+/// @brief transforms OM storage into profile storage
+void OMS_to_profile2(
+        const float *A_OMS,
+        int n_row,     /// @param n_row number of rows in the matrix A_OMS (!= n_nod)
+        const int *first_non0_row,
+        const int *col_ind_OMS,
+        float *A_pr,   /// @param A_pr matrix A stored in the profile way (supposed to be initialized with 0)
         int *profile   /// @param profile array of indices in low part of A_pr of the first non-zero element of each row
 ) {
-    int l, j, n_non0, non0_found, col_ind_1st_non0;
-    int ip = n_nod; // index of element in A_pr. Begin at the first element of low part of A
+    int l, j, n_non0, non0_found;
+    int ip = n_row; // index of element in A_pr. Begin at the first element of low part of A
     int iOMS = 0; // index of element in the low part of A_OMS
 
     profile[0] = first_non0_row[0];
-    for (l = 0; l < n_nod; l++) { // loop on each line of A
+    for (l = 0; l < n_row; l++) { // loop on each line of A
         A_pr[l] = A_OMS[l]; // fill the diagonal part of A_pr
+
 
         n_non0 = first_non0_row[l + 1] - first_non0_row[l]; // number of non-zero elements in the line
 
         if (n_non0 == 0) {  // not any non-zero element in the row
             // = first_non0_row[l+1] + nb of zero inside the previous lines' profiles
-            profile[l] = first_non0_row[l + 1] + ip - (iOMS + n_nod);
+            profile[l] = first_non0_row[l + 1] + ip - (iOMS + n_row);
         } else {
             non0_found = 0;    // number of non-zero elements found
             // = first_non0_row + nb of zero inside the previous lines' profiles
-            profile[l] = first_non0_row[l] + ip - (iOMS + n_nod);
+            profile[l] = first_non0_row[l] + ip - (iOMS + n_row);
 
             // This could be included in the next loop ( just remove the + 1)
-            A_pr[ip] = A_OMS[n_nod + iOMS];
+            A_pr[ip] = A_OMS[n_row + iOMS];
             ip++;           // we just an element to A_pr
             iOMS++;         // next element of lowA_OMS to save
             non0_found++;   // we found a non-zero element
@@ -177,12 +227,12 @@ void OMS_to_profile(
             // loop on element in the same line after the 1st non-zero until all non-zero element are found
             for (j = col_ind_OMS[first_non0_row[l] - 1]; (j < l) && (non0_found < n_non0); j++) {
                 if (col_ind_OMS[iOMS] - 1 == j) { // i.e current element A[l][j] != 0
-                    A_pr[ip] = A_OMS[n_nod + iOMS];
+                    A_pr[ip] = A_OMS[n_row + iOMS];
                     ip++;           // we just an element to A_pr
                     iOMS++;         // next element of lowA_OMS to save
                     non0_found++;   // we found a non-zero element
                 } else {    // i.e current element A[l][j] == 0
-                    ip++;  // the element is 0;
+                    ip++;   // the element is 0;
                 }
             }
         }

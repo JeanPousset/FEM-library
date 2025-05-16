@@ -70,14 +70,28 @@ void test_DMS_to_OMS_with_BC(const char *mesh_file);
 
 /**
  * @brief Assemblies, then transform into profile storage
- * @warning in these function we allocate the result INSIDE !
- * @return number of rows of the linear system matrix
+ * @warning in these function we allocate the result (except p_n_row and p_n_lowA_pr) INSIDE !
  */
-int linear_system(const char *mesh_file, float **A_pr, int **profile, float **sec_mb_BC);
+void linear_system(const char *mesh_file, int ref_interior, const int *ref_Dh, int n_Dh, const int *ref_Dnh, int n_Dnh, const int *ref_NF, int n_NF, float ***p_nod_coords, float **A_pr, int **profile, float **sec_mb_BC, int *p_n_row, int *p_n_lowA_pr);
 
 /**
  * @brief Gets the profile storage of A and prints it
  */
 void test_OMS_to_profile(const char *mesh_file);
+
+/**
+ * @brief Builds linear problem then solves it
+ */
+void test_solver(const char *mesh_file);
+
+/**
+ * @brief Solve first problem (Poisson domain 1) with homogeneous Dirichlet conditions
+ */
+void Poisson_Dh_ex1(const char *mesh_file, int param_imp);
+
+/**
+ * @brief Solve first problem (Poisson domain 1) with Neumann conditions
+ */
+void Poisson_N_ex1(const char *mesh_file, int param_imp);
 
 #endif //FEM_PROJECT_UNIT_TEST_H

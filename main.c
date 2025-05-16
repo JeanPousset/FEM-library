@@ -9,7 +9,6 @@
 #include "unit_tests.h"
 #include "elem_eval.h"
 #include "tab_mngmt.h"
-#include "problem_functions.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -84,16 +83,87 @@ int main(int argc, char* argv[])
     test_eval_K("Mesh_files/check_read_car1x1t_4");
     */
 
+
+    /*
+    printf("=====================================================================================\n"
+           "Test of eval_K for case exemple results d1t1_2 :\n"
+           "=====================================================================================\n");
+    test_eval_K("Mesh_files/d1t1_2");
+    */
+
     /// Assembly test
+    //test_assembly("Mesh_files/d1t1_2");
+    //test_assembly("Mesh_files/d1t1_4");
     //test_assembly("Mesh_files/check_read_car1x1t_1");
     //test_assembly("Mesh_files/check_read_car3x3t_3");
 
     /// DMS -> OMS with BC condition into 2nd member test
-    //test_DMS_to_OMS_with_BC("Mesh_files/check_read_car1x1t_1");
-    //test_DMS_to_OMS_with_BC("Mesh_files/check_read_car3x3t_3");
+    //test_DMS_to_OMS_with_BC("Mesh_files/d1t1_2");
+    //test_DMS_to_OMS_with_BC("Mesh_files/d1t1_4");
+    //test_DMS_to_OMS_with_BC("Mesh_files/car1x1t_1");
+    //test_DMS_to_OMS_with_BC("Mesh_files/car3x3t_3");
 
     /// OMS -> profile
-    nucas = 1;
-    test_OMS_to_profile("Mesh_files/check_read_car1x1t_1");
+    //test_OMS_to_profile("Mesh_files/d1t1_2");
+    //test_OMS_to_profile("Mesh_files/d1t1_4");
+    //test_OMS_to_profile("Mesh_files/car1x1t_1");
+    //test_OMS_to_profile("Mesh_files/car3x3t_3");
+
+    /// Results
+
+
+
+    //nucas = 1;
+    //test_solver("Mesh_files/d1t1_2");
+    //test_solver("Mesh_files/d1t1_4");
+    //test_solver("Mesh_files/car1x1t_4");
+
+
+    // nucas = 1;
+    //Poisson_Dh_ex1("Mesh_files/d1t1_4",0);
+
+
+    /// Convergence test for Poisson with homogeneous Dirichlet boundaries
+
+    /*
+    nucas = 1; int export11 = 11;
+    Poisson_Dh_ex1("Mesh_files/d1t1_2",export11);
+    Poisson_Dh_ex1("Mesh_files/d1t1_4",export11);
+    Poisson_Dh_ex1("Mesh_files/d1t1_8",export11);
+    Poisson_Dh_ex1("Mesh_files/d1t1_16",export11);
+    Poisson_Dh_ex1("Mesh_files/d1t1_32",export11);
+    Poisson_Dh_ex1("Mesh_files/d1t1_64",export11);
+    */
+
+    /*
+    nucas = 1; int export12 = 12;
+    Poisson_Dh_ex1("Mesh_files/d1q1_2",export12);
+    Poisson_Dh_ex1("Mesh_files/d1q1_4",export12);
+    Poisson_Dh_ex1("Mesh_files/d1q1_8",export12);
+    Poisson_Dh_ex1("Mesh_files/d1q1_16",export12);
+    Poisson_Dh_ex1("Mesh_files/d1q1_32",export12);
+    Poisson_Dh_ex1("Mesh_files/d1q1_64",export12);
+    */
+
+    /*
+    nucas = 2; int export21 = 21;
+    Poisson_Dh_ex1("Mesh_files/d1t1_2",export21);
+    Poisson_Dh_ex1("Mesh_files/d1t1_4",export21);
+    Poisson_Dh_ex1("Mesh_files/d1t1_8",export21);
+    Poisson_Dh_ex1("Mesh_files/d1t1_16",export21);
+    Poisson_Dh_ex1("Mesh_files/d1t1_32",export21);
+    Poisson_Dh_ex1("Mesh_files/d1t1_64",export21);
+    */
+
+
+    nucas = 2; int export22 = 22;
+    Poisson_Dh_ex1("Mesh_files/d1q1_2",export22);
+    Poisson_Dh_ex1("Mesh_files/d1q1_4",export22);
+    Poisson_Dh_ex1("Mesh_files/d1q1_8",export22);
+    Poisson_Dh_ex1("Mesh_files/d1q1_16",export22);
+    Poisson_Dh_ex1("Mesh_files/d1q1_32",export22);
+    Poisson_Dh_ex1("Mesh_files/d1q1_64",export22);
+
+
     return 0;
 }

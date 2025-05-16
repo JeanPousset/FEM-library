@@ -47,7 +47,7 @@ void evalDFbase(int t, const float *x_hat, float **Dw_hat_x_hat) {
     switch (t) {
         case 1: // Quadrangle
             Dw_hat_x_hat[0][0] = 1 - x_hat[1];
-            Dw_hat_x_hat[0][1] = x_hat[0] * (1 - x_hat[1]);
+            Dw_hat_x_hat[0][1] = -x_hat[0];
             Dw_hat_x_hat[1][0] = x_hat[1];
             Dw_hat_x_hat[1][1] = x_hat[0];
             Dw_hat_x_hat[2][0] = -x_hat[1];
@@ -81,7 +81,7 @@ float inv_2x2(float **M, float **M_inv) {
         perror("Matrix is almost singular or not invertible (inv_2x2) call");
         return 1;
     } else {
-        float inv_det = 1 / det;
+        float inv_det = 1. / det;
         M_inv[0][0] = inv_det * M[1][1];
         M_inv[0][1] = -inv_det * M[0][1];
         M_inv[1][0] = -inv_det * M[1][0];
@@ -231,14 +231,15 @@ void vertices_Edge(int edge_nb, int t, int *local_nodes) {
 
 /// select n_pts in the coordSet and copy them into sel_coord
 void selectPts(int n_pts, const int pts_nb[], float *coordSet[], float *select_coord[]) {
-    for (int i = 0; i < n_pts; i++)
+    for (int i = 0; i < n_pts; i++) {
         select_coord[i] = coordSet[pts_nb[i]]; // (10) -1 or not because numbers begins at 1 in pts_nb
-    // currently we dont put pts nb but pts indices
+        // currently we dont put pts nb but pts indices
+    }
 }
 
 /// Compute the contribution of the quadrature points x_k for the integral's quadrature of the shape g(x_k)w_i(x_k)
 void q_contrib_gW(int n_nod_elem, const float *w_x, float diff, float g_x, float *sum_contrib) {
-    for (int i = 0; i < n_nod_elem; i++) sum_contrib[i] += diff * g_x * w_x[i];
+    for (int i = 0; i < n_nod_elem; i++) {sum_contrib[i] += diff * g_x * w_x[i];}
 }
 
 /// Compute quadrature contribution of the quadrature point x for each base function w_i for the integral of the shape w_i*g
@@ -264,9 +265,9 @@ void q_contrib_gdWdW(int n_nod_elem, const float **Dw_x, float diff, const float
         for (beta = 0; beta < 2; beta++) {
             base = diff * g_x[alpha][beta];
             for (i = 0; i < n_nod_elem; i++) {
-                contrib = base * Dw_x[i][alpha];
+                contrib = base * Dw_x[i][beta];
                 for (j = 0; j < n_nod_elem; j++) {
-                    sum_contrib[i][j] += contrib * Dw_x[j][beta];
+                    sum_contrib[i][j] += contrib * Dw_x[j][alpha];
                 }
             }
         }
@@ -276,7 +277,7 @@ void q_contrib_gdWdW(int n_nod_elem, const float **Dw_x, float diff, const float
 /// Evaluates the integrals on the element K with quadrature formula
 void intElem(int t, int n_quad_pts, int n_nod_elem, const float **a_K, const float **x_hat_quad, const float *weights,
              float **A_K_elem, float *l_K_elem) {
-    int k, i, j;
+    int k, i, j,alpha;
     float detJF, diff;
 
     // Memory allocation for object reset in each quadrature point
@@ -301,9 +302,9 @@ void intElem(int t, int n_quad_pts, int n_nod_elem, const float **a_K, const flo
         jacobFK(n_nod_elem, DIM, (const float **) a_K, (const float **) Dw_hat_x_hat, JFk_x_hat);
         detJF = inv_2x2(JFk_x_hat, inv_JFk_x_hat);
         diff = fabsf(detJF) * weights[k]; // differential elem * weight for the quadrature formula
-        for (j = 0; j < 2; j++) {
+        for (alpha = 0; alpha < DIM; alpha++) {
             for (i = 0; i < n_nod_elem; i++) {
-                Dw_x_quad[i][j] = Dw_hat_x_hat[i][0] * inv_JFk_x_hat[0][j] + Dw_hat_x_hat[i][1] * inv_JFk_x_hat[1][j];
+                Dw_x_quad[i][alpha] = Dw_hat_x_hat[i][0] * inv_JFk_x_hat[0][alpha] + Dw_hat_x_hat[i][1] * inv_JFk_x_hat[1][alpha];
             }
         }
         // pre-compute a_{alpha,beta}(x_quad)
@@ -315,7 +316,7 @@ void intElem(int t, int n_quad_pts, int n_nod_elem, const float **a_K, const flo
         // Contribution of the quadrature point for the quadrature formula
         q_contrib_gW(n_nod_elem, w_hat_x_hat, diff, f_OMEGA(x_quad), l_K_elem);
         q_contrib_gWW(n_nod_elem, (const float *) w_hat_x_hat, diff, a00(x_quad), A_K_elem);
-        q_contrib_gdWdW(n_nod_elem, (const float **) Dw_hat_x_hat, diff, (const float **) a_alpha_beta, A_K_elem);
+        q_contrib_gdWdW(n_nod_elem, (const float **) Dw_x_quad, diff, (const float **) a_alpha_beta, A_K_elem);
     }
     // free memory
     free(x_quad);
@@ -395,7 +396,7 @@ eval_K(int ref_interior, const int *ref_Dh, const int *ref_Dnh, const int *ref_N
     // Update results :
     for (i = 0; i < n_nod_elem; i++) {
         l_K[i] += l_K_elem[i];
-        for (j = 0; j < n_nod_elem; j++) A_K[i][j] += A_K_elem[i][j];
+        for (j = 0; j < n_nod_elem; j++) { A_K[i][j] += A_K_elem[i][j];}
     }
     // free Memory
     free_mat(x_quad_hat_elem);
@@ -416,7 +417,7 @@ eval_K(int ref_interior, const int *ref_Dh, const int *ref_Dnh, const int *ref_N
         else {
             flag_categorized = 0;                   // edge isn't categorized yet
             vertices_Edge(i + 1, t, edg_nod_ind);
-            for (j = 0; j < N_NOD_EDG; j++) edg_nod_ind[j]--;
+            for (j = 0; j < N_NOD_EDG; j++) {edg_nod_ind[j]--;}
 
             for (j = 0; j < n_Dh & flag_categorized == 0; j++) {      // Dirichlet homogeneous edge
                 if (ref_edg_K[i] == ref_Dh[j]) {

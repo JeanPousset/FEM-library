@@ -87,11 +87,21 @@ void test_solver(const char *mesh_file);
 /**
  * @brief Solve first problem (Poisson domain 1) with homogeneous Dirichlet conditions
  */
-void Poisson_Dh_ex1(const char *mesh_file, int param_imp);
+void Poisson_Dh(const char *mesh_file, int param_imp);
 
 /**
  * @brief Solve first problem (Poisson domain 1) with Neumann conditions
  */
-void Poisson_N_ex1(const char *mesh_file, int param_imp);
+void elliptic_N(const char *mesh_file, int param_imp);
+
+/**
+ * @brief Solve first problem (Poisson domain 1) with non-homogeneous Dirichlet conditions (on 1/2 edges)
+ */
+void Poisson_Dnh(const char *mesh_file, int param_imp);
+
+/**
+ * @brief Solve first problem (Poisson domain 1) with Neumann and non homogeneous Dirichlet conditions
+ */
+void elliptic_NDnh(const char *mesh_file, int param_imp);
 
 #endif //FEM_PROJECT_UNIT_TEST_H

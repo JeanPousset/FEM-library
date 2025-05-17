@@ -267,7 +267,7 @@ void test_DMS_to_OMS_with_BC(const char *mesh_file) {
     read_mesh(mesh_file, &type, &n_nod, &nod_coords, &n_elem, &nod_gNb, &n_nod_elem, &n_edg_elem, &ref_edg);
 
     // For conversion DMS to OMS
-    int length_A_DMS, i, n_row;
+    int length_A_DMS, n_row;
 
     // Edges conditions assignment
     int ref_interior = 0;
@@ -354,7 +354,7 @@ void linear_system(const char *mesh_file, int ref_interior, const int *ref_Dh, i
               &type, &n_nod, &nod_coords, &n_elem, &nod_gNb, &n_nod_elem, &n_edg_elem, &ref_edg);
 
     // For conversion DMS to OMS
-    int length_A_DMS, n_row, i;
+    int length_A_DMS, n_row;
 
     // * --------- Assembly into a DMS for A --------- *
 
@@ -512,7 +512,7 @@ void test_solver(const char *mesh_file) {
 }
 
 ///@brief Solve first problem (Poisson domain 1) with homogeneous Dirichlet conditions
-void Poisson_Dh_ex1(const char *mesh_file, int param_imp) {
+void Poisson_Dh(const char *mesh_file, int param_imp) {
     int n_row, n_lowA_pr;
     float *A_pr;
     int *profile;
@@ -523,9 +523,9 @@ void Poisson_Dh_ex1(const char *mesh_file, int param_imp) {
     int ref_interior = 0;
     int ref_Dh[4] = {1,2,3,4};
     int n_Dh = 4;
-    int ref_Dnh[0];
+    int *ref_Dnh;
     int n_Dnh = 0;
-    int ref_NF[0];
+    int *ref_NF;
     int n_NF = 0;
 
     linear_system(mesh_file, ref_interior, ref_Dh, n_Dh, ref_Dnh, n_Dnh, ref_NF, n_NF, &nod_coords, &A_pr, &profile, &sec_mb_BC, &n_row, &n_lowA_pr);
@@ -548,7 +548,7 @@ void Poisson_Dh_ex1(const char *mesh_file, int param_imp) {
 }
 
 ///@brief Solve first problem (Poisson domain 1) with Neumann conditions
-void Poisson_N_ex1(const char *mesh_file, int param_imp) {
+void elliptic_N(const char *mesh_file, int param_imp) {
     int n_row, n_lowA_pr;
     float *A_pr;
     int *profile;
@@ -557,12 +557,84 @@ void Poisson_N_ex1(const char *mesh_file, int param_imp) {
 
     // Edges conditions assignment
     int ref_interior = 0;
-    int ref_Dh[0];
+    int *ref_Dh;
     int n_Dh = 0;
-    int ref_Dnh[0];
+    int *ref_Dnh;
     int n_Dnh = 0;
     int ref_NF[4] =  {1,2,3,4};
     int n_NF = 4;
+
+    linear_system(mesh_file, ref_interior, ref_Dh, n_Dh, ref_Dnh, n_Dnh, ref_NF, n_NF, &nod_coords, &A_pr, &profile, &sec_mb_BC, &n_row, &n_lowA_pr);
+
+    // solutions allocation
+    float *u = malloc(n_row * sizeof(float));
+    float *u_ex = malloc(n_row * sizeof(float));
+
+    solve_cholesky(A_pr, profile, n_row, n_lowA_pr, sec_mb_BC, u);
+    eval_exact_sol(n_row, (const float **) nod_coords, u_ex);
+    affsol_(&n_row, &nod_coords[0][0], u, u_ex, &param_imp);
+
+    // Clean memory for A_pr and 2nd member that were allocated in linear_system
+    free_mat(nod_coords); /// @warning have to be free here
+    free(A_pr);
+    free(u);
+    free(u_ex);
+    free(profile);
+    free(sec_mb_BC);
+}
+
+/// @brief Solve first problem (Poisson domain 1) with non-homogeneous Dirichlet conditions (on 1/2 edges)
+void Poisson_Dnh(const char *mesh_file, int param_imp) {
+    int n_row, n_lowA_pr;
+    float *A_pr;
+    int *profile;
+    float *sec_mb_BC;
+    float **nod_coords;
+
+    // Edges conditions assignment
+    int ref_interior = 0;
+    int ref_Dh[2] = {1,4};
+    int n_Dh = 2;
+    int ref_Dnh[2] = {2,3};
+    int n_Dnh = 2;
+    int* ref_NF;
+    int n_NF = 0;
+
+    linear_system(mesh_file, ref_interior, ref_Dh, n_Dh, ref_Dnh, n_Dnh, ref_NF, n_NF, &nod_coords, &A_pr, &profile, &sec_mb_BC, &n_row, &n_lowA_pr);
+
+    // solutions allocation
+    float *u = malloc(n_row * sizeof(float));
+    float *u_ex = malloc(n_row * sizeof(float));
+    solve_cholesky(A_pr, profile, n_row, n_lowA_pr, sec_mb_BC, u);
+    eval_exact_sol(n_row, (const float **) nod_coords, u_ex);
+
+    affsol_(&n_row, &(nod_coords[0][0]), u, u_ex, &param_imp);
+
+    // Clean memory for A_pr and 2nd member that were allocated in linear_system
+    free_mat(nod_coords); /// @warning have to be free here
+    free(A_pr);
+    free(u);
+    free(u_ex);
+    free(profile);
+    free(sec_mb_BC);
+}
+
+///@brief Solve first problem (Poisson domain 1) with Neumann and non homogeneous Dirichlet conditions
+void elliptic_NDnh(const char *mesh_file, int param_imp) {
+    int n_row, n_lowA_pr;
+    float *A_pr;
+    int *profile;
+    float *sec_mb_BC;
+    float **nod_coords;
+
+    // Edges conditions assignment
+    int ref_interior = 0;
+    int *ref_Dh;
+    int n_Dh = 0;
+    int ref_Dnh[2] = {1,4};
+    int n_Dnh = 2;
+    int ref_NF[2] = {2,3};
+    int n_NF = 2;
 
     linear_system(mesh_file, ref_interior, ref_Dh, n_Dh, ref_Dnh, n_Dnh, ref_NF, n_NF, &nod_coords, &A_pr, &profile, &sec_mb_BC, &n_row, &n_lowA_pr);
 

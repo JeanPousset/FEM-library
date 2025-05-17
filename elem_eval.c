@@ -34,7 +34,7 @@ void evalFbase(int t, const float *x_hat, float *w_hat_x_hat) {
             break;
         case 3: // Segment
             w_hat_x_hat[0] = x_hat[0];
-            w_hat_x_hat[1] = (1 - x_hat[0]);
+            w_hat_x_hat[1] = 1 - x_hat[0];
             break;
         default:
             printf("Unknown type t = %d for 'evalFbase' function", t);
@@ -142,7 +142,7 @@ void wp_quad(int t, float **x_quad_hat, float *weights) {
 
         case 2: // Triangle
             // weights
-            weight_1 = 1.0 / 6;
+            weight_1 = 1.0 / 6.0;
             for (i = 0; i < 3; i++) weights[i] = weight_1;
             // quadrature points (x_i_hat)
             x_quad_hat[0][0] = 0.5;
@@ -155,7 +155,7 @@ void wp_quad(int t, float **x_quad_hat, float *weights) {
 
         case 3: // Segment
             // weights
-            weight_1 = 1.0 / 6;
+            weight_1 = 1.0 / 6.0;
             weights[0] = weight_1;
             weights[1] = weight_1;
             weights[2] = 4 * weight_1;
@@ -277,7 +277,7 @@ void q_contrib_gdWdW(int n_nod_elem, const float **Dw_x, float diff, const float
 /// Evaluates the integrals on the element K with quadrature formula
 void intElem(int t, int n_quad_pts, int n_nod_elem, const float **a_K, const float **x_hat_quad, const float *weights,
              float **A_K_elem, float *l_K_elem) {
-    int k, i, j,alpha;
+    int k, i, alpha;
     float detJF, diff;
 
     // Memory allocation for object reset in each quadrature point

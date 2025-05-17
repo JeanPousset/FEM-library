@@ -62,7 +62,7 @@ int assembly(
                 A_K[i][j] = 0;
             }
             // get nodes coordinates of K (we could also use selectPts)
-            a_K[i] = nod_coords[nod_gNb[k][i] - 1]; /// @warning : only a simple pointers copy (not a deep copy)
+            a_K[i] = (float *) nod_coords[nod_gNb[k][i] - 1]; /// @warning : only a simple pointers copy (not a deep copy)
         }
 
         // elementary evaluations

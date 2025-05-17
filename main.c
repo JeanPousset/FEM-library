@@ -90,22 +90,27 @@ int main(int argc, char* argv[])
            "=====================================================================================\n");
     test_eval_K("Mesh_files/d1t1_2");
     */
+    nucas = 1;
+
 
     /// Assembly test
     //test_assembly("Mesh_files/d1t1_2");
     //test_assembly("Mesh_files/d1t1_4");
+    //test_assembly("Mesh_files/d1q1_4");
     //test_assembly("Mesh_files/check_read_car1x1t_1");
     //test_assembly("Mesh_files/check_read_car3x3t_3");
 
     /// DMS -> OMS with BC condition into 2nd member test
     //test_DMS_to_OMS_with_BC("Mesh_files/d1t1_2");
     //test_DMS_to_OMS_with_BC("Mesh_files/d1t1_4");
+    //test_DMS_to_OMS_with_BC("Mesh_files/d1q1_4");
     //test_DMS_to_OMS_with_BC("Mesh_files/car1x1t_1");
     //test_DMS_to_OMS_with_BC("Mesh_files/car3x3t_3");
 
     /// OMS -> profile
     //test_OMS_to_profile("Mesh_files/d1t1_2");
     //test_OMS_to_profile("Mesh_files/d1t1_4");
+    //test_OMS_to_profile("Mesh_files/d1q1_4");
     //test_OMS_to_profile("Mesh_files/car1x1t_1");
     //test_OMS_to_profile("Mesh_files/car3x3t_3");
 
@@ -113,9 +118,10 @@ int main(int argc, char* argv[])
 
 
 
-    //nucas = 1;
+    nucas = 1;
     //test_solver("Mesh_files/d1t1_2");
     //test_solver("Mesh_files/d1t1_4");
+    //test_solver("Mesh_files/d1q1_4");
     //test_solver("Mesh_files/car1x1t_4");
 
 
@@ -124,45 +130,131 @@ int main(int argc, char* argv[])
 
 
     /// Convergence test for Poisson with homogeneous Dirichlet boundaries
-
     /*
     nucas = 1; int export11 = 11;
-    Poisson_Dh_ex1("Mesh_files/d1t1_2",export11);
-    Poisson_Dh_ex1("Mesh_files/d1t1_4",export11);
-    Poisson_Dh_ex1("Mesh_files/d1t1_8",export11);
-    Poisson_Dh_ex1("Mesh_files/d1t1_16",export11);
-    Poisson_Dh_ex1("Mesh_files/d1t1_32",export11);
-    Poisson_Dh_ex1("Mesh_files/d1t1_64",export11);
+    Poisson_Dh("Mesh_files/d1t1_2",export11);
+    Poisson_Dh("Mesh_files/d1t1_4",export11);
+    Poisson_Dh("Mesh_files/d1t1_8",export11);
+    Poisson_Dh("Mesh_files/d1t1_16",export11);
+    Poisson_Dh("Mesh_files/d1t1_32",export11);
+    Poisson_Dh("Mesh_files/d1t1_64",export11);
     */
 
     /*
     nucas = 1; int export12 = 12;
-    Poisson_Dh_ex1("Mesh_files/d1q1_2",export12);
-    Poisson_Dh_ex1("Mesh_files/d1q1_4",export12);
-    Poisson_Dh_ex1("Mesh_files/d1q1_8",export12);
-    Poisson_Dh_ex1("Mesh_files/d1q1_16",export12);
-    Poisson_Dh_ex1("Mesh_files/d1q1_32",export12);
-    Poisson_Dh_ex1("Mesh_files/d1q1_64",export12);
+    Poisson_Dh("Mesh_files/d1q1_2",export12);
+    Poisson_Dh("Mesh_files/d1q1_4",export12);
+    Poisson_Dh("Mesh_files/d1q1_8",export12);
+    Poisson_Dh("Mesh_files/d1q1_16",export12);
+    Poisson_Dh("Mesh_files/d1q1_32",export12);
+    Poisson_Dh("Mesh_files/d1q1_64",export12);
     */
 
     /*
     nucas = 2; int export21 = 21;
-    Poisson_Dh_ex1("Mesh_files/d1t1_2",export21);
-    Poisson_Dh_ex1("Mesh_files/d1t1_4",export21);
-    Poisson_Dh_ex1("Mesh_files/d1t1_8",export21);
-    Poisson_Dh_ex1("Mesh_files/d1t1_16",export21);
-    Poisson_Dh_ex1("Mesh_files/d1t1_32",export21);
-    Poisson_Dh_ex1("Mesh_files/d1t1_64",export21);
+    Poisson_Dh("Mesh_files/d1t1_2",export21);
+    Poisson_Dh("Mesh_files/d1t1_4",export21);
+    Poisson_Dh("Mesh_files/d1t1_8",export21);
+    Poisson_Dh("Mesh_files/d1t1_16",export21);
+    Poisson_Dh("Mesh_files/d1t1_32",export21);
+    Poisson_Dh("Mesh_files/d1t1_64",export21);
     */
 
-
+    /*
     nucas = 2; int export22 = 22;
-    Poisson_Dh_ex1("Mesh_files/d1q1_2",export22);
-    Poisson_Dh_ex1("Mesh_files/d1q1_4",export22);
-    Poisson_Dh_ex1("Mesh_files/d1q1_8",export22);
-    Poisson_Dh_ex1("Mesh_files/d1q1_16",export22);
-    Poisson_Dh_ex1("Mesh_files/d1q1_32",export22);
-    Poisson_Dh_ex1("Mesh_files/d1q1_64",export22);
+    Poisson_Dh("Mesh_files/d1q1_2",export22);
+    Poisson_Dh("Mesh_files/d1q1_4",export22);
+    Poisson_Dh("Mesh_files/d1q1_8",export22);
+    Poisson_Dh("Mesh_files/d1q1_16",export22);
+    Poisson_Dh("Mesh_files/d1q1_32",export22);
+    Poisson_Dh("Mesh_files/d1q1_64",export22);
+    */
+
+    /// Convergence test for -Laplacien(u) + u = f_Omega with Neumann boundaries
+
+    /*
+    nucas = 3; int export31 = 31;
+    elliptic_N("Mesh_files/d1t1_2",export31);
+    elliptic_N("Mesh_files/d1t1_4",export31);
+    elliptic_N("Mesh_files/d1t1_8",export31);
+    elliptic_N("Mesh_files/d1t1_16",export31);
+    elliptic_N("Mesh_files/d1t1_32",export31);
+    elliptic_N("Mesh_files/d1t1_64",export31);
+    */
+
+    /*
+    nucas = 3; int export32 = 32;
+    elliptic_N("Mesh_files/d1q1_2",export32);
+    elliptic_N("Mesh_files/d1q1_4",export32);
+    elliptic_N("Mesh_files/d1q1_8",export32);
+    elliptic_N("Mesh_files/d1q1_16",export32);
+    elliptic_N("Mesh_files/d1q1_32",export32);
+    elliptic_N("Mesh_files/d1q1_64",export32);
+    */
+
+    /// ------------------------- DOMAIN 2  --------------------------------
+
+    /*
+    nucas = 1; int export211 = 211;
+    Poisson_Dnh("Mesh_files/d2t1_2",export211);
+    Poisson_Dnh("Mesh_files/d2t1_4",export211);
+    Poisson_Dnh("Mesh_files/d2t1_8",export211);
+    Poisson_Dnh("Mesh_files/d2t1_16",export211);
+    Poisson_Dnh("Mesh_files/d2t1_32",export211);
+    Poisson_Dnh("Mesh_files/d2t1_64",export211);
+    */
+
+    /*
+    nucas = 1; int export212 = 212;
+    Poisson_Dnh("Mesh_files/d2q1_2",export212);
+    Poisson_Dnh("Mesh_files/d2q1_4",export212);
+    Poisson_Dnh("Mesh_files/d2q1_8",export212);
+    Poisson_Dnh("Mesh_files/d2q1_16",export212);
+    Poisson_Dnh("Mesh_files/d2q1_32",export212);
+    Poisson_Dnh("Mesh_files/d2q1_64",export212);
+    */
+
+    /*
+    nucas = 2; int export221 = 221;
+    Poisson_Dnh("Mesh_files/d2t1_2",export221);
+    Poisson_Dnh("Mesh_files/d2t1_4",export221);
+    Poisson_Dnh("Mesh_files/d2t1_8",export221);
+    Poisson_Dnh("Mesh_files/d2t1_16",export221);
+    Poisson_Dnh("Mesh_files/d2t1_32",export221);
+    Poisson_Dnh("Mesh_files/d2t1_64",export221);
+
+
+    nucas = 2; int export222 = 222;
+    Poisson_Dnh("Mesh_files/d2q1_2",export222);
+    Poisson_Dnh("Mesh_files/d2q1_4",export222);
+    Poisson_Dnh("Mesh_files/d2q1_8",export222);
+    Poisson_Dnh("Mesh_files/d2q1_16",export222);
+    Poisson_Dnh("Mesh_files/d2q1_32",export222);
+    Poisson_Dnh("Mesh_files/d2q1_64",export222);
+    */
+
+    /// Convergence test for -Laplacien(u) + u = f_Omega with Neumann boundaries
+    // -> to complexe (false)
+
+    /*
+    nucas = 3; int export231 = 231;
+    elliptic_NDnh("Mesh_files/d2t1_2",export231);
+    elliptic_NDnh("Mesh_files/d2t1_4",export231);
+    elliptic_NDnh("Mesh_files/d2t1_8",export231);
+    elliptic_NDnh("Mesh_files/d2t1_16",export231);
+    elliptic_NDnh("Mesh_files/d2t1_32",export231);
+    elliptic_NDnh("Mesh_files/d2t1_64",export231);
+    */
+
+    /*
+    nucas = 3; int export232 = 232;
+    elliptic_NDnh("Mesh_files/d2q1_2",export232);
+    elliptic_NDnh("Mesh_files/d2q1_4",export232);
+    elliptic_NDnh("Mesh_files/d2q1_8",export232);
+    elliptic_NDnh("Mesh_files/d2q1_16",export232);
+    elliptic_NDnh("Mesh_files/d2q1_32",export232);
+    elliptic_NDnh("Mesh_files/d2q1_64",export232);
+    */
 
 
     return 0;
